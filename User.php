@@ -1,13 +1,4 @@
 <?php
-$servername = "localhost";
-$username = "username";
-$password = "password";
-$Account = "Account";
-
-$connexion = new mysqli($servername, $username, $password, $Account);
-
-
-
 // initialiser le tableau pour stocker les informations d'utilisateur
 $utilisateurs = array();
 
@@ -31,9 +22,9 @@ function ajouter_utilisateur() {
 function verifier_utilisateur($username, $mdp) {
     global $utilisateurs;
     if (isset($utilisateurs[$username]) && $utilisateurs[$username] == $mdp) {
-        return true;
+        header('Location: Home');
     } else {
-        return false;
+        echo "Nom d'utilisateur ou mot de passe incorrect";
     }
 }
 
