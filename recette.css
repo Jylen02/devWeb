@@ -6,7 +6,6 @@ body {
     background-color: white;
     border:yellow;
     border-style: solid;
-    border-top-style: none;
     text-align: right;
 }
 
@@ -14,7 +13,6 @@ body {
     background-color: white;
     border:yellow;
     border-style: solid;
-    border-bottom-style: none;
     text-align: right;
 }
 
