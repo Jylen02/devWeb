@@ -1,0 +1,25 @@
+body {
+    background-color: red;
+}
+
+.createAccount {
+    background-color: white;
+    border:yellow;
+    border-style: solid;
+    border-top-style: none;
+    text-align: right;
+}
+
+.Login {
+    background-color: white;
+    border:yellow;
+    border-style: solid;
+    border-bottom-style: none;
+    text-align: right;
+}
+
+.Login > img {
+    width: 15px;
+    vertical-align: middle;
+}
+
