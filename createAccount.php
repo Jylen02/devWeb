@@ -14,7 +14,7 @@
 <body>
     <div>
         <a href="home.php" id="retourAcceuil">
-        <- Acceuil
+        <- Accueil
         </a>
     </div>
     <div id="corps">
