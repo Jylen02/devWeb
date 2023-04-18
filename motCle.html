@@ -5,13 +5,56 @@
     <body>
 <script type="text/javascript">
 
-function motCle(listeDesTermes,motCle) {    //listeDesTermes = listes des recettes (ou liste des paramètres)
-                                            //en mode chaque mot Cle réduit le nombre de choix; 
+function rechercheMotCleMultiple(listeDesTermes,motsCle) {    //listeDesTermes = listes des recettes (ou liste des paramètres)
+                                                //en mode chaque mot Cle réduit le nombre de choix; 
     var res=new Array();
     var index=0;
     var tab=new Array();
-    
+    var indexTab=0;
     var tabCle=new Array();
+    var indexCle=0;
+    
+    tabCle=motsCle.split(" ");
+
+    for (let i=0;i<tabCle.length;i++) {
+        tabCle[i]=transformeMot(tabCle[i]);
+    }
+
+    for (let i=0;i<listeDesTermes.length;i++) {
+        var str=listeDesTermes[i];
+        
+        tab[i]=str.split(" ");
+        for (let j=0;j<tab[i].length;j++) {
+            tab[i][j] = transformeMot(tab[i][j]);
+        }
+
+        var comp=0;
+        var indexMot=0;
+        var mot=tab[i][indexMot];
+        
+        while (indexCle<tabCle.length && indexMot<tab[i].length) {
+            if (motAvecErreur(mot,tabCle[indexCle])) {
+                comp++;
+                indexCle++;
+                indexMot=0;
+                mot=tab[i][indexMot];
+            } else {
+                indexMot++;
+                mot=tab[i][indexMot];
+            }
+        }
+        if (comp==tabCle.length) {
+            res[index]=listeDesTermes[i];
+            index++;        
+        }
+    }
+    alert(res);
+}
+
+function rechercheMotCleUnique(listeDesTermes,motCle) {    //listeDesTermes = listes des recettes (ou liste des paramètres)
+    var res=new Array();
+    var index=0;
+    var tab=new Array();
     motCle=transformeMot(motCle);
 
     for (let i=0;i<listeDesTermes.length;i++) {
@@ -30,24 +73,24 @@ function motCle(listeDesTermes,motCle) {    //listeDesTermes = listes des recett
     alert(res);
 }
 
-function motProche(mot,motCle) {
+function motIdentiques(mot,motCle) {
     if (mot==motCle) {
         return true;
     }
     return false;
 }
 
-function motMoinsProche(mot,motCle) {
+function motAvecErreur(mot,motCle) {
     var nbErreur=1+Math.floor(motCle.length/10);
     var i=0;
     var j=0;
+
     if (mot.length<motCle.length-nbErreur || mot.length>motCle.length+nbErreur) {
         return false;
-    }
-    return motMoinsProcheRec(mot,motCle,nbErreur,i,j);
+    }    return motAvecErreurRec(mot,motCle,nbErreur,i,j);
 }
 
-function motMoinsProcheRec(mot,motCle,nbErreur,i,j) {
+function motAvecErreurRec(mot,motCle,nbErreur,i,j) {
     var res=false;
     if (nbErreur<0) {
         return false;
@@ -57,16 +100,16 @@ function motMoinsProcheRec(mot,motCle,nbErreur,i,j) {
     }
 
     if (mot[i]==motCle[j]) {
-        res=res || motMoinsProcheRec(mot,motCle,nbErreur,i+1,j+1);
+        res=res || motAvecErreurRec(mot,motCle,nbErreur,i+1,j+1);
     } else {
         if (mot[i]==motCle[j+1] && mot[i+1]==motCle[j]) {           // inversion de caractères consécutifs dans le mot clé
-            res=res || motMoinsProcheRec(mot,motCle,nbErreur-1,i+2,j+2);
+            res=res || motAvecErreurRec(mot,motCle,nbErreur-1,i+2,j+2);
         }
         if (mot[i+1]=motCle[j]) {                                   // oublis d'un caractère dans le mot clé
-            res=res || motMoinsProcheRec(mot,motCle,nbErreur-1,i+2,j+1);
+            res=res || motAvecErreurRec(mot,motCle,nbErreur-1,i+2,j+1);
         }
         if (mot[i]=motCle[j+1]) {                                   // ajout d'un caractère dans le mot clé
-            res=res || motMoinsProcheRec(mot,motCle,nbErreur-1,i+1,j+2);
+            res=res || motAvecErreurRec(mot,motCle,nbErreur-1,i+1,j+2);
         }
     }
 
@@ -96,7 +139,8 @@ function transformeMot(mot) {
     return mot;
 }
 
-motCle(['Les choux à la crème','Des carottes à la vapeur','Le boeuf bourgignon','Les carottes rapées','les crêpes'],'cartottés');
+//rechercheMotCleMultiple(['Les choux à la crème','Des carottes à la vapeur','Le boeuf bourgignon','Les carottes rapées','les crêpes'],'cartottés vapeur a');
+//rechercheMotCleUnique(['Les choux à la crème','Des carottes à la vapeur','Le boeuf bourgignon','Les carottes rapées','les crêpes'],'cartottés');
 
     </script>
     </body>

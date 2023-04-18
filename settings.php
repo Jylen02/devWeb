@@ -138,7 +138,7 @@
             </div>
             <div>
                 <input tabindex="-1" type="button" name="button_settings" value="commentaires"  class="input" 
-                onclick="click3()" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
+                onclick="click3(['lol','test','ceci est le troisieme commentaire'])" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
             </div>
             <div>
                 <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input" 

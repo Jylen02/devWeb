@@ -26,8 +26,16 @@ function click1(request) {
         var img = document.createElement('div')
         img.appendChild(image);
         img.id='imageId';
+
+        var inputButton = document.createElement('input');
+        inputButton.value='Supprimer mon compte';
+        inputButton.type='button';
+        inputButton.classList.add('buttonSuppr');
+
+        img.appendChild(inputButton);
+
         newDiv.appendChild(img);
-        
+
         var divProfil = document.createElement('div');
         
         for (let i =0;i<5;i++) {
@@ -114,7 +122,7 @@ function click2() {
 }
 
 
-function click3() {
+function click3(commentaires) {
     if (document.getElementsByTagName("input")[2].classList.contains('selected')) {
     } else {
         for (let i=0;i<MaxButton;i++) {
@@ -172,6 +180,28 @@ function click3() {
         
         divSort.appendChild(form);
         newDiv.appendChild(divSort);
+
+        
+        
+        for (let i=0;i<commentaires.length;i++) {
+            var div=document.createElement('div');
+
+            var divText= document.createElement('div');
+            divText.innerHTML=commentaires[i];
+            
+            var buttonEdit = document.createElement('input');
+            buttonEdit.type="button";
+            buttonEdit.value = 'Modifier';
+            
+            var buttonSuppr = document.createElement('input');
+            buttonSuppr.type='button';
+            buttonSuppr.value='Supprimer';
+            
+            div.appendChild(divText);
+            div.appendChild(buttonEdit);
+            div.appendChild(buttonSuppr);
+            newDiv.appendChild(div);
+        }
 
         var child = document.getElementsByTagName("div")[0].children[1];
         document.getElementsByTagName("div")[0].removeChild(child);

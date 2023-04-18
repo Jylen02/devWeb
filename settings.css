@@ -79,7 +79,7 @@ img {
     width: 160px;
     height: 160px;
     position: relative;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     margin-left: 10%;
     margin-top: 5%;
     border-radius: 100%;
@@ -108,4 +108,18 @@ img {
 
 .bgcolorWhite {
     background-color: whitesmoke;
+}
+
+#imageId {
+    display: flex;
+}
+
+.buttonSuppr {
+    height: 120px;
+    width: 200px;
+    cursor: pointer;
+    align-content: baseline;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: 5px;
 }
