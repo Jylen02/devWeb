@@ -1,0 +1,111 @@
+body {
+    font-size: 1.2em;
+}
+
+.input{
+    height: 120px;
+    width: 150px;
+    border-radius: 30px;
+    border: none;
+    border-color: white;
+    background-color: white;
+    box-shadow: none;
+    text-shadow: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+#div1 {background-color: lightcyan;
+    margin-left: 10px;}
+
+.bar {
+    display: flex;
+    margin: 5px 5px 5px 5px;
+}
+.leftBar {
+    width: 35%;
+    height: 100%;
+}
+
+.centerBar {
+    width: 40%;
+    height: auto;
+}
+.selected {
+    border-color: black;
+    border: solid 4px;
+}
+
+.inputChange {
+    margin-left: 20px;
+    text-align: center;
+    text-decoration-style: solid;
+    height: 60px;
+    width: 100px;
+    margin-top: 5px;
+    border-radius: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.labelChange {
+    margin-left: 30px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.labelProfil {
+    margin-left: 30px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#accountId {
+    height: 10%;
+    font-size: 3em;
+}
+
+img {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    margin-bottom: 10%;
+    margin-left: 10%;
+    margin-top: 5%;
+    border-radius: 100%;
+}
+
+.labels {
+    display: flex;
+    flex-direction: row;
+}
+
+.autre {
+    display: flex;
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-right: 16px;
+}
+
+.modify {
+    opacity: 0.85;
+}
+
+.bgcolorBlack {
+    background-color: rgb(36, 35, 35);
+}
+
+.bgcolorWhite {
+    background-color: whitesmoke;
+}
