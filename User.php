@@ -1,33 +1,31 @@
 <?php
-// initialiser le tableau pour stocker les informations d'utilisateur
-$utilisateurs = array();
+// Récupération des données du formulaire
+$email = $_POST['email'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-// fonction pour ajouter un nouvel utilisateur
-function ajouter_utilisateur() {
-    
-    global $utilisateurs;
-    $username = $_POST["username"];
-    $mdp= $_POST["password"];
-    
-    if (isset($utilisateurs[$username])){
-        echo "Le nom d'utilisateur '$username' existe déjà. Veuillez en choisir un autre.";
-        
-    }
-    else{
-        $utilisateurs[$username] = $mdp;
-    }
-}
+// Vérification si l'email est déjà présent dans la base de données
+$filename = "donnees_utilisateurs.sql";
+$file_content = file_get_contents($filename);
+$regex = "/INSERT INTO utilisateur \(email, username, password\) VALUES \('(.+)', '(.+)', '(.+)'\);/U";
+$matches = [];
+preg_match_all($regex, $file_content, $matches, PREG_SET_ORDER);
 
-// fonction pour vérifier si un utilisateur existe dans le tableau
-function verifier_utilisateur($username, $mdp) {
-    global $utilisateurs;
-    if (isset($utilisateurs[$username]) && $utilisateurs[$username] == $mdp) {
-        header('Location: Home');
-    } else {
-        echo "Nom d'utilisateur ou mot de passe incorrect";
+foreach ($matches as $match) {
+    if ($match[1] == $email) {
+        // L'email existe déjà dans la base de données, affichage d'un message d'erreur
+        echo "L'email est déjà utilisé, veuillez en choisir un autre.";
+        exit;
     }
 }
 
-
+// L'email n'existe pas encore dans la base de données, insertion des données du formulaire
+$new_line = "INSERT INTO utilisateur (email, username, password) VALUES ('$email', '$username', '$password');\n";
+if (file_put_contents($filename, $new_line, FILE_APPEND)) {
+    // Succès de l'insertion des données
+    echo "Votre compte a été créé avec succès.";
+} else {
+    // Erreur lors de l'insertion des données
+    echo "Erreur lors de la création du compte.";
+}
 ?>
-
