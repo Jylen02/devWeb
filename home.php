@@ -12,10 +12,13 @@
 <body>
     <div id="top">
         <div>
-            <button aria-expanded="false" aria-haspopup="menu" aria-label="Menu"></button>
-        </div>
-        <div>
-            <input type="text" placeholder="Rechercher une recette" id=barreRecherche>
+            <!--<input type="text" placeholder="Rechercher une recette" id=barreRecherche>
+            <button id="boutonRecherche">
+            </button>-->
+            <form action="test.php" method="POST">
+                <input type="text" placeholder="Rechercher une recette" id="barreRecherche">
+                <button type="submit" id=#boutonRecherche>Rechercher</button>
+            </form>
         </div>
         <div>
             <a href="login.php" id="login" class="Connexion">

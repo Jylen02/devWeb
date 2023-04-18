@@ -7,14 +7,15 @@
 }
 
 #barreRecherche{
-    width: 1100px;
-    border-radius: 10px;
+    width: 990px;
     border : 2px solid black;
-    padding: 2px;
+    border-radius: 10px;;
     padding-left: 10px;
     font-size: 25px;
 }
-
+button {
+    font-size:25px;
+}
 .Connexion{
     text-decoration: none;
     padding: 10px;
