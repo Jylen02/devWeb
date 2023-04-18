@@ -29,5 +29,17 @@
             </a>
         </div>
     </div>
+<script>
+    document.getElementById("barreRecherche").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    // Récupérer la valeur de l'input
+    var recherche = document.getElementById("barreRecherche").value;
+    
+    // Récuperer depuis la BDD les tags et afficher un format img / titre / description
+    $db = 'projet';
+    $connexion = mysqli_connect('localhost','root');
+  }
+});
+</script>
 </body>
 </html>
