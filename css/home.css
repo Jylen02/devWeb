@@ -1,0 +1,51 @@
+header {
+    padding-bottom: 10px;
+    border-bottom: black solid;
+}
+
+#top{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 10px;
+    width : 100%;
+}
+
+#formRecherche {
+    display: flex;
+    justify-content: center;
+}
+
+#barre{
+    width: 60%;
+    padding-right: 10px;    
+}
+
+#barreRecherche{
+    width:100%;
+    border : 2px solid black;
+    border-radius: 10px;
+    padding-left: 10px;
+    font-size: 150%;
+}
+
+#divlogin{
+    width: 600px;
+    text-align: right;
+    padding-top: 6px;
+    padding-right: 20px
+}
+
+.Connexion{
+    text-decoration: none;
+    padding: 10px;
+    font-size: 100%;
+    color: black;
+    background-color: rgb(251, 113, 113);
+    border-radius: 10px;
+    margin: 2px;
+}
+
+.Connexion:hover {
+    background-color: #3e8e41;
+}
