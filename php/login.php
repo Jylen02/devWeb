@@ -38,7 +38,7 @@
                             Mot de passe oublié ?
                         </a> 
                     </div>
-                    <button type="submit" onclick="verifier_utilisateur()">Continuer</button>
+                    <button type="submit">Continuer</button>
                 </div>
             </form>
         </div>

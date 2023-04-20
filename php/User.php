@@ -5,7 +5,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Vérification si l'email est déjà présent dans la base de données
-$filename = "donnees_utilisateurs.sql";
+$filename = "../sql/donnees_utilisateurs.sql";
 $file_content = file_get_contents($filename);
 $regex = "/INSERT INTO utilisateur \(email, username, password\) VALUES \('(.+)', '(.+)', '(.+)'\);/U";
 $matches = [];
@@ -28,4 +28,7 @@ if (file_put_contents($filename, $new_line, FILE_APPEND)) {
     // Erreur lors de l'insertion des données
     echo "Erreur lors de la création du compte.";
 }
+
+//Vérification des identifiants / mot de passe pour login
+
 ?>

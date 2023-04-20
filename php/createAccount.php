@@ -48,7 +48,7 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" class=password oninput="checkPass()" required>
                     </br>
                     <div id="message"></div>
-                    <button type="submit" id="submit" onclick=ajouter_utilisateur()>Continuer</button>
+                    <button type="submit" id="submit">Continuer</button>
                 </div>
             </form>
         </div>
