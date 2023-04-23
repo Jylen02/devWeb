@@ -49,7 +49,7 @@
                     </br>
                     <div id="message"></div>
                     <button type="submit" id="submit" >Continuer</button>
-                    <button type="submit" id="submit">Continuer</button>
+                    
                 </div>
             </form>
         </div>
