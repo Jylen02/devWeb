@@ -48,7 +48,7 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" class=password oninput="checkPass()" required>
                     </br>
                     <div id="message"></div>
-                    <button type="submit" id="submit" onclick="window.location.href = 'login.php';" target="_blank">Continuer</button>
+                    <button type="submit" id="submit" onclick="window.open('login.php')">Continuer</button>
                     
                 </div>
             </form>
