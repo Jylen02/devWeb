@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Cuisine pour les nuls</title>
+    <?php
+        include_once("Head.php");
+    ?>
     <link rel="stylesheet"
     type="text/css"
-    href="recette.css">
-    <link rel="stylesheet"
-    type="text/css"
-    href="createAccount.css">
-    <script src="createAccount.js" type="text/javascript">
+    href="../css/createAccount.css">
+    <script src="../js/createAccount.js" type="text/javascript">
     </script>
 </head>
 <body>
     <div>
         <a href="home.php" id="retourAcceuil">
-        <- Accueil
+        ← Accueil
         </a>
     </div>
     <div id="corps">
@@ -50,6 +49,7 @@
                     </br>
                     <div id="message"></div>
                     <button type="submit" id="submit" >Continuer</button>
+                    <button type="submit" id="submit">Continuer</button>
                 </div>
             </form>
         </div>

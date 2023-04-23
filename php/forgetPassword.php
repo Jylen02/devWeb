@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Cuisine pour les nuls</title>
+    <?php
+        include_once("Head.php");
+    ?>
     <link rel="stylesheet"
     type="text/css"
-    href="recette.css">
-    <link rel="stylesheet"
-    type="text/css"
-    href="forgetPassword.css">
+    href="../css/forgetPassword.css">
 </head>
 <body>
     <div>
         <a href="login.php" id="retourLogin">
-        <- Retour
+        ← Retour
         </a>
     </div>
     <div id="corps">

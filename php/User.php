@@ -6,6 +6,11 @@ $password = $_POST['password'];
 
 // Vérification si l'email est déjà présent dans la base de données
 $servername = "%";
+$filename = "../sql/donnees_utilisateurs.sql";
+$file_content = file_get_contents($filename);
+$regex = "/INSERT INTO utilisateur \(email, username, password\) VALUES \('(.+)', '(.+)', '(.+)'\);/U";
+$matches = [];
+preg_match_all($regex, $file_content, $matches, PREG_SET_ORDER);
 
 $username = "projetRecdevweb";
 
@@ -37,4 +42,7 @@ if (file_put_contents($filename, $new_line, FILE_APPEND)) {
     // Erreur lors de l'insertion des données
     echo "Erreur lors de la création du compte.";
 }
+
+//Vérification des identifiants / mot de passe pour login
+
 ?>

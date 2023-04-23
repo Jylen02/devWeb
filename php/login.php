@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Cuisine pour les nuls</title>
+    <?php
+        include_once("Head.php");
+    ?>
     <link rel="stylesheet"
     type="text/css"
-    href="recette.css">
-    <link rel="stylesheet"
-    type="text/css"
-    href="login.css">
+    href="../css/login.css">
 </head>
 <body>
     <div>
         <a href="home.php" id="retourAcceuil">
-        <- Accueil
+        ← Accueil
         </a>
     </div>
     <div id="corps">
@@ -39,7 +38,7 @@
                             Mot de passe oublié ?
                         </a> 
                     </div>
-                    <button type="submit" onclick="verifier_utilisateur()">Continuer</button>
+                    <button type="submit">Continuer</button>
                 </div>
             </form>
         </div>
