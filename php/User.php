@@ -1,49 +1,46 @@
 <?php
 
+
 // Récupération des données du formulaire
-$email = $_POST['email'];
-$username = $_POST['username'];
-$password = $_POST['password'];
+$email = $_POST['Email'];
+$username = $_POST['UserName'];
+$password = $_POST['Password'];
 
-// Vérification si l'email est déjà présent dans la base de données
-$servername = "%";
-$filename = "../sql/donnees_utilisateurs.sql";
-$file_content = file_get_contents($filename);
-$regex = "/INSERT INTO utilisateur \(email, username, password\) VALUES \('(.+)', '(.+)', '(.+)'\);/U";
-$matches = [];
-preg_match_all($regex, $file_content, $matches, PREG_SET_ORDER);
-
+// Connexion à la base de données
+$servername = "localhost";
 $username = "projetRecdevweb";
-
 $password = "projetRecdevweb2023";
-
 $dbname = "information_utilisateur";
 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Vérification de la connexion
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 // Vérification si l'email est déjà présent dans la base de données
 $sql = "SELECT * FROM donnees_utilisateurs WHERE Email = '$email'";
 $result = $conn->query($sql);
 
-
-$sql = "INSERT INTO donnees_utilisateurs (UserName, Password, Email) VALUES ('$username', '$password', '$email')";
-
-$result = $conn->query($sql);
-// L'email n'existe pas encore dans la base de données, insertion des données du formulaire
-$sql = "INSERT INTO donnees_utilisateurs (UserName, Password, Email) VALUES ('$username', '$password', '$email')";
-
-if(!empty($email) && !empty($username) && !empty($password)){
+// Si l'email est déjà présent dans la base de données, afficher un message d'erreur
+if ($result->num_rows > 0) {
+    echo "Cet email est déjà utilisé.";
+} 
+else {
+    // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
     $sql = "INSERT INTO donnees_utilisateurs (UserName, Password, Email) VALUES ('$username', '$password', '$email')";
-    $result = $conn->query($sql);
-  
-    if($result){
-      echo "Votre compte a été créé avec succès.";
-    } else {
-      echo "Erreur lors de la création du compte.";
-    }
-  }
-  
 
-//Vérification des identifiants / mot de passe pour login
+    if(!empty($email) && !empty($username) && !empty($password)){
+        $result = $conn->query($sql);
+
+        if($result){
+          echo "Votre compte a été créé avec succès.";
+        } else {
+          echo "Erreur lors de la création du compte : " . mysqli_error($conn);
+        }
+      }
+    }
 
 ?>
