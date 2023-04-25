@@ -29,10 +29,17 @@ try {
 // Vérification si l'email est déjà présent dans la base de données
 $sql = "SELECT * FROM donnees_utilisateurs WHERE Email = '$email'";
 $result = $conn->query($sql);
+// Vérification si l'id est déjà présent dans la base de données
+$sql1 = "SELECT * FROM donnees_utilisateurs WHERE UserName = '$username'";
+$result1 = $conn->query($sql1);
 
 // Si l'email est déjà présent dans la base de données, afficher un message d'erreur
 if ($result->num_rows > 0) {
     echo "Cet email est déjà utilisé.";
+} 
+// Si l'email est déjà présent dans la base de données, afficher un message d'erreur
+else if ($result1->num_rows > 0) {
+  echo "Ce username est déjà utilisé.";
 } 
 else {
     // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
