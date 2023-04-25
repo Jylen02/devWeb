@@ -3,12 +3,25 @@
 <head>
     <?php
         include_once("Head.php");
+        if (isset($_GET['success']) && $_GET['success'] == 0) {
+            if (isset($_GET['error'])) {
+                $error = $_GET['error'];
+            }
+            echo "<script> alert(\"Erreur lors de la création du compte : $error.\")</script>";
+        }
+        else if (isset($_GET['success']) && $_GET['success'] == 1) {
+            echo "<script> alert(\"Le mail choisi est déjà utilisé, veuillez en choisir un nouveau.\")</script>";
+        }
+        else if (isset($_GET['success']) && $_GET['success'] == 2) {
+            echo "<script> alert(\"Le nom d'utilisateur choisi est déjà utilisé, veuillez en choisir un nouveau.\")</script>";
+        }
     ?>
     <link rel="stylesheet"
     type="text/css"
     href="../css/createAccount.css">
     <script src="../js/createAccount.js" type="text/javascript">
     </script>
+    
 </head>
 <body>
     <div>

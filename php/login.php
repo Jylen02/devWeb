@@ -3,6 +3,12 @@
 <head>
     <?php
         include_once("Head.php");
+        if (isset($_GET['success']) && $_GET['success'] == 1) {
+            echo "<script> alert(\"Votre compte a été créé avec succès.\")</script>";
+        }
+        else if (isset($_GET['success']) && $_GET['success'] == 2) {
+            echo "<script> alert(\"Votre identifiant ou mot de passe est erroné.\")</script>";
+        }
     ?>
     <link rel="stylesheet"
     type="text/css"
