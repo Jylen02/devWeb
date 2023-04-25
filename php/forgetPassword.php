@@ -19,7 +19,7 @@
             Mot de passe oublié
         </div>
         <div>
-            <form action="User.php" method="POST">
+            <form action="UserCreate.php" method="POST">
                 <div class="Email">
                     <label for="email">
                         E-mail : 
