@@ -26,9 +26,7 @@ if ($result1->num_rows > 0) {
     exit();
     }
 else{ 
-    header('Location: login.php');
-    echo "<script> alert('Mot de passe et/ou identifiant incorrect !');</script>";
-    
-     
+    header('Location: login.php?success=2');
+    exit();
 }
 ?>

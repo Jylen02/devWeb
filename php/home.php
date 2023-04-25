@@ -7,24 +7,16 @@
     <link rel="stylesheet"
     type="text/css"
     href="../css/home.css">
-    <!--<script src="../js/home.js" type="text/javascript">
-    </script>-->
+    <script src="../js/home.js" type="text/javascript">
+    </script>
 </head>
-<body>
+<body onload=load(<?php echo (isset($_GET['success']) && $_GET['success'] == 1) ?>)>
 <header>
     <div id="top">
         <div id="barre">
             <form id="formRecherche">
                 <input type="text" placeholder="Rechercher une recette" id="barreRecherche">
             </form>
-        </div>
-        <div id="divlogin">
-            <a href="login.php" id="login" class="Connexion" justify-content="right">
-                Connexion
-            </a>
-            <a href="createAccount.php" id="createAccount" class="Connexion" text-align="right">
-                Créer un compte
-            </a>
         </div>
     </div>
 </header>
