@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" type="text/css" href="../css/settings.css">
-    <script type="text/javascript" src="settings.js"> </script>
+    <script type="text/javascript" src="../js/settings.js"> </script>
 </head>
 <body class=" bgcolorWhite" onload="click1(['lucas','Guillot','test1','e-mail','test1.com'])">
 <?php
