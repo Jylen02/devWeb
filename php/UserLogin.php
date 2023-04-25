@@ -22,13 +22,11 @@ if ($conn->connect_error) {
 $sql1 = "SELECT * FROM donnees_utilisateurs WHERE UserName = '$username' AND Password = '$password'";
 $result1 = $conn->query($sql1);
 if ($result1->num_rows > 0) {
-    header('Location: home.php?success=1');
+    header('Location: home.php');
     exit();
     }
 else{ 
-    header('Location: login.php');
-    echo "<script> alert('Mot de passe et/ou identifiant incorrect !');</script>";
-    
-     
+    header('Location: login.php?success=2');
+    exit();
 }
 ?>
