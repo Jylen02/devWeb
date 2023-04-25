@@ -2,9 +2,9 @@
 
 
 // Récupération des données du formulaire
-$email = $_POST['Email'];
-$username = $_POST['UserName'];
-$password = $_POST['Password'];
+$email = $_POST['email'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
 // Connexion à la base de données
 $servername = "localhost";
