@@ -21,7 +21,7 @@ function motCle(listeDesTermes,motCle) {    //listeDesTermes = listes des recett
             var mot = tab[i][j];
             mot=transformeMot(mot);
             
-            if (motMoinsProche(mot,motCle)) { // Version utilisant la fonction motMoinsProche
+            if (motProche(mot,motCle)) { // Version utilisant la fonction motMoinsProche
                 res[index]=listeDesTermes[i];
                 index++;
             }
@@ -31,12 +31,14 @@ function motCle(listeDesTermes,motCle) {    //listeDesTermes = listes des recett
 }
 
 function motProche(mot,motCle) {
-    if (mot==motCle) {
-        return true;
+    var i = 0;
+    while ((i<motCle.length) && (mot[i]==motCle[i])){
+        i++;
     }
-    return false;
+    return (i==motCle.length);
 }
 
+/*
 function motMoinsProche(mot,motCle) {
     var nbErreur=1+Math.floor(motCle.length/10);
     var i=0;
@@ -95,8 +97,8 @@ function transformeMot(mot) {
     }
     return mot;
 }
-
-motCle(['Les choux à la crème','Des carottes à la vapeur','Le boeuf bourgignon','Les carottes rapées','les crêpes'],'cartottés');
+*/
+motCle(['Les choux à la crème','Des carottes à la vapeur','Le boeuf bourgignon','Les carottes rapées','les crêpes'],'caro');
 
     </script>
     </body>
