@@ -7,8 +7,6 @@
     <link rel="stylesheet"
     type="text/css"
     href="../css/home.css">
-    <script src="../js/home.js" type="text/javascript">
-    </script>
 </head>
 <body>
 <header>
@@ -28,17 +26,19 @@
         </div>
     </div>
 </header>
-    <?php
-        $servername = "localhost";
-        $username = "projetRecdevweb";
-        $password = "projetRecdevweb2023";
-        $dbname = "information_utilisateur";
 
-        new mysqli($servername, $username, $password, $dbname);
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("La connexion a échoué: " . $conn->connect_error);
+    <script>
+        document.getElementById("barreRecherche").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            // Récupérer la valeur de l'input
+            var recherche = document.getElementById("barreRecherche").value;
+            alert(recherche);
+            // Récuperer depuis la BDD les tags et afficher un format img / titre / description
+            $db = 'projet';
+            $connexion = mysqli_connect('localhost','root');
         }
-    ?>
+    });
+    </script>
 </body>
 </html>

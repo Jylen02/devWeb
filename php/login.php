@@ -19,7 +19,7 @@
             Se connecter
         </div>
         <div>
-            <form action="User.php" method="POST">
+            <form action="UserLogin.php" method="POST">
                 <div class="SignIn">
                     <label for="username">
                         Identifiant : 
