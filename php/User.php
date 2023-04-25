@@ -8,17 +8,23 @@ $password = $_POST['password'];
 
 // Connexion à la base de données
 $servername = "localhost";
-$username = "projetRecdevweb";
-$password = "projetRecdevweb2023";
+$username1 = "projetRecdevweb";
+$password1 = "projetRecdevweb2023";
 $dbname = "information_utilisateur";
+try {
+  $conn = new mysqli($servername, $username1, $password1, $dbname);
+} catch (Exception $e) {
+  die("Connection failed: " . $e->getMessage());
+  echo "connection non etablie";
+}
 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Vérification de la connexion
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+/*if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}*/
+
+
 
 // Vérification si l'email est déjà présent dans la base de données
 $sql = "SELECT * FROM donnees_utilisateurs WHERE Email = '$email'";
@@ -37,6 +43,7 @@ else {
 
         if($result){
           echo "Votre compte a été créé avec succès.";
+          
         } else {
           echo "Erreur lors de la création du compte : " . mysqli_error($conn);
         }

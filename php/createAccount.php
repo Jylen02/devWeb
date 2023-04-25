@@ -39,7 +39,7 @@
                         Mot de passe : 
                     </label>
                     </br>
-                    <input type="password" id="password" name="password" class=password required>
+                    <input type="password" id="password" name="password" class=password oninput="checkPass()" required>
                     </br>
                     <label for="confirmPassword">
                         Confirmer le mot de passe : 
@@ -48,8 +48,8 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" class=password oninput="checkPass()" required>
                     </br>
                     <div id="message"></div>
-                    <button type="submit" id="submit" > <a href="login.php" id="SignIn">Continuer</a> </button>
-
+                    <button type="submit" id="submit" >Continuer</button>
+                    
                 </div>
             </form>
         </div>

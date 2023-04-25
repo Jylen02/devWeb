@@ -7,8 +7,8 @@
     <link rel="stylesheet"
     type="text/css"
     href="../css/home.css">
-    <!--<script src="../js/home.js" type="text/javascript">-->
-    </script>
+    <!--<script src="../js/home.js" type="text/javascript">
+    </script>-->
 </head>
 <body>
 <header>

@@ -8,11 +8,11 @@ $password = $_POST['password'];
 
 // Connexion à la base de données
 $servername = "localhost";
-$username = "projetRecdevweb";
-$password = "projetRecdevweb2023";
+$username1 = "projetRecdevweb";
+$password1 = "projetRecdevweb2023";
 $dbname = "information_utilisateur";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username1, $password1, $dbname);
 // Vérification de la connexion
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
