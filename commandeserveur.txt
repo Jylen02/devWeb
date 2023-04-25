@@ -1,3 +1,0 @@
-php -S localhost:8080
-http://localhost/phpmyadmin/ 
-abdennour.ouaali@gmail.com

@@ -20,7 +20,7 @@
             <a href="login.php" id="login" class="Connexion" justify-content="right">
                 Connexion
             </a>
-            <a href="php/createAccount.php" id="createAccount" class="Connexion" text-align="right">
+            <a href="createAccount.php" id="createAccount" class="Connexion" text-align="right">
                 Créer un compte
             </a>
         </div>
