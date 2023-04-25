@@ -21,14 +21,6 @@
     </div>
 </header>
     <?php
-
-        if (isset($_GET['success']) && $_GET['success'] == 1) {
-
-        }
-
-
-
-
         //Connexion à la BDD
         $servername = "localhost";
         $username = "projetRecdevweb";
