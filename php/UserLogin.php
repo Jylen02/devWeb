@@ -2,7 +2,7 @@
 
 
 // Récupération des données du formulaire
-$email = $_POST['email'];
+
 $username = $_POST['username'];
 $password = $_POST['password'];
 
@@ -19,19 +19,16 @@ if ($conn->connect_error) {
 }
 
 // vérifie si les données sont dans la base de donnée
-$sql1 = "SELECT * FROM donnees_utilisateurs WHERE UserName = '$username'";
+$sql1 = "SELECT * FROM donnees_utilisateurs WHERE UserName = '$username' AND Password = '$password'";
 $result1 = $conn->query($sql1);
 if ($result1->num_rows > 0) {
-    $sql2 = "SELECT * FROM donnees_utilisateurs WHERE Password = '$password'";
-    $result2 = $conn->query($sql2);
-    if ($result2->num_rows > 0){
-        // Échapper les caractères spéciaux pour la chaîne JavaScript
-        $url = addslashes('home.php');
-
-        // Afficher le script JavaScript pour ouvrir la nouvelle fenêtre
-        echo "<script>window.open('$url', '_blank');</script>";
-
+    header('Location: home.php');
+    exit();
     }
+else{ 
+    header('Location: login.php');
+    echo "<script> alert('Mot de passe et/ou identifiant incorrect !');</script>";
     
-} 
+     
+}
 ?>
