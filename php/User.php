@@ -15,7 +15,6 @@ try {
   $conn = new mysqli($servername, $username1, $password1, $dbname);
 } catch (Exception $e) {
   die("Connection failed: " . $e->getMessage());
-  echo "connection non etablie";
 }
 
 
@@ -42,10 +41,12 @@ else {
         $result = $conn->query($sql);
 
         if($result){
-          echo "Votre compte a été créé avec succès.";
+            header('Location: login.php');
+            //echo "<script> alert(\"Votre compte a été créé avec succès.\")</script>";
           
         } else {
-          echo "Erreur lors de la création du compte : " . mysqli_error($conn);
+            header('Location: createAccount.php');
+            //echo "<script> Erreur lors de la création du compte : </script>" . mysqli_error($conn);
         }
       }
     }
