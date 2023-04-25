@@ -7,7 +7,7 @@
     <link rel="stylesheet"
     type="text/css"
     href="../css/home.css">
-    <script src="../js/home.js" type="text/javascript">
+    <!--<script src="../js/home.js" type="text/javascript">-->
     </script>
 </head>
 <body>
@@ -22,13 +22,14 @@
             <a href="login.php" id="login" class="Connexion" justify-content="right">
                 Connexion
             </a>
-            <a href="php/createAccount.php" id="createAccount" class="Connexion" text-align="right">
+            <a href="createAccount.php" id="createAccount" class="Connexion" text-align="right">
                 Créer un compte
             </a>
         </div>
     </div>
 </header>
     <?php
+        //Connexion à la BDD
         $servername = "localhost";
         $username = "projetRecdevweb";
         $password = "projetRecdevweb2023";
@@ -40,5 +41,29 @@
             die("La connexion a échoué: " . $conn->connect_error);
         }
     ?>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+        document.getElementById("barreRecherche").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+        // Récupérer la valeur de l'input
+        var recherche = document.getElementById("barreRecherche").value;
+        alert(recherche);        
+
+        // Récuperer depuis la BDD les tags et afficher un format titre + note
+        
+
+        // Afficher la recette selectionnée
+
+
+        // Poster un commentaire
+    }
+});
+    </script>
+
+    <?php
+    
+    ?>
+
 </body>
 </html>
