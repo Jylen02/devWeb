@@ -9,6 +9,8 @@ Mon profil :
 Menu :
     Barre de recherche :
 	- Sélectionner recette par mots clés -> ensemble de lien affiché + note
+- Voir la photo de l'utilisateur le mieux noté
+- Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4)
 
 Recette :
 - Poster un commentaire + noter la recette
@@ -16,7 +18,7 @@ Recette :
 - Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin)
 - Voir le coût d'une recette
 - Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées
-- Recevoir des notification de recette intéressante (même tag que ses recetets préférées ou note > 4 ?)
+- Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?)
 
 --------------------------------------------------------------------------------------------
 Administrateur :
@@ -25,11 +27,13 @@ Recette :
 - Ajouter une recette (liste de demande pour poster une recette) : accepter/refuser
 - Supprimer une recette (de la BDD)
 - Modifier une recette (alter BDD)
-- Désactiver l'option 
 
 Produits (ingrédients):
 - Ajout ingrédient 
 - Supprimer un ingrédient
 - Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale)
 
-
+Menu :
+- Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté
+- Les notes des recettes permettent un classement des utilisateurs
+- Désactiver l'option commentaire pour un utilisateur / une recette
