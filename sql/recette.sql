@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `recette` (
   `titre` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `image` blob,
-  `Note` tinyint(1) DEFAULT NULL,
+  `note` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 

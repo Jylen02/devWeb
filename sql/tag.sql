@@ -30,14 +30,14 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE IF NOT EXISTS `tag` (
   `idRecette` int(5) NOT NULL,
-  `Motclef` varchar(30) NOT NULL
+  `motClef` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tag`
 --
 
-INSERT INTO `tag` (`idRecette`, `Motclef`) VALUES
+INSERT INTO `tag` (`idRecette`, `motClef`) VALUES
 (0, 'chocolat'),
 (0, 'cake');
 COMMIT;
