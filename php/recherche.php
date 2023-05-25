@@ -37,6 +37,7 @@ if (isset($_POST['recherche'])) {
                 // Affichage des résultats avec l'image
                 echo "<h3>$titre</h3>";
                 //echo "<img src='$image' alt='$titre' width='200'>";
+                echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
                 echo "<p>$description</p>";
                 echo "<hr>";
             }
