@@ -1,8 +1,7 @@
 <?php
 // Connexion à la base de données
 $serveur = "localhost";
-$utilisateur = "projetRecdevweb
-";
+$utilisateur = "projetRecdevweb";
 $motDePasse = "projetRecdevweb2023";
 $baseDeDonnees = "information_utilisateur";
 
