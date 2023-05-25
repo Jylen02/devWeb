@@ -1,39 +1,32 @@
 function load(bool){
-    if (bool==1){
-        newdiv = document.createElement('div');
-        newdiv.id = "divlogin";
-        loginButton = document.createElement('a');
-        loginButton.href="home.php";
-        loginButton.id = "login";
-        loginButton.classList.add("Connexion");
-        loginButton.setAttribute("justify-content","right");
+    var newdiv = document.createElement('div');
+    newdiv.id = "divlogin";
+    
+    var loginButton = document.createElement('a');
+    loginButton.id = "login";
+    loginButton.classList.add("Connexion");
+    loginButton.setAttribute("justify-content", "right");
+    
+    var createAccountButton = document.createElement('a');
+    createAccountButton.id = "createAccount";
+    createAccountButton.classList.add("Connexion");
+    createAccountButton.setAttribute("text-align", "right");
+
+    if (bool) {
+        loginButton.href = "home.php";
         loginButton.innerHTML = "Déconnexion";
-        createAccountButton = document.createElement('a');
-        createAccountButton.href="settings.php";
-        createAccountButton.id = "createAccount";
-        createAccountButton.classList.add("Connexion");
-        createAccountButton.setAttribute("text-align","right");
+        
+        createAccountButton.href = "settings.php";
         createAccountButton.innerHTML = "Mon profil";
-        newdiv.appendChild(loginButton);
-        newdiv.appendChild(createAccountButton);
-        document.getElementById('top').appendChild(newdiv);
-    }else{
-        newdiv = document.createElement('div');
-        newdiv.id = "divlogin";
-        loginButton = document.createElement('a');
-        loginButton.href="login.php";
-        loginButton.id = "login";
-        loginButton.classList.add("Connexion");
-        loginButton.setAttribute("justify-content","right");
+    } else {
+        loginButton.href = "login.php";
         loginButton.innerHTML = "Connexion";
-        createAccountButton = document.createElement('a');
-        createAccountButton.href="createAccount.php";
-        createAccountButton.id = "createAccount";
-        createAccountButton.classList.add("Connexion");
-        createAccountButton.setAttribute("text-align","right");
+        
+        createAccountButton.href = "createAccount.php";
         createAccountButton.innerHTML = "Créer un compte";
-        newdiv.appendChild(loginButton);
-        newdiv.appendChild(createAccountButton);
-        document.getElementById('top').appendChild(newdiv);
     }
+    
+    newdiv.appendChild(loginButton);
+    newdiv.appendChild(createAccountButton);
+    document.getElementById('top').appendChild(newdiv);
 }
