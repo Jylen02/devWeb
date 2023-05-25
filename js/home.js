@@ -1,5 +1,5 @@
 function load(bool){
-    if (bool){
+    if (bool==1){
         newdiv = document.createElement('div');
         newdiv.id = "divlogin";
         loginButton = document.createElement('a');
