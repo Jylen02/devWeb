@@ -20,6 +20,7 @@
         </div>
     </div>
 </header>
+<div id="resultats"></div>
     <?php
         //Connexion à la BDD
         $servername = "localhost";
@@ -34,7 +35,7 @@
         }
     ?>
     
-    <script>
+    <!--<script>
         document.getElementById("barreRecherche").addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -51,6 +52,25 @@
         // Poster un commentaire
     }
 });
+    </script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#formRecherche').submit(function(e) {
+                e.preventDefault(); // Empêche la soumission du formulaire
+
+                var recherche = $('#barreRecherche').val(); // Récupère le texte de la barre de recherche
+
+                $.ajax({
+                    url: 'recherche.php',
+                    type: 'POST',
+                    data: { recherche: recherche },
+                    success: function(response) {
+                        $('#resultats').html(response); // Affiche les résultats dans la div avec l'ID "resultats"
+                    }
+                });
+            });
+        });
     </script>
 
     <?php
