@@ -1,0 +1,35 @@
+Utilisateur :
+
+Mon profil :
+- Bouton pour modifier ses informations personnelles
+- Bouton pour supprimer son compte (de la BDD)
+- Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc...
+- Supprimer ses commentaires
+
+Menu :
+    Barre de recherche :
+	- Sélectionner recette par mots clés -> ensemble de lien affiché + note
+
+Recette :
+- Poster un commentaire + noter la recette
+- Consulter les commentaires de la recette + filtre date/note etc...
+- Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin)
+- Voir le coût d'une recette
+- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées
+- Recevoir des notification de recette intéressante (même tag que ses recetets préférées ou note > 4 ?)
+
+--------------------------------------------------------------------------------------------
+Administrateur :
+
+Recette :
+- Ajouter une recette (liste de demande pour poster une recette) : accepter/refuser
+- Supprimer une recette (de la BDD)
+- Modifier une recette (alter BDD)
+- Désactiver l'option 
+
+Produits (ingrédients):
+- Ajout ingrédient 
+- Supprimer un ingrédient
+- Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale)
+
+
