@@ -49,7 +49,7 @@
     }
 ?>
 <script>
-    function modify(i) {  
+    /*function modify(i) {  
         var profil=['prénom','nom','pseudonyme','adresse e-mail','mot de passe'];
         document.body.setAttribute("class",'modify');
         var newDiv = document.createElement('div');
@@ -116,13 +116,124 @@
 
         newDiv.appendChild(divTitle);
         newDiv.appendChild(form);
-        /*newDiv.appendChild(document.createTextNode(
-            <?php // $db='projet'; echo json_encode($db); ?>));*/
+        //newDiv.appendChild(document.createTextNode(
+        //    <?php // $db='projet'; echo json_encode($db); ?>));
         document.getElementsByTagName('body')[0].appendChild(newDiv);
 
         document.body.classList.remove('modify');
-    }
-    
+    }*/
+    function modify(i) {
+    var profil = ['prénom', 'nom', 'pseudonyme', 'adresse e-mail', 'mot de passe'];
+    document.body.classList.add('modify');
+
+    // Création du conteneur du pop-up
+    var popupContainer = document.createElement('div');
+    popupContainer.classList.add('popup-container');
+
+    // Création du pop-up
+    var popup = document.createElement('div');
+    popup.classList.add('popup');
+
+    // Titre du pop-up
+    var title = document.createElement('div');
+    title.innerHTML = "Changer votre " + profil[i];
+    popup.appendChild(title);
+
+    // Input pour la nouvelle valeur
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('placeholder', 'Nouvelle ' + profil[i]);
+    popup.appendChild(input);
+
+    // Input pour le mot de passe actuel
+    var passwordInput = document.createElement('input');
+    passwordInput.setAttribute('type', 'password');
+    passwordInput.setAttribute('placeholder', 'Mot de passe actuel');
+    popup.appendChild(passwordInput);
+
+    // Bouton pour confirmer
+    var confirmButton = document.createElement('button');
+    confirmButton.innerText = 'Confirmer';
+    confirmButton.addEventListener('click', function() {
+        // Récupérer les valeurs des inputs
+        var newValue = input.value;
+        var password = passwordInput.value;
+
+        // Récupérer l'utilisateur correspondant à l'identifiant ou à d'autres critères
+        var user = getUserFromDatabase(); // Appeler une fonction pour récupérer les informations de l'utilisateur
+
+        // Vérifier si le mot de passe saisi correspond au mot de passe stocké dans la base de données
+        if (password === user.motDePasse) {
+            // Le mot de passe est correct, procéder à la modification dans la base de données
+            updateUserInDatabase(profil[i], newValue);
+            
+            // Fermer le pop-up
+            document.body.removeChild(popupContainer);
+            document.body.classList.remove('modify');
+        } else {
+            // Le mot de passe est incorrect, afficher un message d'erreur ou demander à l'utilisateur de réessayer
+            alert("Mot de passe incorrect. Veuillez réessayer.");
+        }
+    });
+    popup.appendChild(confirmButton);
+
+    // Bouton pour annuler
+    var cancelButton = document.createElement('button');
+    cancelButton.innerText = 'Annuler';
+    cancelButton.addEventListener('click', function() {
+        // Fermer le pop-up
+        document.body.removeChild(popupContainer);
+        document.body.classList.remove('modify');
+    });
+    popup.appendChild(cancelButton);
+
+    popupContainer.appendChild(popup);
+    document.body.appendChild(popupContainer);
+}
+
+function getUserFromDatabase(userName) {
+  // Connexion à la base de données
+  $connexion = mysqli_connect('localhost', 'nom_utilisateur', 'mot_de_passe', 'nom_base_de_donnees');
+
+  // Exécution de la requête SELECT pour récupérer les informations de l'utilisateur
+  $command = "SELECT * FROM utilisateur WHERE nom_utilisateur = userName";
+  $resultat = mysqli_query($connexion, $command);
+
+  // Récupérer le résultat de la requête
+  $user = mysqli_fetch_assoc($resultat);
+
+  // Fermer la connexion à la base de données
+  mysqli_close($connexion);
+
+  // Retourner l'utilisateur récupéré
+  return $user;
+}
+
+function updateUserInDatabase(field, newValue) {
+  // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
+
+  // Supposons que vous avez une variable "userId" qui représente l'identifiant de l'utilisateur
+  // et une connexion à votre base de données "connexion"
+
+  // Construire la requête SQL pour mettre à jour le champ spécifié
+  var command = "";
+
+  switch (field) {
+    case "pseudonyme":
+      command = "UPDATE utilisateur SET " + field + " = '" + newValue + "' WHERE identifiant = " + userId;
+  }
+
+  // Exécuter la requête SQL
+  var resultat = mysqli_query(connexion, command);
+
+  // Vérifier si la mise à jour s'est effectuée avec succès
+  if (resultat) {
+    console.log("Le champ '" + field + "' a été mis à jour avec succès !");
+  } else {
+    console.error("Erreur lors de la mise à jour du champ '" + field + "'.");
+  }
+}
+
 </script>
     
     <div class="bar" id="main">
