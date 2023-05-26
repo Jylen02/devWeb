@@ -26,7 +26,7 @@
         $servername = "localhost";
         $username = "projetRecdevweb";
         $password = "projetRecdevweb2023";
-        $dbname = "information_utilisateur";
+        $dbname = "website_database";
 
         new mysqli($servername, $username, $password, $dbname);
         $conn = new mysqli($servername, $username, $password, $dbname);

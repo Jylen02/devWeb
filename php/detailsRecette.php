@@ -15,7 +15,7 @@
 $serveur = "localhost";
 $utilisateur = "projetRecdevweb";
 $motDePasse = "projetRecdevweb2023";
-$baseDeDonnees = "information_utilisateur";
+$baseDeDonnees = "website_database";
 
 $connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
 
@@ -29,12 +29,12 @@ if (isset($_GET['id'])) {
     $idRecette = $_GET['id'];
 
     // Requête SQL pour récupérer tous les attributs de la recette
-    $requeteRecette = "SELECT titre, description, image FROM recette WHERE id = $idRecette";
+    $requeteRecette = "SELECT name, description, image FROM recipe WHERE id = $idRecette";
     $resultatRecette = mysqli_query($connexion, $requeteRecette);
 
     if (mysqli_num_rows($resultatRecette) > 0) {
         $rowRecette = mysqli_fetch_assoc($resultatRecette);
-        $titre = $rowRecette['titre'];
+        $titre = $rowRecette['name'];
         $description = $rowRecette['description'];
         $image = $rowRecette['image'];
 

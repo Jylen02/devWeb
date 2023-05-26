@@ -3,7 +3,7 @@
 $serveur = "localhost";
 $utilisateur = "projetRecdevweb";
 $motDePasse = "projetRecdevweb2023";
-$baseDeDonnees = "information_utilisateur";
+$baseDeDonnees = "website_database";
 
 $connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
 
@@ -17,20 +17,20 @@ if (isset($_POST['recherche'])) {
     $recherche = $_POST['recherche'];
 
     // Requête SQL pour récupérer les idRecette correspondant au mot-clé dans la table "tag"
-    $requete = "SELECT idRecette FROM tag WHERE motClef LIKE '%$recherche%'";
+    $requete = "SELECT idRecipe FROM tag WHERE keyWord LIKE '%$recherche%'";
     $resultat = mysqli_query($connexion, $requete);
 
     if (mysqli_num_rows($resultat) > 0) {
         while ($row = mysqli_fetch_assoc($resultat)) {
-            $idRecette = $row['idRecette'];
+            $idRecette = $row['idRecipe'];
 
             // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recette"
-            $requeteRecette = "SELECT titre, id, description, image FROM recette WHERE id = $idRecette";
+            $requeteRecette = "SELECT name, id, description, image FROM recipe WHERE id = $idRecette";
             $resultatRecette = mysqli_query($connexion, $requeteRecette);
 
             if (mysqli_num_rows($resultatRecette) > 0) {
                 $rowRecette = mysqli_fetch_assoc($resultatRecette);
-                $titre = $rowRecette['titre'];
+                $titre = $rowRecette['name'];
                 $description = $rowRecette['description'];
                 $image = $rowRecette['image'];
                 $id = $rowRecette['id'];
