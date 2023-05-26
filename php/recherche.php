@@ -25,7 +25,7 @@ if (isset($_POST['recherche'])) {
             $idRecette = $row['idRecette'];
 
             // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recette"
-            $requeteRecette = "SELECT titre, description, image FROM recette WHERE id = $idRecette";
+            $requeteRecette = "SELECT titre, id, description, image FROM recette WHERE id = $idRecette";
             $resultatRecette = mysqli_query($connexion, $requeteRecette);
 
             if (mysqli_num_rows($resultatRecette) > 0) {
@@ -33,12 +33,13 @@ if (isset($_POST['recherche'])) {
                 $titre = $rowRecette['titre'];
                 $description = $rowRecette['description'];
                 $image = $rowRecette['image'];
-
+                $id = $rowRecette['id'];
                 // Affichage des résultats avec l'image
                 echo "<h3>$titre</h3>";
                 //echo "<img src='$image' alt='$titre' width='200'>";
-                echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
-                echo "<p>$description</p>";
+                //echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
+                //echo "<p>$description</p>";
+                echo "<a href='detailsRecette.php?id=$id'>$titre</a><br>";
                 echo "<hr>";
             }
 
