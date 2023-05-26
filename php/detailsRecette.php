@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">  
+<head>
+    <?php
+        include_once("Head.php");
+    ?>
+    <link rel="stylesheet"
+    type="text/css"
+    href="../css/home.css">
+    <script src="../js/home.js" type="text/javascript">
+    </script>
+
 <?php
 // Connexion à la base de données
 $serveur = "localhost";
@@ -27,9 +39,9 @@ if (isset($_GET['id'])) {
         $image = $rowRecette['image'];
 
         // Affichage des détails de la recette
-        echo "<h3>$titre</h3>";
-        echo "<p>$description</p>";
-        echo "<img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'>";
+        //echo "<h3>$titre</h3>";
+        //echo "<aside><p>$description</p></aside>";
+        //echo "<header><img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'></header>";
     } else {
         echo "Aucune recette trouvée.";
     }
@@ -41,3 +53,19 @@ if (isset($_GET['id'])) {
 // Fermeture de la connexion à la base de données
 mysqli_close($connexion);
 ?>
+</head>
+<html>
+    <body>
+        <header>
+            <?php
+                echo "<h3>$titre</h3>";
+                echo "<header><img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'></header>";
+                ?>
+        </header>
+        <aside>
+            <?php
+                echo "<aside><p>$description</p></aside>";
+            ?>
+        </aside>
+    </body>
+</html>
