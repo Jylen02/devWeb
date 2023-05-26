@@ -35,11 +35,11 @@ if (isset($_POST['recherche'])) {
                 $image = $rowRecette['image'];
                 $id = $rowRecette['id'];
                 // Affichage des résultats avec l'image
-                echo "<h3>$titre</h3>";
+                //echo "<h3>$titre</h3>";
                 //echo "<img src='$image' alt='$titre' width='200'>";
                 //echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
                 //echo "<p>$description</p>";
-                echo "<a href='detailsRecette.php?id=$id'>$titre</a><br>";
+                echo "<h2><a href='detailsRecette.php?id=$id'>$titre</a><h2><br>";
                 echo "<hr>";
             }
 
