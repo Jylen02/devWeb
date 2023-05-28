@@ -31,6 +31,11 @@ if (isset($_GET['id'])) {
     // Requête SQL pour récupérer tous les attributs de la recette
     $requeteRecette = "SELECT name, description, image FROM recipe WHERE id = $idRecette";
     $resultatRecette = mysqli_query($connexion, $requeteRecette);
+    // Requête SQL pour calculer la moyenne des scores
+    $requeteMoyenneScore = "SELECT AVG(score) AS moyenne_score FROM evaluation WHERE idRecipe = $idRecette";
+    $resultatMoyenneScore = mysqli_query($connexion, $requeteMoyenneScore);
+    $rowMoyenneScore = mysqli_fetch_assoc($resultatMoyenneScore);
+    $moyenneScore = number_format($rowMoyenneScore['moyenne_score']);
 
     if (mysqli_num_rows($resultatRecette) > 0) {
         $rowRecette = mysqli_fetch_assoc($resultatRecette);
@@ -50,22 +55,62 @@ if (isset($_GET['id'])) {
     mysqli_free_result($resultatRecette);
 }
 
+echo "<h1>$titre</h1>";
+echo "<header><img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'></header>";                         
 // Fermeture de la connexion à la base de données
 mysqli_close($connexion);
 ?>
 </head>
-<html>
-    <body>
+    <body>       
         <header>
-            <?php
-                echo "<h3>$titre</h3>";
-                echo "<header><img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'></header>";
-                ?>
+        
+    <div>
+        <?php
+        // Connexion à la base de données
+        $serveur = "localhost";
+        $utilisateur = "projetRecdevweb";
+        $motDePasse = "projetRecdevweb2023";
+        $baseDeDonnees = "website_database";
+
+        $connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
+
+        // Vérification de la connexion à la base de données
+        if (!$connexion) {
+            die("Connexion à la base de données échouée : " . mysqli_connect_error());
+        }
+
+        echo "<h3 style='color: red;'>Note : $moyenneScore/5 
+            (<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> /
+            <a href='evaluation.php?id=$idRecette' class='evaluer-button'>évaluer</a> la recette - $titre -)
+            </h3><br>";
+
+        // Fermeture de la connexion à la base de données
+        mysqli_close($connexion);
+        ?>
+    </div>
+
+
         </header>
+
         <aside>
             <?php
-                echo "<aside><p>$description</p></aside>";
+                echo "<aside> Description de la recette :
+                <p>$description</p></aside>";             
             ?>
         </aside>
+        <footer>
+        <div>
+            <?php
+                /*session_start();
+                if (isset($_SESSION['idUser'])) {
+                    echo ' <a href="/home.php?success=1">← Retour</a>';
+
+                } else {
+                    echo '<a href="/home.php?success=0">Connexion</a>';
+                }*/
+                ?>
+                
+            </div>
+        </footer>
     </body>
 </html>

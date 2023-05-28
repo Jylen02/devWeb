@@ -28,18 +28,30 @@ if (isset($_POST['recherche'])) {
             $requeteRecette = "SELECT name, id, description, image FROM recipe WHERE id = $idRecette";
             $resultatRecette = mysqli_query($connexion, $requeteRecette);
 
+            
+
             if (mysqli_num_rows($resultatRecette) > 0) {
                 $rowRecette = mysqli_fetch_assoc($resultatRecette);
                 $titre = $rowRecette['name'];
                 $description = $rowRecette['description'];
                 $image = $rowRecette['image'];
                 $id = $rowRecette['id'];
+                // Requête SQL pour calculer la moyenne des scores
+                $requeteMoyenneScore = "SELECT AVG(score) AS moyenne_score FROM evaluation WHERE idRecipe = $idRecette";
+                $resultatMoyenneScore = mysqli_query($connexion, $requeteMoyenneScore);
+                $rowMoyenneScore = mysqli_fetch_assoc($resultatMoyenneScore);
+                $moyenneScore = round($rowMoyenneScore['moyenne_score']);
+                $etoiles = str_repeat("*", $moyenneScore);
+
                 // Affichage des résultats avec l'image
                 //echo "<h3>$titre</h3>";
                 //echo "<img src='$image' alt='$titre' width='200'>";
                 //echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
                 //echo "<p>$description</p>";
-                echo "<h2><a href='detailsRecette.php?id=$id'>$titre</a><h2><br>";
+                echo "<h2><a href='detailsRecette.php?id=$id'>$titre</a>
+                          <a href='scoreRecette.php?id=$id' style='color: red;'>$etoiles</a></h2><br> ";
+                
+                //echo "<a href='scoreRecette.php?id=$id' >$moyenneScore</a><br>";
                 echo "<hr>";
             }
 

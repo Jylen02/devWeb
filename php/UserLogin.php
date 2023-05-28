@@ -10,7 +10,7 @@ $password = $_POST['password'];
 $servername = "localhost";
 $username1 = "projetRecdevweb";
 $password1 = "projetRecdevweb2023";
-$dbname = "information_utilisateur";
+$dbname = "website_database";
 
 $conn = new mysqli($servername, $username1, $password1, $dbname);
 // Vérification de la connexion
@@ -19,14 +19,19 @@ if ($conn->connect_error) {
 }
 
 // vérifie si les données sont dans la base de donnée
-$sql1 = "SELECT * FROM donnees_utilisateurs WHERE UserName = '$username' AND Password = '$password'";
+$sql1 = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
 $result1 = $conn->query($sql1);
 if ($result1->num_rows > 0) {
+    // Authentification réussie, initialisation de la session
+    session_start();
+    
+    // Stockage de l'identifiant de l'utilisateur dans la session
+    $_SESSION['idUser'] = $username;
+    
     header('Location: home.php?success=1');
     exit();
-    }
-else{ 
-    header('Location: login.php?success=2');
+} else {
+    header('Location: login.php?success=0');
     exit();
 }
 ?>

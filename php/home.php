@@ -34,25 +34,6 @@
             die("La connexion a échoué: " . $conn->connect_error);
         }
     ?>
-    
-    <!--<script>
-        document.getElementById("barreRecherche").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-        // Récupérer la valeur de l'input
-        var recherche = document.getElementById("barreRecherche").value;
-        alert(recherche);        
-
-        // Récuperer depuis la BDD les tags et afficher un format titre + note
-        
-
-        // Afficher la recette selectionnée
-
-
-        // Poster un commentaire
-    }
-});
-    </script>-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -72,10 +53,5 @@
             });
         });
     </script>
-
-    <?php
-    
-    ?>
-
 </body>
 </html>
