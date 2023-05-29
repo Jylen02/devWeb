@@ -70,3 +70,7 @@ button[type="submit"]{
     background-color: rgb(157, 19, 19);
     border : none;
 }
+
+body {
+    background-color: rgb(245,245, 220);
+}

@@ -13,18 +13,18 @@ function load(bool) {
     createAccountButton.setAttribute("text-align", "right");
 
     if (bool) {
-        loginButton.href = "logout.php"; // Modifier le lien pour le bouton de déconnexion
+        loginButton.href = "../profil/logout.php"; // Modifier le lien pour le bouton de déconnexion
         loginButton.innerHTML = "Déconnexion";
 
-        createAccountButton.href = "settings.php";
+        createAccountButton.href = "../profil/settings.php";
         createAccountButton.innerHTML = "Mon profil";
         
         
     } else {
-        loginButton.href = "login.php";
+        loginButton.href = "../profil/login.php";
         loginButton.innerHTML = "Connexion";
 
-        createAccountButton.href = "createAccount.php";
+        createAccountButton.href = "../profil/createAccount.php";
         createAccountButton.innerHTML = "Créer un compte";
         
 

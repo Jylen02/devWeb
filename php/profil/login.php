@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php
-        include_once("Head.php");
+        include_once("../Head.php");
         if (isset($_GET['success']) && $_GET['success'] == 1) {
             echo "<script> alert(\"Votre compte a été créé avec succès.\")</script>";
         }
@@ -12,11 +12,11 @@
     ?>
     <link rel="stylesheet"
     type="text/css"
-    href="../css/login.css">
+    href="../../css/login.css">
 </head>
 <body>
     <div>
-        <a href="home.php" id="retourAcceuil">
+        <a href="../accueil/home.php" id="retourAcceuil">
         ← Accueil
         </a>
     </div>

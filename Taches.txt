@@ -2,6 +2,8 @@ Utilisateur :
 
 Mon profil :
 - Bouton pour modifier ses informations personnelles
+ -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
+- Forget Password non fonctionnel.
 - Bouton pour supprimer son compte (de la BDD)
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc...
 - Supprimer ses commentaires

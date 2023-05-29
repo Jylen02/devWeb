@@ -28,7 +28,7 @@ if ($result1->num_rows > 0) {
     // Stockage de l'identifiant de l'utilisateur dans la session
     $_SESSION['idUser'] = $username;
     
-    header('Location: home.php?success=1');
+    header('Location: ../accueil/home.php?success=1');
     exit();
 } else {
     header('Location: login.php?success=0');

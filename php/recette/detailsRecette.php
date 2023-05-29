@@ -2,12 +2,12 @@
 <html lang="fr">  
 <head>
     <?php
-        include_once("Head.php");
+        include_once("../Head.php");
     ?>
     <link rel="stylesheet"
     type="text/css"
-    href="../css/home.css">
-    <script src="../js/home.js" type="text/javascript">
+    href="../../css/home.css">
+    <script src="../../js/home.js" type="text/javascript">
     </script>
 
 <?php
@@ -103,10 +103,10 @@ mysqli_close($connexion);
             <?php
                 /*session_start();
                 if (isset($_SESSION['idUser'])) {
-                    echo ' <a href="/home.php?success=1">← Retour</a>';
+                    echo ' <a href="../accueil/home.php?success=1">← Retour</a>';
 
                 } else {
-                    echo '<a href="/home.php?success=0">Connexion</a>';
+                    echo '<a href="../accueil/home.php?success=0">Connexion</a>';
                 }*/
                 ?>
                 

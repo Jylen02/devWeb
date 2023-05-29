@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php
-        include_once("Head.php");
+        include_once("../Head.php");
         if (isset($_GET['success']) && $_GET['success'] == 0) {
             if (isset($_GET['error'])) {
                 $error = $_GET['error'];
@@ -18,14 +18,14 @@
     ?>
     <link rel="stylesheet"
     type="text/css"
-    href="../css/createAccount.css">
-    <script src="../js/createAccount.js" type="text/javascript">
+    href="../../css/createAccount.css">
+    <script src="../../js/password.js" type="text/javascript">
     </script>
     
 </head>
 <body>
     <div>
-        <a href="home.php" id="retourAcceuil">
+        <a href="../accueil/home.php" id="retourAccueil">
         ← Accueil
         </a>
     </div>

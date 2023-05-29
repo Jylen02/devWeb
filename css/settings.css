@@ -1,5 +1,6 @@
 body {
     font-size: 1.2em;
+    background-color: rgb(245,245, 220);
 }
 
 .input{
@@ -139,4 +140,9 @@ img {
     margin-top: 10px;
   }
 
-  
+
+#retourAccueil{
+    text-decoration: none;
+    color : black;
+    font-size : 15px;
+}

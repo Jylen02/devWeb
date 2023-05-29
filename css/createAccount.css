@@ -1,4 +1,4 @@
-#retourAcceuil{
+#retourAccueil{
     text-decoration: none;
     color : black;
     font-size : 15px;
@@ -64,4 +64,8 @@ button[type="submit"]{
 .SignIn:hover{
     background-color: rgb(191, 25, 25);
     border: none;
+}
+
+body {
+    background-color: rgb(245,245, 220);
 }

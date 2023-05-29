@@ -2,12 +2,12 @@
 <html lang="fr">  
 <head>
     <?php
-        include_once("Head.php");
+        include_once("../Head.php");
     ?>
     <link rel="stylesheet"
     type="text/css"
-    href="../css/home.css">
-    <script src="../js/home.js" type="text/javascript">
+    href="../../css/home.css">
+    <script src="../../js/home.js" type="text/javascript">
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
