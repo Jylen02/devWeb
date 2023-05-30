@@ -35,7 +35,7 @@
         $idRecette = $_GET['id'];
 
         // Requête SQL pour récupérer les commentaires associés à l'ID de la recette
-        $requeteCommentaires = "SELECT c.comment, u.username
+        $requeteCommentaires = "SELECT c.comment, c.score, u.username
                                 FROM evaluation AS c
                                 INNER JOIN user AS u ON c.idUser = u.username
                                 WHERE c.idRecipe = $idRecette";
@@ -46,8 +46,9 @@
             while ($rowCommentaire = mysqli_fetch_assoc($resultatCommentaires)) {
                 $commentaire = $rowCommentaire['comment'];
                 $utilisateur = $rowCommentaire['username'];
-
-                echo "<p><strong>$utilisateur :</strong> $commentaire</p>";
+                $score = $rowCommentaire['score'];
+                $etoiles = str_repeat("*", $score);
+                echo "<p><strong>$utilisateur :</strong> (note : $score/5) - $commentaire </p>";
             }
         } else {
             echo "<p>Aucun commentaire trouvé.</p>";

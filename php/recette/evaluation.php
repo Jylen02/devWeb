@@ -93,14 +93,14 @@
             } else {
                 // L'utilisateur n'est pas connecté, redirection vers la page de connexion
                 echo "<script>alert('Vous devez être connecté pour laisser un commentaire.');</script>";
-                echo "<script>window.location.href = 'page_de_connexion.php';</script>";
+                echo "<script>window.location.href = '../profil/login.php';</script>";
                 exit();
             }
-        } else {
+        }/* else {
             // L'ID de la recette n'est pas passé en paramètre dans l'URL, redirection vers une page d'erreur
             echo "<script>window.location.href = 'erreur.php';</script>";
             exit();
-        }
+        }*/
         ?>
     </section>
     <footer>

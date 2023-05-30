@@ -48,8 +48,8 @@ if (isset($_POST['recherche'])) {
                 //echo "<img src='$image' alt='$titre' width='200'>";
                 //echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
                 //echo "<p>$description</p>";
-                echo "<h2><a href='detailsRecette.php?id=$id'>$titre</a>
-                          <a href='scoreRecette.php?id=$id' style='color: red;'>$etoiles</a></h2><br> ";
+                echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$titre</a>
+                          <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$etoiles</a></h2><br> ";
                 
                 //echo "<a href='scoreRecette.php?id=$id' >$moyenneScore</a><br>";
                 echo "<hr>";
