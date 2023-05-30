@@ -1,6 +1,5 @@
 <?php
 
-
 // Récupération des données du formulaire
 $barreRecherche= $_POST['barreRecherche'];
 

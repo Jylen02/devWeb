@@ -10,7 +10,7 @@
     <script src="../../js/home.js" type="text/javascript">
     </script>
 </head>
-<body onload=load(<?php echo (isset($_GET['success']) && $_GET['success'] == 1) ?>)>
+<body onload="load(<?php session_start(); echo isset($_SESSION['idUser']) ? 'true' : 'false'; ?>)">
 <header>
     <div id="top">
         <div id="barre">

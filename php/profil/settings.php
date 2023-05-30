@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <?php
+        include_once("../Head.php");
+        session_start();
+        $idUser = $_SESSION('idUser');
+    ?>
     <link rel="stylesheet" type="text/css" href="../../css/settings.css">
     <script type="text/javascript" src="../../js/settings.js"> </script>
 </head>
 <body class=" bgcolorWhite" onload="click1(['lucas','Guillot','test1','e-mail','test1.com'])">
 
-   
     <div class="bar" id="main">
+        
         <div role="tablist" class="leftBar" align="right">
+            <div tabindex="-2" class="retourAccueil">
+                <a href="../accueil/home.php" id="retourAccueil">
+                ← Accueil
+                </a>
+            </div>
             <div tabindex="-1" role="button">Paramètres utilisateur</div>
             <div>
                 <input tabindex="0"  type="button" name="button_settings" value="profil"        class="input" 
