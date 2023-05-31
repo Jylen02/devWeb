@@ -16,7 +16,7 @@ Menu :
 
 Recette :
 - Poster un commentaire + noter la recette : Terminé
-- Consulter les commentaires de la recette + filtre date/note etc...
+- Consulter les commentaires de la recette + filtre date/note etc... : Terminé
 - Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin)
 - Voir le coût d'une recette
 - Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3)
