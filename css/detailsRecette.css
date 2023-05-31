@@ -2,7 +2,7 @@
     max-width: 600px; /* Ajustez la largeur maximale selon vos préférences */
     margin: 0 auto; /* Centre la division horizontalement */
     text-align: center; /* Centre le texte à l'intérieur de la division */
-    background-color: purple;
+    background-color: rgb(218, 157, 218);
 }
 .align {
     display: flex;
