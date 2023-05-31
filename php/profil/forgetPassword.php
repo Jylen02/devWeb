@@ -49,7 +49,7 @@
                             E-mail :
                         </label>
                         </br>
-                        <input type="text" id="email" name="email" autofocus="autofocus" required>
+                        <input type="email" id="email" name="email" autofocus="autofocus" required>
                         </br>
                         <button type="submit">Envoyer</button>
                     </div>

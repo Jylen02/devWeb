@@ -5,7 +5,7 @@ Mon profil :
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
 - Forget Password non fonctionnel. : A Faire
 - Bouton pour supprimer son compte (de la BDD) : A Faire
-- Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : En Cours - Christophe
+- Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
 - Supprimer ses commentaires (de la BDD) : A Faire
 
 Menu :
