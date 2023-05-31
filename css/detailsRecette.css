@@ -1,0 +1,19 @@
+.recette-details {
+    max-width: 600px; /* Ajustez la largeur maximale selon vos préférences */
+    margin: 0 auto; /* Centre la division horizontalement */
+    text-align: center; /* Centre le texte à l'intérieur de la division */
+    background-color: purple;
+}
+.align {
+    display: flex;
+    justify-content: space-between;
+}
+
+.recette-details-item {
+    display: flex;
+    align-items: center;
+}
+
+.recette-details-item span:first-child {
+    margin-right: 10px;
+}
