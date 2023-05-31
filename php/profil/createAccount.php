@@ -40,7 +40,7 @@
                         E-mail : 
                     </label>
                     </br>
-                    <input type="text" id="email" name="email" autofocus="autofocus" required>
+                    <input type="email" id="email" name="email" autofocus="autofocus" required>
                     </br>
                     <label for="username">
                         Identifiant : 
