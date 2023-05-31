@@ -8,8 +8,9 @@
     <link rel="stylesheet"
     type="text/css"
     href="../../css/home.css">
-    <script src="../../js/home.js" type="text/javascript">
-    </script>
+    <script> var username = "<?php echo isset($_SESSION['idUser']) ? $_SESSION['idUser'] : ''; ?>"; </script>
+    <script src="../../js/home.js" type="text/javascript"> </script>
+    
 </head>
 <body onload="load(<?php session_start(); echo isset($_SESSION['idUser']) ? 'true' : 'false'; ?>)">
 <header>
@@ -21,6 +22,7 @@
         </div>
     </div>
 </header>
+
 <div id="resultats"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

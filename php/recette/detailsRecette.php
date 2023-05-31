@@ -31,7 +31,7 @@
                     $idRecette = $_GET['id'];
 
                     // Requête SQL pour récupérer tous les attributs de la recette
-                    $requeteRecette = "SELECT name, description, image, time, fornumber, difficulty FROM recipe WHERE id = $idRecette";
+                    $requeteRecette = "SELECT name, description, image, time, fornumber, difficulty, price FROM recipe WHERE id = $idRecette";
                     $resultatRecette = mysqli_query($connexion, $requeteRecette);
                     // Requête SQL pour calculer la moyenne des scores
                     $requeteMoyenneScore = "SELECT AVG(score) AS moyenne_score FROM evaluation WHERE idRecipe = $idRecette";
@@ -47,6 +47,7 @@
                         $time = $rowRecette['time'];
                         $fornumber = $rowRecette['fornumber'];
                         $difficulty = $rowRecette['difficulty'];
+                        $price = $rowRecette['price'];
 
                         // Affichage des détails de la recette
                         //echo "<h3>$titre</h3>";
@@ -65,6 +66,7 @@
                 <header><img src='affichageImage.php?id=$idRecette' alt='$titre' width='200'></header>";
                 echo "<div class='align'>";
                 echo "<div class='recette-details-item'><span>Pour :</span> <span>$fornumber</span></div>";
+                echo "<div class='recette-details-item'><span>coût estimé :</span> <span>$price euros</span></div>";
                 echo "<div class='recette-details-item'><span>Durée :</span> <span>$time heure</span></div>";
                 echo "<div class='recette-details-item'><span>Difficulté :</span> <span>$difficulty</span></div>";
                 echo "</div>";
