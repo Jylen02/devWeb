@@ -54,7 +54,7 @@
                         echo "<script>alert('Vous avez déjà laissé un commentaire pour cette recette.');</script>";
                     } else {
                         // Requête SQL pour insérer l'évaluation dans la table "evaluation"
-                        $requeteEvaluation = "INSERT INTO evaluation (score, comment, idUser, idRecipe) VALUES ('$score', '$commentaire', '$idUser', '$idRecette')";
+                        $requeteEvaluation = "INSERT INTO evaluation (score, comment, idUser, idRecipe, date) VALUES ('$score', '$commentaire', '$idUser', '$idRecette', CURDATE())";
                         $resultatEvaluation = mysqli_query($connexion, $requeteEvaluation);
 
                         if ($resultatEvaluation) {
