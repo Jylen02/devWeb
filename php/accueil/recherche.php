@@ -1,16 +1,7 @@
 <?php
 // Connexion à la base de données
-$serveur = "localhost";
-$utilisateur = "projetRecdevweb";
-$motDePasse = "projetRecdevweb2023";
-$baseDeDonnees = "website_database";
+include_once("../database.php");
 
-$connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
-
-// Vérification de la connexion à la base de données
-if (!$connexion) {
-    die("Connexion à la base de données échouée : " . mysqli_connect_error());
-}
 
 // Vérification si le formulaire de recherche est soumis
 if (isset($_POST['recherche'])) {

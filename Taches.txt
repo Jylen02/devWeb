@@ -3,7 +3,7 @@ Utilisateur :
 Mon profil :
 - Bouton pour modifier ses informations personnelles (alter BDD) : En Cours - Christophe
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
-- Forget Password non fonctionnel. : A Faire
+- Forget Password : Terminé
 - Bouton pour supprimer son compte (de la BDD) : A Faire
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
 - Supprimer ses commentaires (de la BDD) : A Faire
@@ -15,7 +15,7 @@ Menu :
 - Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4)
 
 Recette :
-- Poster un commentaire + noter la recette
+- Poster un commentaire + noter la recette : Terminé
 - Consulter les commentaires de la recette + filtre date/note etc...
 - Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin)
 - Voir le coût d'une recette

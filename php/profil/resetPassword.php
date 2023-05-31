@@ -9,17 +9,7 @@ if (isset($_SESSION['mail'])) {
 $password = $_POST['password'];
 
 // Connexion à la base de données
-$serveur = "localhost";
-$utilisateur = "projetRecdevweb";
-$motDePasse = "projetRecdevweb2023";
-$baseDeDonnees = "website_database";
-
-$connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
-
-// Vérification de la connexion à la base de données
-if (!$connexion) {
-  die("Connexion à la base de données échouée : " . mysqli_connect_error());
-}
+include_once("../database.php");
 
 // Vérification si l'email est déjà présent dans la base de données
 $sql = "SELECT COUNT(*) AS n FROM user WHERE mail = ?";

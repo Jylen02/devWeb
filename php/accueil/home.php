@@ -3,6 +3,7 @@
 <head>
     <?php
         include_once("../Head.php");
+        include_once("../database.php");
     ?>
     <link rel="stylesheet"
     type="text/css"
@@ -21,19 +22,6 @@
     </div>
 </header>
 <div id="resultats"></div>
-    <?php
-        //Connexion à la BDD
-        $servername = "localhost";
-        $username = "projetRecdevweb";
-        $password = "projetRecdevweb2023";
-        $dbname = "website_database";
-
-        new mysqli($servername, $username, $password, $dbname);
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("La connexion a échoué: " . $conn->connect_error);
-        }
-    ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
