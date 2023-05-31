@@ -112,6 +112,7 @@ function updateUserInDatabase(field, newValue) {
     }
 }
     
+
 function click1(resultat) {
     if (!document.getElementsByTagName("input")[0].classList.contains('selected')) {
         document.getElementsByTagName("input")[0].classList.add('selected');
@@ -131,8 +132,13 @@ function click1(resultat) {
         newDiv.appendChild(account);
 
         var image = document.createElement('img');
-        image.src = resultat.profilePictures;
         image.alt = 'Photo de profil';
+
+        // Assurez-vous que le champ 'profilePicture' est correctement récupéré dans $resUser
+        // Supposons que le champ 'profilePicture' contienne la chaîne Base64
+        var profilePictureData = resultat.profilePictures;
+        image.src = 'data:image/jpeg;base64,' + profilePictureData;
+
         var img = document.createElement('div');
         img.appendChild(image);
         img.id = 'imageId';
@@ -179,21 +185,27 @@ function click1(resultat) {
             divLabelsub.appendChild(label2);
             divLabel.appendChild(divLabelsub);
 
-            var button = document.createElement('input');
-            button.type = 'button';
-            button.value = 'Modifier';
-            button.setAttribute('onclick', 'modify(' + i + ')');
-            button.classList.add('inputChange');
-            if (i === 2) {
+            if (i<3){
+                var button = document.createElement('input');
+                button.type = 'button';
+                button.value = 'Modifier';
+                button.setAttribute('onclick', 'modify(' + i + ')');
+                button.classList.add('inputChange');
+                divInfo.appendChild(divLabel);
+                divInfo.appendChild(document.createElement('div').appendChild(button));
+                divProfil.appendChild(divInfo);
+                newDiv.appendChild(divProfil);
+            } else {
+                divInfo.appendChild(divLabel);
+                divProfil.appendChild(divInfo);
+                newDiv.appendChild(divProfil);
+            }
+
+            if (i == 2) {
                 button.classList.add('protected');
             }
-            divInfo.appendChild(divLabel);
-            divInfo.appendChild(document.createElement('div').appendChild(button));
 
-            divProfil.appendChild(divInfo);
         }
-
-        newDiv.appendChild(divProfil);
 
         var child = document.getElementsByTagName("div")[0].children[1];
         document.getElementsByTagName("div")[0].removeChild(child);
@@ -240,6 +252,7 @@ function click2() {
 
 
 function click3(resultatCommentaires) {
+    var resultatCommentairesOriginal = resultatCommentaires.slice();
     if (!document.getElementsByTagName("input")[2].classList.contains('selected')) {
         for (let i = 0; i < MaxButton; i++) {
             document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -290,19 +303,73 @@ function click3(resultatCommentaires) {
         var label = document.createElement('label');
         label.innerHTML = 'Trier par recette';
     
+        function updateCommentDiv(resultatCommentaires) {
+            // Supprimer les commentaires existants
+            var existingComments = document.getElementsByClassName('comment');
+            while (existingComments.length > 0) {
+                existingComments[0].parentNode.removeChild(existingComments[0]);
+            }
+        
+            // Ajouter les commentaires filtrés ou non filtrés à la div
+            for (let i = 0; i < resultatCommentaires.length; i++) {
+                let commentaire = resultatCommentaires[i].comment;
+                let score = resultatCommentaires[i].score;
+        
+                let commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+        
+                let commentText = document.createElement('p');
+                commentText.innerHTML = commentaire;
+        
+                let scoreText = document.createElement('p');
+                scoreText.innerHTML = "Score: " + score;
+        
+                commentDiv.appendChild(commentText);
+                commentDiv.appendChild(scoreText);
+        
+                newDiv.appendChild(commentDiv);
+            }
+        }
+
+        // Ajouter un écouteur d'événement sur le checkbox
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                // Tri des commentaires par ID de recette
+                resultatCommentaires.sort(function(a, b) {
+                var idA = a.idRecipe;
+                var idB = b.idRecipe;
+            
+                // Comparaison des ID de recette
+                if (idA < idB) {
+                return -1;
+                } else if (idA > idB) {
+                return 1;
+                } else {
+                return 0;
+                }
+            });
+            
+            // Mettre à jour l'affichage avec les commentaires triés
+            updateCommentDiv(resultatCommentaires);
+            } else {
+                // Réinitialiser l'ordre des commentaires à leur ordre d'origine
+                resultatCommentaires = resultatCommentairesOriginal.slice();
+                // Mettre à jour l'affichage avec les commentaires non triés
+                updateCommentDiv(resultatCommentaires);
+            }
+        });
+
         divBox.appendChild(checkbox);
         divBox.appendChild(label);
         form.appendChild(divBox);
     
         divSort.appendChild(form);
         newDiv.appendChild(divSort);
-    
-        // Ajouter les commentaires à la div
+
         for (let i = 0; i < resultatCommentaires.length; i++) {
             let commentaire = resultatCommentaires[i].comment;
             let score = resultatCommentaires[i].score;
             
-            // Faites quelque chose avec les données du commentaire...
             let commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
@@ -317,6 +384,76 @@ function click3(resultatCommentaires) {
 
             newDiv.appendChild(commentDiv);
         }
+
+        select.addEventListener('change', function() {
+            var selectedOption = select.value;
+
+            // Filtrage des commentaires par date
+            var filteredComments = [];
+            if (selectedOption === "Aujourd'hui") {
+                var today = new Date().toLocaleDateString();
+                filteredComments = resultatCommentaires.filter(function(comment) {
+                    var commentDate = new Date(comment.date).toLocaleDateString();
+                    return commentDate === today;
+                });
+            } else if (selectedOption === "Cette semaine") {
+                var currentDate = new Date();
+                var startOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
+                var endOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay() + 6);
+                
+                filteredComments = resultatCommentaires.filter(function(comment) {
+                    var commentDate = new Date(comment.date);
+                    return commentDate >= startOfWeek && commentDate <= endOfWeek;
+                });
+            } else if (selectedOption === "Ce mois") {
+                var currentDate = new Date();
+                var startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
+                var endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() , currentDate.getDate() - currentDate.getDay() + 30);
+                
+                filteredComments = resultatCommentaires.filter(function(comment) {
+                    var commentDate = new Date(comment.date);
+                    return commentDate >= startOfMonth && commentDate <= endOfMonth;
+                });
+            } else if (selectedOption === "Cette année") {
+                var currentYear = new Date().getFullYear();
+                var startOfYear = new Date(currentYear, 0, 1);
+                var endOfYear = new Date(currentYear, 11, 31);
+                
+                filteredComments = resultatCommentaires.filter(function(comment) {
+                    var commentDate = new Date(comment.date);
+                    return commentDate >= startOfYear && commentDate <= endOfYear;
+                });
+            } else {
+                // Pas de filtrage par date, afficher tous les commentaires
+                filteredComments = resultatCommentaires;
+            }
+
+            // Supprimer les commentaires existants
+            var existingComments = document.getElementsByClassName('comment');
+            while (existingComments.length > 0) {
+                existingComments[0].parentNode.removeChild(existingComments[0]);
+            }
+
+            // Ajouter les commentaires à la div
+            for (let i = 0; i < filteredComments.length; i++) {
+                let commentaire = filteredComments[i].comment;
+                let score = filteredComments[i].score;
+                
+                let commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+
+                let commentText = document.createElement('p');
+                commentText.innerHTML = commentaire;
+
+                let scoreText = document.createElement('p');
+                scoreText.innerHTML = "Score: " + score;
+
+                commentDiv.appendChild(commentText);
+                commentDiv.appendChild(scoreText);
+
+                newDiv.appendChild(commentDiv);
+            }
+        });
         var child = document.getElementsByTagName("div")[0].children[1];
         document.getElementsByTagName("div")[0].removeChild(child);
         document.getElementsByTagName("div")[0].appendChild(newDiv);

@@ -64,11 +64,17 @@
         $stmtCommentaires->execute();
 
         // Récupération des résultats des commentaires
-        $resComment = $stmtCommentaires->get_result();
+        $resCommentaires = $stmtCommentaires->get_result();
 
         // Vérification des résultats
-        if ($resComment === false) {
+        if ($resCommentaires === false) {
             die("Error in getting result: " . $connexion->error);
+        }
+
+        // Récupération de tous les commentaires dans un tableau
+        $commentaires = array();
+        while ($rowCommentaire = $resCommentaires->fetch_assoc()) {
+            $commentaires[] = $rowCommentaire;
         }
 
         // Fermeture de la requête (le résultat sera utilisé plus tard)
@@ -88,7 +94,8 @@
         </div>
         <div tabindex="-1" role="button">Paramètres utilisateur</div>
         <div>
-            <script> var resUser = <?php echo json_encode($resUser); ?>; </script>
+            <script>  var resUser = <?php echo json_encode($resUser); 
+            $resUser['profilePictures'] = base64_encode($resUser['profilePictures']);?>; </script>
             <input tabindex="0" type="button" name="button_settings" value="profil" class="input" 
             onclick="click1(resUser)" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">
         </div>
@@ -97,7 +104,7 @@
             onclick="click2()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
         </div>
         <div>
-            <script> var resComment = <?php echo json_encode($resComment); ?>; </script>
+            <script> var resComment = <?php echo json_encode($commentaires); ?>; </script>
             <input tabindex="-1" type="button" name="button_settings" value="commentaires" class="input" 
             onclick="click3(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
         </div>
@@ -108,10 +115,9 @@
     </div>
 
     <script>
-        window.onload = function() {
-            var resUser = <?php echo json_encode($resUser); ?>;
-            click1(resUser);
-        };
+        var resUser = <?php echo json_encode($resUser); 
+        $resUser['profilePictures'] = base64_encode($resUser['profilePictures']);?>;
+        click1(resUser);
     </script>
 </body>
 </html>
