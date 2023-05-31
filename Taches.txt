@@ -3,7 +3,7 @@ Utilisateur :
 Mon profil :
 - Bouton pour modifier ses informations personnelles (alter BDD) : En Cours - Christophe
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
-- Forget Password : Terminé
+- Forget Password : Terminé - Jeremy
 - Bouton pour supprimer son compte (de la BDD) : A Faire
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
 - Supprimer ses commentaires (de la BDD) : A Faire

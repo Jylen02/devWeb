@@ -40,8 +40,10 @@ function modify(i) {
         // Récupérer l'utilisateur correspondant à l'identifiant ou à d'autres critères
         var user = getUserFromDatabase(); // Appeler une fonction pour récupérer les informations de l'utilisateur
 
+        console.log(password);
+        console.log(user.password);
         // Vérifier si le mot de passe saisi correspond au mot de passe stocké dans la base de données
-        if (password === user.motDePasse) {
+        if (password === user.password) {
             // Le mot de passe est correct, procéder à la modification dans la base de données
             updateUserInDatabase(profil[i], newValue);
             
@@ -69,12 +71,12 @@ function modify(i) {
     document.body.appendChild(popupContainer);
 }
 
-function getUserFromDatabase(userName) {
+function getUserFromDatabase(idUser) {
     // Connexion à la base de données
-    $connexion = mysqli_connect('localhost', 'nom_utilisateur', 'mot_de_passe', 'nom_base_de_donnees');
+    $connexion = mysqli_connect('localhost', 'projetRecdevweb', 'projetRecdevweb2023', 'website_database');
 
     // Exécution de la requête SELECT pour récupérer les informations de l'utilisateur
-    $command = "SELECT * FROM utilisateur WHERE nom_utilisateur = userName";
+    $command = "SELECT * FROM user WHERE username = idUser";
     $resultat = mysqli_query($connexion, $command);
 
     // Récupérer le résultat de la requête
@@ -97,8 +99,15 @@ function updateUserInDatabase(field, newValue) {
     var command = "";
 
     switch (field) {
-    case "pseudonyme":
-        command = "UPDATE utilisateur SET " + field + " = '" + newValue + "' WHERE identifiant = " + userId;
+    case "nom d\'utilisateur":
+        command = "UPDATE user SET username = '" + newValue + "' WHERE identifiant = " + userId;
+        break;
+    case "adresse e-mail":
+        command = "UPDATE user SET mail = '" + newValue + "' WHERE identifiant = " + userId;
+        break;
+    case "mot de passe":
+        command = "UPDATE user SET password = '" + newValue + "' WHERE identifiant = " + userId;
+        break;
     }
 
     // Exécuter la requête SQL
@@ -111,7 +120,6 @@ function updateUserInDatabase(field, newValue) {
     console.error("Erreur lors de la mise à jour du champ '" + field + "'.");
     }
 }
-    
 
 function click1(resultat) {
     if (!document.getElementsByTagName("input")[0].classList.contains('selected')) {
