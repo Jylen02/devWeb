@@ -1,0 +1,11 @@
+.commentaire {
+    display: flex;
+    align-items: center;
+  }
+  
+  .commentaire .user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* Ajoutez une marge à droite pour espacer l'image et le nom d'utilisateur */
+  }
+  
