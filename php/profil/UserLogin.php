@@ -6,27 +6,21 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Connexion à la base de données
-$servername = "localhost";
-$username1 = "projetRecdevweb";
-$password1 = "projetRecdevweb2023";
-$dbname = "website_database";
-
-$conn = new mysqli($servername, $username1, $password1, $dbname);
-// Vérification de la connexion
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once("../database.php");
 
 // vérifie si les données sont dans la base de donnée
-$sql1 = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
-$result1 = $conn->query($sql1);
-if ($result1->num_rows > 0) {
+$queryUser = "SELECT * FROM user WHERE username = ? AND password = ?";
+$stmt = $connexion->prepare($queryUser);
+$stmt->bind_param("ss", $username, $hashed_password);
+$stmt->execute();
+$resultUser = $stmt->get_result();
+if ($resultUser->num_rows > 0) {
     // Authentification réussie, initialisation de la session
     session_start();
-    
+
     // Stockage de l'identifiant de l'utilisateur dans la session
     $_SESSION['idUser'] = $username;
-    
+
     header('Location: ../accueil/home.php');
     exit();
 } else {

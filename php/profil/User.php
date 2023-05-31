@@ -1,60 +1,49 @@
 <?php
 
+// Connexion à la base de données
+include_once("../database.php");
 
 // Récupération des données du formulaire
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-// Connexion à la base de données
-$servername = "localhost";
-$username1 = "projetRecdevweb";
-$password1 = "projetRecdevweb2023";
-$dbname = "website_database";
-try {
-  $conn = new mysqli($servername, $username1, $password1, $dbname);
-} catch (Exception $e) {
-  die("Connection failed: " . $e->getMessage());
-}
-
-
-// Vérification de la connexion
-/*if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}*/
-
-
-
 // Vérification si l'email est déjà présent dans la base de données
-$sql = "SELECT * FROM user WHERE mail = '$email'";
-$result = $conn->query($sql);
+$queryEmail = "SELECT * FROM user WHERE mail = ?";
+$stmt = $connexion->prepare($queryEmail);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$resultEmail = $stmt->get_result();
 
 // Vérification si le nom d'utilisateur est déjà présent dans la base de données
 
-$sql1 = "SELECT * FROM user WHERE username = '$username'";
-$result1 = $conn->query($sql1);
+$queryUser = "SELECT * FROM user WHERE username = ?";
+$stmt = $connexion->prepare($queryUser);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$resultUsername = $stmt->get_result();
 
 // Si l'email est déjà présent dans la base de données, afficher un message d'erreur
-if ($result->num_rows > 0) {
+if ($resultEmail->num_rows > 0) {
     header('Location: createAccount.php?success=1');
     exit();
-} 
+}
 // Si le nom d'utilisateur est déjà présent dans la base de données, afficher un message d'erreur
-else if ($result1->num_rows >0){
+else if ($resultUsername->num_rows > 0) {
     header('Location: createAccount.php?success=2');
     exit();
-}
-
-else {
+} else {
     // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
-    $sql2 = "INSERT INTO user (username, password, mail, enableComment) VALUES ('$username', '$password', '$email', '1')";
-    $result2 = $conn->query($sql2);
-    if ($result2){
+    $insertUser = "INSERT INTO user (username, mail, password, enableComment) VALUES ( ?, ?, ?, '1')";
+    $stmt = $connexion->prepare($insertUser);
+    $stmt->bind_param("sss", $username, $email, $hashed_password);
+    $stmt->execute();
+    $resultUser = $stmt;
+    if ($resultUser) {
         header('Location: login.php?success=1');
         exit();
-    }
-    else {
-        header('Location: createAccount.php?success=0&error =' . mysqli_error($conn));
+    } else {
+        header('Location: createAccount.php?success=0&error =' . mysqli_error($connexion));
         exit();
     }
 }
