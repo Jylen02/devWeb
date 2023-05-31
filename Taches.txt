@@ -1,12 +1,12 @@
 Utilisateur :
 
 Mon profil :
-- Bouton pour modifier ses informations personnelles
+- Bouton pour modifier ses informations personnelles (alter BDD)
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
 - Forget Password non fonctionnel.
 - Bouton pour supprimer son compte (de la BDD)
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc...
-- Supprimer ses commentaires
+- Supprimer ses commentaires (de la BDD)
 
 Menu :
     Barre de recherche :
@@ -19,7 +19,7 @@ Recette :
 - Consulter les commentaires de la recette + filtre date/note etc...
 - Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin)
 - Voir le coût d'une recette
-- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées
+- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3)
 - Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?)
 
 --------------------------------------------------------------------------------------------
@@ -38,4 +38,4 @@ Produits (ingrédients):
 Menu :
 - Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté
 - Les notes des recettes permettent un classement des utilisateurs
-- Désactiver l'option commentaire pour un utilisateur / une recette
+- Désactiver l'option commentaire pour un utilisateur / une recette (page recette : désactiver bouton commentaire + message)
