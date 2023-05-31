@@ -11,7 +11,7 @@ include_once("../database.php");
 // vérifie si les données sont dans la base de donnée
 $queryUser = "SELECT * FROM user WHERE username = ? AND password = ?";
 $stmt = $connexion->prepare($queryUser);
-$stmt->bind_param("ss", $username, $hashed_password);
+$stmt->bind_param("ss", $username, $password);
 $stmt->execute();
 $resultUser = $stmt->get_result();
 if ($resultUser->num_rows > 0) {
