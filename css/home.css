@@ -30,10 +30,13 @@ header {
 }
 
 #divlogin{
-    width : 600px;
+    width: 600px;
     text-align: right;
     padding-top: 6px;
-    padding-right: 20px
+    padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .Connexion{
@@ -49,6 +52,7 @@ header {
 .Connexion:hover {
     background-color: #3e8e41;
 }
+
 
 body {
     background-color: rgb(245,245, 220);
