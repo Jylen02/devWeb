@@ -1,6 +1,5 @@
 <?php
 
-
 // Récupération des données du formulaire
 $barreRecherche= $_POST['barreRecherche'];
 
@@ -8,7 +7,7 @@ $barreRecherche= $_POST['barreRecherche'];
 $servername = "localhost";
 $username1 = "projetRecdevweb";
 $password1 = "projetRecdevweb2023";
-$dbname = "information_utilisateur";
+$dbname = "website_database";
 try {
   $conn = new mysqli($servername, $username1, $password1, $dbname);
 } catch (Exception $e) {

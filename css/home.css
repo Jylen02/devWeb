@@ -49,3 +49,7 @@ header {
 .Connexion:hover {
     background-color: #3e8e41;
 }
+
+body {
+    background-color: rgb(245,245, 220);
+}
