@@ -4,82 +4,114 @@
     <?php
         include_once("../Head.php");
         session_start();
-        $idUser = $_SESSION('idUser');
+        $idUser = $_SESSION['idUser'];
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/settings.css">
     <script type="text/javascript" src="../../js/settings.js"> </script>
 </head>
-<body class=" bgcolorWhite" onload="click1(['lucas','Guillot','test1','e-mail','test1.com'])">
+<body class="bgcolorWhite">
+    <?php
 
+        // Connexion à la base de données
+        $servername = "localhost";
+        $username1 = "projetRecdevweb";
+        $password1 = "projetRecdevweb2023";
+        $dbname = "website_database";
+
+        // Création de la connexion
+        $connexion = new mysqli($servername, $username1, $password1, $dbname);
+
+        // Vérification de la connexion
+        if ($connexion->connect_error) {
+            die("Connection failed: " . $connexion->connect_error);
+        }
+
+        // Préparation de la requête avec un paramètre lié
+        $requeteUser = "SELECT * FROM user WHERE username = ?";
+        $stmt = $connexion->prepare($requeteUser);
+
+        // Vérification de la préparation de la requête
+        if ($stmt === false) {
+            die("Error in prepared statement: " . $connexion->error);
+        }
+
+        // Liaison du paramètre et exécution de la requête
+        $stmt->bind_param("s", $idUser);
+        $stmt->execute();
+
+        // Récupération des résultats
+        $resultat = $stmt->get_result();
+
+        // Vérification des résultats
+        if ($resultat === false) {
+            die("Error in getting result: " . $connexion->error);
+        }
+
+        // Récupération de la première ligne de résultats
+        $resUser = $resultat->fetch_assoc();
+
+        // Préparation de la requête pour récupérer les commentaires de l'utilisateur
+        $requeteCommentaires = "SELECT * FROM evaluation WHERE idUser = ?";
+        $stmtCommentaires = $connexion->prepare($requeteCommentaires);
+
+        // Vérification de la préparation de la requête
+        if ($stmtCommentaires === false) {
+            die("Error in prepared statement: " . $connexion->error);
+        }
+
+        // Liaison du paramètre et exécution de la requête
+        $stmtCommentaires->bind_param("s", $idUser);
+        $stmtCommentaires->execute();
+
+        // Récupération des résultats des commentaires
+        $resComment = $stmtCommentaires->get_result();
+
+        // Vérification des résultats
+        if ($resComment === false) {
+            die("Error in getting result: " . $connexion->error);
+        }
+
+        // Fermeture de la requête (le résultat sera utilisé plus tard)
+        $stmtCommentaires->close();
+
+        // Fermeture de la requête et de la connexion
+        $stmt->close();
+        $connexion->close();
+
+    ?>
     <div class="bar" id="main">
-        
-        <div role="tablist" class="leftBar" align="right">
-            <div tabindex="-2" class="retourAccueil">
-                <a href="../accueil/home.php" id="retourAccueil">
-                ← Accueil
-                </a>
-            </div>
-            <div tabindex="-1" role="button">Paramètres utilisateur</div>
-            <div>
-                <input tabindex="0"  type="button" name="button_settings" value="profil"        class="input" 
-                onclick="click1(['lucas','guillot','test1','e-mail','test1.com'])"  onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">
-            </div>
-            <div>
-                <input tabindex="-1" type="button" name="button_settings" value="accessibilité" class="input" 
-                onclick="click2()"  onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
-            </div>
-            <div>
-                <input tabindex="-1" type="button" name="button_settings" value="commentaires"  class="input" 
-                onclick="click3()" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
-            </div>
-            <div>
-                <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input" 
-                onclick="click4()" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
-            </div>
+    <div role="tablist" class="leftBar" align="right">
+        <div tabindex="-2" class="retourAccueil">
+            <a href="../accueil/home.php" id="retourAccueil">
+            ← Accueil
+            </a>
+        </div>
+        <div tabindex="-1" role="button">Paramètres utilisateur</div>
+        <div>
+            <script> var resUser = <?php echo json_encode($resUser); ?>; </script>
+            <input tabindex="0" type="button" name="button_settings" value="profil" class="input" 
+            onclick="click1(resUser)" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">
         </div>
         <div>
-            
+            <input tabindex="-1" type="button" name="button_settings" value="accessibilité" class="input" 
+            onclick="click2()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
+        </div>
+        <div>
+            <script> var resComment = <?php echo json_encode($resComment); ?>; </script>
+            <input tabindex="-1" type="button" name="button_settings" value="commentaires" class="input" 
+            onclick="click3(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
+        </div>
+        <div>
+            <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input" 
+            onclick="click4()" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            var resUser = <?php echo json_encode($resUser); ?>;
+            click1(resUser);
+        };
+    </script>
 </body>
 </html>
-<?php
-    // $hash = password_hash("rasmuslerdorf", PASSWORD_DEFAULT); pour les mot de passe
-
-    $db = 'projet';
-    $connexion = mysqli_connect('localhost','root');
-    
-    function create($db,$connexion) {
-        $command='CREATE DATABASE '.$db;
-        mysqli_select_db($connexion,$db);
-    
-        $resultat = mysqli_query($connexion,$command);
-    
-        $command = "CREATE TABLE IF NOT EXISTS utilisateur (identifiant INTEGER(16), prenom CHAR(30), nom CHAR(30), 
-        pseudonyme CHAR(20), email CHAR(50), motDePasse CHAR(60), PRIMARY KEY(identifiant)) DEFAULT CHARSET=utf8";
-        $resultat = mysqli_query($connexion,$command);
-        $command = "INSERT INTO utilisateur (identifiant, prenom, nom, pseudonyme, email, motDePasse) VALUES (0,'lucas','guillot','test1','lucas.guillot@gmail.com','test1.com')";
-        $resultat = mysqli_query($connexion,$command);
-    }
-    
-    create($db,$connexion);
-
-    function recupProfil($userName,$password,$connexion) {
-        $command="SELECT * FROM utilisateur WHERE $userName=pseudonyme AND $password=motDePasse";
-        $resultat=mysqli_query($connexion,$command);
-        $res=mysqli_fetch_row($resultat);
-        return $res;
-    }
-    function listerElem($str,$connexion) {
-        $command="SELECT * FROM $str";
-        $resultat=mysqli_query($connexion,$command);
-        $res=[mysqli_fetch_row($resultat)];
-        $i=0;
-        while ($res[$i]!=null) {
-            $i++;
-            array_push($res,mysqli_fetch_row($resultat));
-        }
-        print_r($res);
-    }
-?>
-<?php //echo json_encode(recupProfil('test1','test1.com','projet')) ?>
