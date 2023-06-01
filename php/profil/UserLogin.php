@@ -24,7 +24,7 @@ if ($resultUser->num_rows > 0) {
     header('Location: ../accueil/home.php');
     exit();
 } else {
-    header('Location: login.php?success=0');
+    header('Location: login.php?success=2');
     exit();
 }
 ?>

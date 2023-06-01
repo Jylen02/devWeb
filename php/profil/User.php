@@ -34,7 +34,7 @@ else if ($resultUsername->num_rows > 0) {
     exit();
 } else {
     // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
-    $insertUser = "INSERT INTO user (username, mail, password, enableComment) VALUES ( ?, ?, ?, '1')";
+    $insertUser = "INSERT INTO user (username, mail, password) VALUES ( ?, ?, ?)";
     $stmt = $connexion->prepare($insertUser);
     $stmt->bind_param("sss", $username, $email, $password);
     $stmt->execute();

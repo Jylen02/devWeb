@@ -1,41 +1,42 @@
 Utilisateur :
 
 Mon profil :
-- Bouton pour modifier ses informations personnelles (alter BDD) : En Cours - Christophe
+- Bouton pour modifier ses informations personnelles (alter BDD) : Terminé - Christophe
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
 - Forget Password : Terminé - Jérémy
-- Bouton pour supprimer son compte (de la BDD) : A Faire
+- Bouton pour supprimer son compte (de la BDD) : Terminé
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
-- Supprimer ses commentaires (de la BDD) : A Faire
+/ Supprimer ses commentaires (de la BDD) : A Faire
 
 Menu :
     Barre de recherche :
 	- Sélectionner recette par mots clés -> ensemble de lien affiché + note : Terminé - Abd-Ennour
-- Voir la photo de l'utilisateur le mieux noté
-- Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4)
+/ CSS : Affichage
+/ Voir la photo de l'utilisateur le mieux noté
+/ Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4)
 
 Recette :
 - Poster un commentaire + noter la recette : Terminé
 - Consulter les commentaires de la recette + filtre date/note etc... : Terminé
-- Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : En cours : Abd-Ennour
-- Voir le coût d'une recette : En cours : Abd-Ennour
-- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3)
-- Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?)
++ Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : En cours : Abd-Ennour
++ Voir le coût d'une recette : En cours : Abd-Ennour
+/ Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3)
+/ Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?)
 
 --------------------------------------------------------------------------------------------
 Administrateur :
 
 Recette :
-- Ajouter une recette (liste de demande pour poster une recette) : accepter/refuser : En cours : Abd-Ennour
-- Supprimer une recette (de la BDD)
-- Modifier une recette (alter BDD)
++ Ajouter une recette (liste de demande pour poster une recette) : accepter/refuser : En cours : Abd-Ennour
+/ Supprimer une recette (de la BDD)
+/ Modifier une recette (alter BDD)
 
 Produits (ingrédients):
-- Ajout ingrédient 
-- Supprimer un ingrédient
-- Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale)
++ Ajout ingrédient : En cours : Jeremy
++ Supprimer un ingrédient : En cours : Jeremy
++ Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale) : En cours : Jeremy
 
 Menu :
-- Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté
-- Les notes des recettes permettent un classement des utilisateurs
-- Désactiver l'option commentaire pour un utilisateur / une recette (page recette : désactiver bouton commentaire + message)
+/ Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté
+/ Les notes des recettes permettent un classement des utilisateurs
+/ Désactiver l'option commentaire pour un utilisateur / une recette (page recette : désactiver bouton commentaire + message)
