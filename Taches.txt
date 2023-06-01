@@ -13,15 +13,15 @@ Menu :
 	- Sélectionner recette par mots clés -> ensemble de lien affiché + note : Terminé - Abd-Ennour
 - CSS : Affichage : Terminé
 - Voir la photo de l'utilisateur le mieux noté : Terminé - Christophe
-+ Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4) : En Cours : Christophe
+- Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4) : Terminé : Christophe
 
 Recette :
 - Poster un commentaire + noter la recette : Terminé
 - Consulter les commentaires de la recette + filtre date/note etc... : Terminé
 + Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : Terminé sauf l'image
 - Voir le coût d'une recette : Terminé : Abd-Ennour
-+ Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3) : En Cours : Christophe
-+ Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?) : En Cours : Christophe
+- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3) : Terminé : Christophe
++ Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?) : En cours : Christophe
 
 --------------------------------------------------------------------------------------------
 Administrateur :

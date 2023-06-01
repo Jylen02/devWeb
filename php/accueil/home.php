@@ -29,23 +29,90 @@
 
     <div id="container">
         <div id="resultats">
-            Recettes recommandés :
+            Recettes favories :
+            <?php
+            $idUser = $_SESSION['idUser'];
+            // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recipe"
+            $recetteFavori = "SELECT recipe.name, recipe.id, recipe.description, recipe.image, recipe.score FROM recipe 
+                        JOIN evaluation ON evaluation.idRecipe = recipe.id
+                        JOIN user ON user.username = evaluation.idUser
+                        WHERE evaluation.score > 3 AND user.username = ?";
+            //$queryRecipe = "SELECT name, id, description, image, score FROM recipe WHERE idUser = ?";
+            $stmt = $connexion->prepare($recetteFavori);
+            $stmt->bind_param("s", $idUser);
+            $stmt->execute();
+            $resultRecipe = $stmt->get_result();
+
+            if ($resultRecipe && $resultRecipe->num_rows > 0) {
+                while ($rowRecette = mysqli_fetch_assoc($resultRecipe)) {
+                    // Affichage des résultats de la recette
+                    $title = $rowRecette['name'];
+                    $description = $rowRecette['description'];
+                    $image = $rowRecette['image'];
+                    $id = $rowRecette['id'];
+                    $averageScore = round($rowRecette['score']);
+                    $stars = str_repeat("*", $averageScore);
+
+                    // Affichage des résultats avec l'image
+                    echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
+                    <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+
+                    echo "<hr>";
+
+
+                }
+            } else {
+                echo "Aucune recette favories.";
+            }
+            echo "Recettes recommandées :";
+            $recetteRecommande = "SELECT DISTINCT name, id, description, image, score FROM recipe 
+                        WHERE recipe.score >= 3.5 AND id NOT IN (SELECT recipe.id FROM recipe 
+                        JOIN evaluation ON evaluation.idRecipe = recipe.id
+                        JOIN user ON user.username = evaluation.idUser
+                        WHERE evaluation.score > 3 AND user.username = ?)";
+            $stmt1 = $connexion->prepare($recetteRecommande);
+            $stmt1->bind_param("s", $idUser);
+            $stmt1->execute();
+            $resultRecommande = $stmt1->get_result();
+            if ($resultRecommande && $resultRecommande->num_rows > 0) {
+                while ($rowRecette = mysqli_fetch_assoc($resultRecommande)) {
+                    // Affichage des résultats de la recette
+                    $title = $rowRecette['name'];
+                    $description = $rowRecette['description'];
+                    $image = $rowRecette['image'];
+                    $id = $rowRecette['id'];
+                    $averageScore = round($rowRecette['score']);
+                    $stars = str_repeat("*", $averageScore);
+
+                    // Affichage des résultats avec l'image
+                    echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
+                            <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+
+                    echo "<hr>";
+                }
+            } else {
+                echo "Aucune recette recommandées.";
+            }
+            ?>
         </div>
         <div id="bestUser">
             Utilisateur le mieux noté de la semaine :
             <?php
-                $command = "SELECT username FROM user ORDER BY score DESC LIMIT 1";
+            $command = "SELECT username FROM user ORDER BY score DESC LIMIT 1";
 
-                // Exécuter la requête SQL
-                $resultat = mysqli_query($connexion, $command);
-        
-                if (mysqli_num_rows($resultat) > 0) {
-                    while ($rowCommentaire = mysqli_fetch_assoc($resultat)) {
-                        $username = $rowCommentaire['username'];
-                        echo "$username";
-                        echo "<img src='../recette/affichageAvatar.php?id=$username' width='200'>";
-                    }
+            // Exécuter la requête SQL
+            $resultat = mysqli_query($connexion, $command);
+
+            if (mysqli_num_rows($resultat) > 0) {
+                while ($rowCommentaire = mysqli_fetch_assoc($resultat)) {
+                    $username = $rowCommentaire['username'];
+                    echo "$username";
+                    echo "<img src='../recette/affichageAvatar.php?id=$username' width='200'>";
                 }
+            }
+
+            // Fermeture de la connexion à la base de données
+            mysqli_close($connexion);
             ?>
         </div>
     </div>
