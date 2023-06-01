@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">  
 <head>
@@ -12,87 +13,67 @@
     <title>Publier une recette</title>
 </head>
 <body>
-    <?php
-    session_start();
+<?php
+session_start();
 
-    // Vérification si l'utilisateur est connecté
-    if (!isset($_SESSION['idUser'])) {
-        // Rediriger l'utilisateur vers la page de connexion
-        header("Location: ../profil/login.php");
-        exit();
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['idUser'])) {
+    header("Location: ../profil/login.php");
+    exit;
+}
+// Vérification si l'utilisateur est l'administrateur
+if ($_SESSION['idUser'] === 'admin') {
+    // Rediriger l'administrateur vers la page de consultation des recettes
+    header("Location: consulteRecipe.php");
+    exit();
+}
+// Vérifier si le formulaire a été soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les données du formulaire
+    $idUser = $_SESSION['idUser'];
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $fornumber = $_POST['fornumber'];
+    $time = $_POST['time'];
+    $difficulty = $_POST['difficulty'];
+
+    // Vérifier si un fichier a été téléchargé
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = $_FILES['image']['tmp_name'];
+
+        // Copier l'image dans un répertoire de destination
+        $destination = "chemin/vers/le/repertoire/de/destination/" . $_FILES['image']['name'];
+        move_uploaded_file($image, $destination);
+    } else {
+        $image = null;
     }
 
-    // Vérification si l'utilisateur est l'administrateur
-    if ($_SESSION['idUser'] === 'admin') {
-        // Rediriger l'administrateur vers la page de consultation des recettes
-        header("Location: consulteRecipe.php");
-        exit();
-    }
+    // Connexion à la base de données et insertion des données dans la table "recipeinprocess"
+    $pdo = new PDO("mysql:host=localhost;dbname=website_database", "projetRecdevweb", "projetRecdevweb2023");
+    $sql = "INSERT INTO recipeinprocess (idUser, name, description, image, fornumber, time, difficulty) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $result = $stmt->execute([$idUser, $name, $description, $image, $fornumber, $time, $difficulty]);
 
-    // Traitement du formulaire de création de recette
-    if (isset($_POST['submit'])) {
-        // Récupération des données du formulaire
-        $titre = $_POST['titre'];
-        $description = $_POST['description'];
-        $prix = $_POST['prix'];
-        $personnes = $_POST['personnes'];
-        $temps = $_POST['temps'];
-        $difficulte = $_POST['difficulte'];
-
-        // Traitement de l'image
-        $image = $_FILES['image'];
-        $imagePath = uploadImage($image);
-
-        // Connexion à la base de données
-        $serveur = "localhost";
-        $utilisateur = "projetRecdevweb";
-        $motDePasse = "projetRecdevweb2023";
-        $baseDeDonnees = "website_database";
-
-        $connexion = mysqli_connect($serveur, $utilisateur, $motDePasse, $baseDeDonnees);
-
-        // Vérification de la connexion à la base de données
-        if (!$connexion) {
-            die("Connexion à la base de données échouée : " . mysqli_connect_error());
-        }
-
-        // Requête SQL pour insérer la recette dans la table "recipe"
-        $requeteInsertion = "INSERT INTO recipe (title, description, image, price, servings, time, difficulty, idUser, status)
-                             VALUES ('$titre', '$description', '$imagePath', $prix, $personnes, '$temps', '$difficulte', '".$_SESSION['idUser']."', 'pending')";
-
-        // Exécution de la requête d'insertion
-        if (mysqli_query($connexion, $requeteInsertion)) {
-            // Rediriger l'utilisateur vers la page d'accueil avec un message de succès
-            header("Location: home.php?success=1");
-            exit();
+    if ($stmt->rowCount() > 0) {
+        // Succès de l'enregistrement
+        echo "<script>alert('La publication s'est faite avec succès!');</script>";
+        // Redirection vers une page de confirmation ou une autre action souhaitée
+        if (isset($_SESSION['idUser'])) {
+            echo "<script>window.location.href = '../accueil/home.php?success=1';</script>";
         } else {
-            echo "Erreur lors de l'insertion de la recette : " . mysqli_error($connexion);
+            echo "<script>window.location.href = '../accueil/home.php?success=0';</script>";
         }
-
-        // Fermeture de la connexion à la base de données
-        mysqli_close($connexion);
+    } else {
+        // Erreur lors de l'enregistrement
+        echo "<script>alert('Une erreur est survenue lors de l'enregistrement de la publication. Veuillez réessayer.');</script>";
     }
 
-    // Fonction pour gérer le téléchargement et l'enregistrement de l'image
-    function uploadImage($image) {
-        // Vérifier si le téléchargement de l'image a réussi
-        if ($image['error'] === 0) {
-            // Chemin de destination de l'image (dossier "uploads" avec un nom de fichier unique)
-            $destination = "../../uploads/" . uniqid() . "_" . $image['name'];
+    exit;
 
-            // Déplacer l'image téléchargée vers le dossier de destination
-            move_uploaded_file($image['tmp_name'], $destination);
+}
+?>
 
-            // Retourner le chemin de l'image
-            return $destination;
-        } else {
-            echo "Erreur lors du téléchargement de l'image.";
-            return "";
-        }
-    }
-    ?>
-
-    <header>
+<header>
         <div id="top">
             <?php
             // Vérification si l'utilisateur est connecté
@@ -108,38 +89,28 @@
             ?>
         </div>
     </header>
+    <h1>Publier une recette</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="name">Nom de la recette :</label>
+        <input type="text" name="name" required><br>
 
-    <div id="content">
-        <h1>Publier une recette</h1>
-        <form action="publishedRecipe.php" method="POST" enctype="multipart/form-data">
-            <label for="titre">Titre :</label>
-            <input type="text" id="titre" name="titre" required><br>
+        <label for="description">Description :</label>
+        <textarea name="description" required></textarea><br>
 
-            <label for="description">Description :</label>
-            <textarea id="description" name="description" required></textarea><br>
+        <label for="image">Image :</label>
+        <input type="file" name="image"><br>
 
-            <label for="image">Image :</label>
-            <input type="file" id="image" name="image" required><br>
+        <label for="fornumber">Pour combien de personnes :</label>
+        <input type="number" name="fornumber" required><br>
 
-            <label for="prix">Prix :</label>
-            <input type="number" id="prix" name="prix" required><br>
+        <label for="time">Temps de préparation :</label>
+        <input type="text" name="time" required><br>
 
-            <label for="personnes">Nombre de personnes :</label>
-            <input type="number" id="personnes" name="personnes" required><br>
+        <label for="difficulty">Difficulté :</label>
+        <input type="text" name="difficulty" required><br>
 
-            <label for="temps">Temps :</label>
-            <input type="text" id="temps" name="temps" required><br>
-
-            <label for="difficulte">Difficulté :</label>
-            <select id="difficulte" name="difficulte" required>
-                <option value="Facile">Facile</option>
-                <option value="Moyenne">Moyenne</option>
-                <option value="Difficile">Difficile</option>
-            </select><br>
-
-            <input type="submit" name="submit" value="Envoyer à un administrateur">
-        </form>
-    </div>
+        <input type="submit" value="Envoyer à un administrateur">
+    </form>
     <footer>
         <div>
             <?php
@@ -155,4 +126,5 @@
             </div>
     </footer>
 </body>
+
 </html>
