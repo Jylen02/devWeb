@@ -17,8 +17,8 @@ $resultEmail = $stmt->get_result();
 
 // Vérification si le nom d'utilisateur est déjà présent dans la base de données
 
-$queryUser = "SELECT * FROM user WHERE username = ?";
-$stmt = $connexion->prepare($queryUser);
+$queryUsername = "SELECT * FROM user WHERE username = ?";
+$stmt = $connexion->prepare($queryUsername);
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $resultUsername = $stmt->get_result();
@@ -36,7 +36,7 @@ else if ($resultUsername->num_rows > 0) {
     // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
     $insertUser = "INSERT INTO user (username, mail, password, enableComment) VALUES ( ?, ?, ?, '1')";
     $stmt = $connexion->prepare($insertUser);
-    $stmt->bind_param("sss", $username, $email, $hashed_password);
+    $stmt->bind_param("sss", $username, $email, $password);
     $stmt->execute();
     $resultUser = $stmt;
     if ($resultUser) {
