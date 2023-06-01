@@ -16,40 +16,75 @@
            // Rediriger l'utilisateur vers la page "settings"
             header("Location: settings.php");
             exit;
+        } else if (isset($_GET['deleteProfil']) && $_GET['deleteProfil']==1){
+            deleteUser();
+            header("Location: ../accueil/home.php");
+            exit;
         }
         function updateUserInDatabase($field, $newValue) {
-        global $idUser, $connexion;
-        // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
-    
-        // Supposons que vous avez une variable "userId" qui représente l'identifiant de l'utilisateur
-        // et une connexion à votre base de données "connexion"
-    
-        // Construire la requête SQL pour mettre à jour le champ spécifié
-        $command = "";
-    
-        switch ($field) {
-        case "nom d'utilisateur":
-            $command = "UPDATE user SET username = '$newValue' WHERE username = '$idUser'";
-            $_SESSION['idUser'] = $newValue;
-            break;
-        case "adresse e-mail":
-            $command = "UPDATE user SET mail = '$newValue' WHERE username = '$idUser'";
-            break;
-        case "mot de passe":
-            $command = "UPDATE user SET password = '$newValue' WHERE username = '$idUser'";
-            break;
-        }
-    
-        // Exécuter la requête SQL
-        $resultat = mysqli_query($connexion, $command);
+            global $idUser, $connexion;
+            // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
         
-        // Vérifier si la mise à jour s'est effectuée avec succès
-        if ($resultat) {
-            echo "<script>alert('Le champ \"$field\" a été mis à jour avec succès !');</script>";
-        } else {
-            echo "<script>alert('Erreur lors de la mise à jour du champ \"$field\".');</script>";
+            // Supposons que vous avez une variable "userId" qui représente l'identifiant de l'utilisateur
+            // et une connexion à votre base de données "connexion"
+        
+            // Construire la requête SQL pour mettre à jour le champ spécifié
+            $command = "";
+        
+            switch ($field) {
+            case "nom d'utilisateur":
+                $command = "UPDATE user SET username = '$newValue' WHERE username = '$idUser'";
+                $_SESSION['idUser'] = $newValue;
+                break;
+            case "adresse e-mail":
+                $command = "UPDATE user SET mail = '$newValue' WHERE username = '$idUser'";
+                break;
+            case "mot de passe":
+                $command = "UPDATE user SET password = '$newValue' WHERE username = '$idUser'";
+                break;
+            }
+        
+            // Exécuter la requête SQL
+            $resultat = mysqli_query($connexion, $command);
+            
+            // Vérifier si la mise à jour s'est effectuée avec succès
+            if ($resultat) {
+                echo "<script>alert('Le champ \"$field\" a été mis à jour avec succès !');</script>";
+            } else {
+                echo "<script>alert('Erreur lors de la mise à jour du champ \"$field\".');</script>";
+            }
         }
-    }
+
+        function deleteUser() {
+            global $idUser, $connexion;
+            $command1 = "DELETE FROM recipe WHERE username = '$idUser' ";
+
+            // Exécuter la requête SQL
+            $resultat1 = mysqli_query($connexion, $command1);
+
+            $command2 = "DELETE FROM evaluation WHERE username = '$idUser' ";
+
+            // Exécuter la requête SQL
+            $resultat2 = mysqli_query($connexion, $command2);
+
+            $command3 = "DELETE FROM recipe WHERE username = '$idUser' ";
+
+            // Exécuter la requête SQL
+            $resultat3 = mysqli_query($connexion, $command3);
+            
+            $command = "DELETE FROM user WHERE username = '$idUser' ";
+
+            // Exécuter la requête SQL
+            $resultat = mysqli_query($connexion, $command);
+            
+            // Vérifier si la mise à jour s'est effectuée avec succès
+            if ($resultat) {
+                echo "<script>alert('Le compte a été supprimé avec succès !');</script>";
+                unset($_SESSION['idUser']);
+            } else {
+                echo "<script>alert('Erreur lors de la suppression du compte.');</script>";
+            }
+        }
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/settings.css">
     <script>
@@ -218,6 +253,15 @@
                     }
         
                 }
+                // Bouton de suppression de compte
+                var deleteButton = document.createElement('input');
+                deleteButton.type = 'button';
+                deleteButton.value = 'Supprimer le compte';
+                deleteButton.classList.add('deleteButton');
+                deleteButton.addEventListener('click', function() {
+                    window.location.href = 'settings.php?deleteProfil=1';
+                });
+                newDiv.appendChild(deleteButton);
         
                 var child = document.getElementsByTagName("div")[0].children[1];
                 document.getElementsByTagName("div")[0].removeChild(child);
