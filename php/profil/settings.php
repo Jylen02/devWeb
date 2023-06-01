@@ -26,11 +26,6 @@
         deleteComment($i);
         header("Location: settings.php");
         exit;
-    } else if (isset($_GET['file'])) {
-        $file = $_GET['file'];
-        updateUserInDatabase("photo de profil", $file);
-        header("Location: settings.php");
-        exit;
     }
     function updateUserInDatabase($field, $newValue)
     {
@@ -55,6 +50,7 @@
                 $command = "UPDATE user SET password = '$newValue' WHERE username = '$idUser'";
                 break;
             case "photo de profil":
+                echo 1;
                 $command = "UPDATE user SET profilePicture = '$newValue' WHERE username = '$idUser'";
                 break;
         }
@@ -223,30 +219,6 @@
                 img.id = 'imageId';
                 newDiv.appendChild(img);
 
-                var fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.style.display = 'none';
-
-                image.addEventListener('click', function () {
-                    fileInput.click(); // Ouvrir la boîte de dialogue de sélection de fichiers
-                });
-
-                fileInput.addEventListener('change', function (event) {
-                    var selectedFile = event.target.files[0];
-                    console.log('File selected!'); // Vérifiez si ce message s'affiche dans la console du navigateur
-
-                    // Créer un objet FileReader
-                    var reader = new FileReader();
-
-                    // Lorsque la lecture du fichier est terminée
-                    reader.onload = function (e) {
-                        console.log(1);
-                        var fileData = e.target.result; // Contenu du fichier en tant que données
-                        var blob = new Blob([fileData], { type: selectedFile.type }); // Créer un objet Blob
-                        sendDataToSettings(blob);
-                    };
-                });
-
                 var divProfil = document.createElement('div');
 
                 var nomProfil = ['Nom d\'utilisateur', 'Email', 'Mot de passe', 'Score', 'Commentaires activés'];
@@ -323,19 +295,6 @@
                 document.getElementsByTagName("div")[0].removeChild(child);
                 document.getElementsByTagName("div")[0].appendChild(newDiv);
             }
-        }
-
-        function sendDataToSettings(blob) {
-            reader.onloadend = function () {
-                // Encodage du Blob en base64
-                var base64data = reader.result.split(',')[1];
-
-                // Construction de l'URL avec le paramètre base64
-                var url = 'settings.php?file=' + encodeURIComponent(base64data);
-
-                // Redirection vers l'URL
-                window.location.href = url;
-            };
         }
 
         function click2() {
