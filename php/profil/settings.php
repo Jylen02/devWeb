@@ -20,6 +20,11 @@
             deleteUser();
             header("Location: ../accueil/home.php");
             exit;
+        } else if (isset($_GET['deleteComment'])){
+            $i = $_GET['deleteComment'];
+            deleteComment($i);
+            header("Location: settings.php");
+            exit;
         }
         function updateUserInDatabase($field, $newValue) {
             global $idUser, $connexion;
@@ -83,6 +88,21 @@
                 unset($_SESSION['idUser']);
             } else {
                 echo "<script>alert('Erreur lors de la suppression du compte.');</script>";
+            }
+        }
+
+        function deleteComment($i) {
+            global $idUser, $connexion;
+            $command = "DELETE FROM evaluation WHERE idUser = '$idUser' AND id = '$i'";
+
+            // Exécuter la requête SQL
+            $resultat = mysqli_query($connexion, $command);
+
+             // Vérifier si la mise à jour s'est effectuée avec succès
+             if ($resultat) {
+                echo "<script>alert('Le commentaire a été supprimé avec succès !');</script>";
+            } else {
+                echo "<script>alert('Erreur lors de la suppression du commentaire.');</script>";
             }
         }
     ?>
@@ -363,7 +383,7 @@
                         existingComments[0].parentNode.removeChild(existingComments[0]);
                     }
                 
-                    // Ajouter les commentaires filtrés ou non filtrés à la div
+                    // Ajouter les commentaires à la div
                     for (let i = 0; i < resultatCommentaires.length; i++) {
                         let commentaire = resultatCommentaires[i].comment;
                         let score = resultatCommentaires[i].score;
@@ -377,8 +397,17 @@
                         let scoreText = document.createElement('p');
                         scoreText.innerHTML = "Score: " + score;
                 
+                        var deleteButton = document.createElement('input');
+                        deleteButton.type = 'button';
+                        deleteButton.value = 'Supprimer le commentiare';
+                        deleteButton.classList.add('deleteButton');
+                        deleteButton.addEventListener('click', function() {
+                            window.location.href = 'settings.php?deleteComment=' + resultatCommentaires[i].id;
+                        });
+
                         commentDiv.appendChild(commentText);
                         commentDiv.appendChild(scoreText);
+                        commentDiv.appendChild(deleteButton);
                 
                         newDiv.appendChild(commentDiv);
                     }
@@ -418,25 +447,6 @@
             
                 divSort.appendChild(form);
                 newDiv.appendChild(divSort);
-        
-                for (let i = 0; i < resultatCommentaires.length; i++) {
-                    let commentaire = resultatCommentaires[i].comment;
-                    let score = resultatCommentaires[i].score;
-                    
-                    let commentDiv = document.createElement('div');
-                    commentDiv.classList.add('comment');
-        
-                    let commentText = document.createElement('p');
-                    commentText.innerHTML = commentaire;
-        
-                    let scoreText = document.createElement('p');
-                    scoreText.innerHTML = "Score: " + score;
-        
-                    commentDiv.appendChild(commentText);
-                    commentDiv.appendChild(scoreText);
-        
-                    newDiv.appendChild(commentDiv);
-                }
         
                 select.addEventListener('change', function() {
                     var selectedOption = select.value;
@@ -500,13 +510,23 @@
         
                         let scoreText = document.createElement('p');
                         scoreText.innerHTML = "Score: " + score;
+
+                        var deleteButton = document.createElement('input');
+                        deleteButton.type = 'button';
+                        deleteButton.value = 'Supprimer le commentiare';
+                        deleteButton.classList.add('deleteButton');
+                        deleteButton.addEventListener('click', function() {
+                            window.location.href = 'settings.php?deleteComment=' + filteredComments[i].id;
+                        });
         
                         commentDiv.appendChild(commentText);
                         commentDiv.appendChild(scoreText);
-        
+                        commentDiv.appendChild(deleteButton);
+
                         newDiv.appendChild(commentDiv);
                     }
                 });
+                updateCommentDiv(resultatCommentaires);
                 var child = document.getElementsByTagName("div")[0].children[1];
                 document.getElementsByTagName("div")[0].removeChild(child);
                 document.getElementsByTagName("div")[0].appendChild(newDiv);

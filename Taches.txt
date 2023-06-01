@@ -6,7 +6,7 @@ Mon profil :
 - Forget Password : Terminé - Jérémy
 - Bouton pour supprimer son compte (de la BDD) : Terminé
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
-/ Supprimer ses commentaires (de la BDD) : A Faire
+- Supprimer ses commentaires (de la BDD) : Terminé
 
 Menu :
     Barre de recherche :
