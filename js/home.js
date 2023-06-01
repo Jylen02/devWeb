@@ -27,7 +27,7 @@ function load(bool) {
   
       if (username == "admin") {
         publishButton.href = "../recette/consulteRecipe.php";
-        publishButton.innerHTML = "Rrecette";
+        publishButton.innerHTML = "Recette";
         
       }
       else{
