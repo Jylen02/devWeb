@@ -10,7 +10,6 @@ try {
 } catch (Exception $e) {
   die("Connection failed: " . $e->getMessage());
 }
-
 ?>
     
     
