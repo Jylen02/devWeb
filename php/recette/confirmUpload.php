@@ -19,4 +19,6 @@ $sqlDelete = "DELETE FROM recipeinprocess WHERE id = :idRecette";
 $stmtDelete = $pdo->prepare($sqlDelete);
 $stmtDelete->bindParam(':idRecette', $idRecette);
 $stmtDelete->execute();
+
+echo "<script>alert('Upload confirmé avec succès');</script>";
 ?>

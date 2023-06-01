@@ -34,7 +34,7 @@
                 } 
                 else if ($key === 'id'){
                     
-                    echo "<li><strong>image:</strong> <span><img src='affichageImageAd.php?id=$value' alt='image' width='150'></span></li>";
+                    echo "<li><strong>image:</strong> <span><img src='affichageImageAd.php?id=$value' alt='image' width='150'></span> <button class='modify-button'>Modifier</button></li>";
                 }
                 else if ($key === 'image'){
                     echo "";
@@ -45,10 +45,10 @@
             }
             echo "</ul>";
         } else {
-            echo "<script>alert('La recette demandée n'existe pas.')</script>";
+            echo "<p>La recette demandée n'existe pas.</p>";
         }
     } else {
-        echo "<script>alert('Erreur : Aucun ID de recette spécifié.')</script>";
+        echo "<p>Erreur : Aucun ID de recette spécifié.</p>";
     }
     ?>
 

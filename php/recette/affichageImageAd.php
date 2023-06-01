@@ -15,7 +15,7 @@ if (!$connexion) {
 if (isset($_GET['id'])) {
     $idRecette = $_GET['id'];
 
-    $requete = "SELECT image FROM Structurerecipeinprocess WHERE id = $idRecette";
+    $requete = "SELECT image FROM recipeinprocess WHERE id = $idRecette";
     $resultat = mysqli_query($connexion, $requete);
 
     if ($resultat && mysqli_num_rows($resultat) > 0) {

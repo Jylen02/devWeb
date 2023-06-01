@@ -8,15 +8,15 @@ $newValue = $_POST['value'];
 $pdo = new PDO("mysql:host=localhost;dbname=website_database", "projetRecdevweb", "projetRecdevweb2023");
 
 // Construction de la requête de mise à jour
-$sql = "UPDATE recipeinprocess SET {$fieldName} = :$newValue WHERE id = :idRecette";
+$sql = "UPDATE recipeinprocess SET {$fieldName} = :newValue WHERE id = :idRecette";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':newValue', $newValue);
 $stmt->bindParam(':idRecette', $idRecette);
 
 // Exécution de la requête de mise à jour
 if ($stmt->execute()) {
-    echo "La valeur a été mise à jour avec succès.";
+    echo "<script>alert('Le changement a été enregistré avec succès!');</script>";
 } else {
-    echo "Une erreur s'est produite lors de la mise à jour de la valeur.";
+    echo "<script>alert('Le changement n'a pas pu être effectué');</script>";
 }
 ?>
