@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">  
+<html lang="fr">
+
 <head>
     <?php
-        include_once("../Head.php");
+    include_once("../Head.php");
     ?>
-    <link rel="stylesheet"
-    type="text/css"
-    href="../../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../../css/home.css">
     <script src="../../js/home.js" type="text/javascript">
     </script>
 </head>
@@ -54,14 +53,36 @@
                         echo "<script>alert('Vous avez déjà laissé un commentaire pour cette recette.');</script>";
                     } else {
                         // Requête SQL pour insérer l'évaluation dans la table "evaluation"
-                        $requeteEvaluation = "INSERT INTO evaluation (score, comment, idUser, idRecipe, date) VALUES ('$score', '$commentaire', '$idUser', '$idRecette', CURDATE())";
+                        $requeteEvaluation = "INSERT INTO evaluation (score, comment, idUser, idRecipe, date) 
+                        VALUES ('$score', '$commentaire', '$idUser', '$idRecette', CURDATE())";
                         $resultatEvaluation = mysqli_query($connexion, $requeteEvaluation);
 
+                        // Requête SQL pour calculer le score de la recette dans la table "recipe"
+                        $updateRecipe = "UPDATE recipe SET score = 
+                        (SELECT AVG(score) FROM evaluation WHERE idRecipe = '$idRecette') 
+                        WHERE id = '$idRecette'";
+                        //$updateRecipe = "UPDATE recipe SET score = 1 WHERE id = '$idRecette'";
+                        $resultatRecipe = mysqli_query($connexion, $updateRecipe);
+
+                        // Requête SQL pour calculer le score de l'utilisasteur dans la table "user"
+                        $updateScore = "UPDATE user SET score = 
+                        (SELECT AVG(score) FROM recipe WHERE idUser = 
+                        (SELECT idUser FROM recipe WHERE id = '$idRecette')) 
+                        WHERE username = (SELECT idUser AS userRecipe FROM recipe WHERE id = '$idRecette')";
+                        //$updateRecipe = "UPDATE user SET score = 1 WHERE username = '$idUser'";
+                        $resultatScore = mysqli_query($connexion, $updateScore);
+
                         if ($resultatEvaluation) {
-                            // Succès de l'enregistrement
-                            echo "<script>alert('L\'évaluation a été enregistrée avec succès!');</script>";
+                            if ($resultatRecipe) {
+                                if ($resultatScore) {
+                                    echo "<script>alert('L\'évaluation a été enregistrée avec succès!');</script>";
+                                } else {
+                                    echo "<script>alert('Une erreur est survenue lors de l\'actualisation du score du joueur. Veuillez réessayer.');</script>";
+                                }
+                            } else {
+                                echo "<script>alert('Une erreur est survenue lors de l\'actualisation du score de la recette . Veuillez réessayer.');</script>";
+                            }
                         } else {
-                            // Erreur lors de l'enregistrement
                             echo "<script>alert('Une erreur est survenue lors de l\'enregistrement de l\'évaluation. Veuillez réessayer.');</script>";
                         }
                     }
@@ -96,11 +117,11 @@
                 echo "<script>window.location.href = '../profil/login.php';</script>";
                 exit();
             }
-        }/* else {
-            // L'ID de la recette n'est pas passé en paramètre dans l'URL, redirection vers une page d'erreur
-            echo "<script>window.location.href = 'erreur.php';</script>";
-            exit();
-        }*/
+        } /* else {
+        // L'ID de la recette n'est pas passé en paramètre dans l'URL, redirection vers une page d'erreur
+        echo "<script>window.location.href = 'erreur.php';</script>";
+        exit();
+    }*/
         ?>
     </section>
     <footer>
@@ -110,4 +131,5 @@
     </footer>
 
 </body>
+
 </html>

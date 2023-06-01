@@ -1,0 +1,20 @@
+.center{
+    text-align: center;
+}
+
+
+.button-style {
+  padding: 10px 20px; /* Ajustez les valeurs pour augmenter ou réduire la taille du bouton */
+  background-color: #4CAF50; /* Couleur de fond du bouton */
+  color: white; /* Couleur du texte du bouton */
+  border: none; /* Supprime les bordures par défaut */
+  border-radius: 0; /* Utilisez la valeur appropriée pour obtenir des bordures carrées */
+  cursor: pointer;
+}
+
+.button-style:hover {
+  background-color: #024205; /* Couleur de fond du bouton lorsqu'il est survolé */
+}
+
+
+

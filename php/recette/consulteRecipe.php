@@ -4,6 +4,7 @@
 <head>
     <?php include_once("../Head.php"); ?>
     <link rel="stylesheet" type="text/css" href="../../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../../css/consulteRecipe.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultation des recettes à traiter</title>
@@ -31,6 +32,20 @@
             </li>
         <?php endforeach; ?>
     </ul>
+    <footer>
+    <div class="center">
+    <button onclick="window.location.href = 'produit.php';" class="button-style">Prix et variation</button></br>
+            <?php
+                session_start();
+                if (isset($_SESSION['idUser'])) {
+                    echo ' <a href="../accueil/home.php?success=1">← Retour</a>';
+
+                } else {
+                    echo '<a href="../accueil/home.php?success=0">Connexion</a>';
+                }
+            ?>
+    </div>
+</footer>
 </body>
 
 </html>

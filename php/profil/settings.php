@@ -26,12 +26,22 @@
         deleteComment($i);
         header("Location: settings.php");
         exit;
-    } else if (isset($_GET['file'])) {
-        $file = $_GET['file'];
-        updateUserInDatabase("photo de profil", $file);
-        header("Location: settings.php");
-        exit;
-    }
+    } else if (isset($_GET['image']) && $_GET['image'] == 1) {
+        echo '<form action="settings.php" method="POST" enctype="multipart/form-data">';
+        echo '    <input type="file" name="image">';
+        echo '    <input type="submit" value="Upload">';
+        echo '</form>';
+    } else if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $image = $_FILES['image']['tmp_name'];
+
+            // Copier l'image dans un répertoire de destination
+            $destination = "../../image/" . $_FILES['image']['name'];
+            move_uploaded_file($image, $destination);
+
+            updateUserInDatabase("photo de profil", $image);
+            /*header("Location: settings.php");
+            exit;*/
+        } 
     function updateUserInDatabase($field, $newValue)
     {
         global $idUser, $connexion;
@@ -223,28 +233,8 @@
                 img.id = 'imageId';
                 newDiv.appendChild(img);
 
-                var fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.style.display = 'none';
-
                 image.addEventListener('click', function () {
-                    fileInput.click(); // Ouvrir la boîte de dialogue de sélection de fichiers
-                });
-
-                fileInput.addEventListener('change', function (event) {
-                    var selectedFile = event.target.files[0];
-                    console.log('File selected!'); // Vérifiez si ce message s'affiche dans la console du navigateur
-
-                    // Créer un objet FileReader
-                    var reader = new FileReader();
-
-                    // Lorsque la lecture du fichier est terminée
-                    reader.onload = function (e) {
-                        console.log(1);
-                        var fileData = e.target.result; // Contenu du fichier en tant que données
-                        var blob = new Blob([fileData], { type: selectedFile.type }); // Créer un objet Blob
-                        sendDataToSettings(blob);
-                    };
+                    window.location.href = 'settings.php?image=1';
                 });
 
                 var divProfil = document.createElement('div');
@@ -323,19 +313,6 @@
                 document.getElementsByTagName("div")[0].removeChild(child);
                 document.getElementsByTagName("div")[0].appendChild(newDiv);
             }
-        }
-
-        function sendDataToSettings(blob) {
-            reader.onloadend = function () {
-                // Encodage du Blob en base64
-                var base64data = reader.result.split(',')[1];
-
-                // Construction de l'URL avec le paramètre base64
-                var url = 'settings.php?file=' + encodeURIComponent(base64data);
-
-                // Redirection vers l'URL
-                window.location.href = url;
-            };
         }
 
         function click2() {
