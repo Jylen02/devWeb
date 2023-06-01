@@ -18,7 +18,7 @@ Menu :
 Recette :
 - Poster un commentaire + noter la recette : Terminé
 - Consulter les commentaires de la recette + filtre date/note etc... : Terminé
-+ Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : En cours : Abd-Ennour
++ Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : Terminé sauf l'image
 - Voir le coût d'une recette : Terminé : Abd-Ennour
 / Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3)
 / Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?)
