@@ -31,8 +31,8 @@
 
     <?php
     // Récupérer les données de la table productList
-    $sql = "SELECT name, price FROM productList";
-    $result = $connexion->query($sql);
+    $queryProduct = "SELECT name, price FROM productList";
+    $result = $connexion->query($queryProduct);
 
     if ($result->num_rows > 0) {
         // Afficher le tableau si des données sont disponibles
