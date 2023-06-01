@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <?php include_once("../Head.php"); ?>
     <link rel="stylesheet" type="text/css" href="../../css/home.css">
@@ -9,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commentaires de la recette</title>
 </head>
+
 <body>
     <header>
         <h1>Commentaires de la recette</h1>
@@ -43,8 +45,7 @@
                                         INNER JOIN user AS u ON c.idUser = u.username
                                         WHERE c.idRecipe = $idRecette
                                         ORDER BY c.score ASC, c.date ASC";
-            }
-             elseif ($tri === 'note_decroissante') {
+            } elseif ($tri === 'note_decroissante') {
                 $requeteCommentaires = "SELECT c.comment, c.score, c.date, u.username, u.profilePictures
                                         FROM evaluation AS c
                                         INNER JOIN user AS u ON c.idUser = u.username
@@ -101,7 +102,7 @@
 
     <div class='sorting'>
         <form method="POST">
-            
+
             <select name="tri" onchange="this.form.submit()">
                 <option value="">Trier les commentaires</option>
                 <option value="note_croissante">Note croissante</option>
@@ -110,10 +111,13 @@
             </select>
         </form>
     </div>
-<footer>
-<div>
-           
-            </div>
-        </footer>
+    <footer>
+        <div>
+            <a href="../accueil/home.php" id="retourAccueil">
+                ← Accueil
+            </a>
+        </div>
+    </footer>
 </body>
+
 </html>

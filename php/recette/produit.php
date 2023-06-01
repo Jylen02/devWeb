@@ -134,6 +134,11 @@
         }
 
     </script>
+    <div>
+        <a href="../accueil/home.php" id="retourAccueil">
+            ← Accueil
+        </a>
+    </div>
 </body>
 
 </html>

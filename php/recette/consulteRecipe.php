@@ -34,7 +34,6 @@
     </ul>
     <footer>
     <div class="center">
-    <button onclick="window.location.href = 'produit.php';" class="button-style">Prix et variation</button></br>
             <?php
                 session_start();
                 if (isset($_SESSION['idUser'])) {

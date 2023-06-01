@@ -1,6 +1,9 @@
-function load(bool) {
+function load(bool, username) {
     var newdiv = document.createElement('div');
     newdiv.id = "divlogin";
+
+    var divinfo = document.createElement('div');
+    divinfo.id = "divinfo";
   
     var loginButton = document.createElement('a');
     loginButton.id = "login";
@@ -16,26 +19,37 @@ function load(bool) {
     publishButton.id = "publish";
     publishButton.classList.add("Connexion");
     publishButton.setAttribute("justify-content", "right");
-    
-  
+
+    var productButton = document.createElement('a');
+    productButton.id = "product";
+    productButton.classList.add("Connexion");
+    productButton.setAttribute("justify-content", "right");
+
     if (bool) {
       loginButton.href = "../profil/logout.php";
       loginButton.innerHTML = "Déconnexion";
   
       createAccountButton.href = "../profil/settings.php";
       createAccountButton.innerHTML = "Mon profil";
+      newdiv.appendChild(loginButton);
+      divinfo.appendChild(createAccountButton);
   
       if (username == "admin") {
         publishButton.href = "../recette/consulteRecipe.php";
         publishButton.innerHTML = "Recette";
-        
+
+        productButton.href = "../recette/produit.php";
+        productButton.innerHTML = "Produits";
+
+        divinfo.appendChild(publishButton);
+        divinfo.appendChild(productButton);
       }
       else{
         publishButton.href = "../recette/publishedRecipe.php";
         publishButton.innerHTML = "Recette";
         
+        divinfo.appendChild(publishButton);
       }
-      newdiv.appendChild(publishButton);
       
     } else {
       loginButton.href = "../profil/login.php";
@@ -43,10 +57,11 @@ function load(bool) {
   
       createAccountButton.href = "../profil/createAccount.php";
       createAccountButton.innerHTML = "Créer un compte";
+      newdiv.appendChild(loginButton);
+      newdiv.appendChild(createAccountButton);
     }
   
-    newdiv.appendChild(loginButton);
-    newdiv.appendChild(createAccountButton);
     document.getElementById('top').appendChild(newdiv);
+    document.getElementById('top2').appendChild(divinfo);
   }
   

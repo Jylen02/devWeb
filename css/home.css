@@ -1,5 +1,5 @@
 header {
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     border-bottom: black solid;
 }
 
@@ -11,14 +11,36 @@ header {
     width : 100%;
 }
 
+#top2{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 10px;
+    width : 100%;
+}
+
+#top2 a {
+    margin-right: 200px;
+    text-align: center;
+    justify-content: center;
+    width : 10%;
+}
+
+#top a {  
+    margin-left: 400px;
+    text-align: right;
+    justify-content: right;
+}
 #formRecherche {
     display: flex;
     justify-content: center;
+    padding-top: 5px;
 }
-
+    
 #barre{
-    width: 60%;
-    padding-right: 10px;    
+    width: 80%;
+    padding-right: 10px;   
+    padding-top: 5px; 
 }
 
 #barreRecherche{
@@ -47,6 +69,7 @@ header {
     background-color: rgb(251, 113, 113);
     border-radius: 10px;
     margin: 2px;
+    width: 100%;
 }
 
 .Connexion:hover {
@@ -56,4 +79,20 @@ header {
 
 body {
     background-color: rgb(245,245, 220);
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-gap: 20px;
+}
+
+#container::after {
+    content: "";
+    position: absolute;
+    top: 115px;
+    bottom: 0;
+    width: 3px;
+    background-color: #000; /* Couleur de la barre verticale */
+    left: 70%; /* Position de la barre verticale (70% de la largeur totale) */
 }
