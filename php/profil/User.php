@@ -12,7 +12,9 @@ $password = $_POST['password'];
 $queryEmail = "SELECT * FROM user WHERE mail = ?";
 $stmt = $connexion->prepare($queryEmail);
 $stmt->bind_param("s", $email);
-$stmt->execute();
+if (!$stmt->execute()) {
+    die('Erreur d\'insertion : ' . mysqli_error($connexion));
+}
 $resultEmail = $stmt->get_result();
 
 // Vérification si le nom d'utilisateur est déjà présent dans la base de données
@@ -20,7 +22,9 @@ $resultEmail = $stmt->get_result();
 $queryUsername = "SELECT * FROM user WHERE username = ?";
 $stmt = $connexion->prepare($queryUsername);
 $stmt->bind_param("s", $username);
-$stmt->execute();
+if (!$stmt->execute()) {
+    die('Erreur d\'insertion : ' . mysqli_error($connexion));
+}
 $resultUsername = $stmt->get_result();
 
 // Si l'email est déjà présent dans la base de données, afficher un message d'erreur
@@ -34,10 +38,12 @@ else if ($resultUsername->num_rows > 0) {
     exit();
 } else {
     // L'email n'existe pas encore dans la base de données, insertion des données du formulaire
-    $insertUser = "INSERT INTO user (username, mail, password, enableComment) VALUES ( ?, ?, ?, '1')";
+    $insertUser = "INSERT INTO user (username, mail, password, score, enableComment) VALUES ( ?, ?, ?, '0', '1')";
     $stmt = $connexion->prepare($insertUser);
     $stmt->bind_param("sss", $username, $email, $password);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        die('Erreur d\'insertion : ' . mysqli_error($connexion));
+    }
     $resultUser = $stmt;
     if ($resultUser) {
         header('Location: login.php?success=1');
