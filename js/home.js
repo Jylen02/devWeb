@@ -25,17 +25,17 @@ function load(bool) {
       createAccountButton.href = "../profil/settings.php";
       createAccountButton.innerHTML = "Mon profil";
   
-      if (username === "admin") {
+      if (username == "admin") {
         publishButton.href = "../recette/consulteRecipe.php";
-        publishButton.innerHTML = "Consulter une recette";
-        newdiv.appendChild(publishButton);
+        publishButton.innerHTML = "Rrecette";
+        
       }
       else{
         publishButton.href = "../recette/publishedRecipe.php";
-        publishButton.innerHTML = "Publier une recette";
-        newdiv.appendChild(publishButton);
+        publishButton.innerHTML = "Recette";
+        
       }
-  
+      newdiv.appendChild(publishButton);
       
     } else {
       loginButton.href = "../profil/login.php";
