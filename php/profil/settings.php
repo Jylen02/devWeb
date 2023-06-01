@@ -6,12 +6,55 @@
         include_once("../database.php");
         session_start();
         $idUser = $_SESSION['idUser'];
-        echo "<script>var user = " . json_encode($idUser) . ";</script>";
+        if (isset($_GET['profil']) && isset($_GET['value'])) {
+            // Récupérer les paramètres de l'URL
+            $profil = $_GET['profil'];
+            $value = $_GET['value'];
+        
+            // Appeler la fonction updateUserInDatabase avec les valeurs correspondantes
+            updateUserInDatabase($profil, $value);
+           // Rediriger l'utilisateur vers la page "settings"
+            header("Location: settings.php");
+            exit;
+        }
+        function updateUserInDatabase($field, $newValue) {
+        global $idUser, $connexion;
+        // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
+    
+        // Supposons que vous avez une variable "userId" qui représente l'identifiant de l'utilisateur
+        // et une connexion à votre base de données "connexion"
+    
+        // Construire la requête SQL pour mettre à jour le champ spécifié
+        $command = "";
+    
+        switch ($field) {
+        case "nom d'utilisateur":
+            $command = "UPDATE user SET username = '$newValue' WHERE username = '$idUser'";
+            $_SESSION['idUser'] = $newValue;
+            break;
+        case "adresse e-mail":
+            $command = "UPDATE user SET mail = '$newValue' WHERE username = '$idUser'";
+            break;
+        case "mot de passe":
+            $command = "UPDATE user SET password = '$newValue' WHERE username = '$idUser'";
+            break;
+        }
+    
+        // Exécuter la requête SQL
+        $resultat = mysqli_query($connexion, $command);
+        
+        // Vérifier si la mise à jour s'est effectuée avec succès
+        if ($resultat) {
+            echo "<script>alert('Le champ \"$field\" a été mis à jour avec succès !');</script>";
+        } else {
+            echo "<script>alert('Erreur lors de la mise à jour du champ \"$field\".');</script>";
+        }
+    }
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/settings.css">
     <script>
         var MaxButton=4;
-        function modify(i) {
+        function modify(i, resultat) {
             var profil = ['nom d\'utilisateur', 'adresse e-mail', 'mot de passe'];
             document.body.classList.add('modify');
         
@@ -49,18 +92,18 @@
                 var password = passwordInput.value;
         
                 // Récupérer l'utilisateur correspondant à l'identifiant ou à d'autres critères
-                //var user = ; // Appeler une fonction pour récupérer les informations de l'utilisateur
+                var user = resultat; // Appeler une fonction pour récupérer les informations de l'utilisateur
         
                 console.log(password);
                 console.log(user.password);
                 // Vérifier si le mot de passe saisi correspond au mot de passe stocké dans la base de données
                 if (password === user.password) {
-                    // Le mot de passe est correct, procéder à la modification dans la base de données
-                    updateUserInDatabase(profil[i], newValue);
-                    
                     // Fermer le pop-up
                     document.body.removeChild(popupContainer);
                     document.body.classList.remove('modify');
+                    
+                    // Le mot de passe est correct, procéder à la modification dans la base de données
+                    window.location.href = 'settings.php?profil=' + encodeURIComponent(profil[i]) + '&value=' + encodeURIComponent(newValue);
                 } else {
                     // Le mot de passe est incorrect, afficher un message d'erreur ou demander à l'utilisateur de réessayer
                     alert("Mot de passe incorrect. Veuillez réessayer.");
@@ -138,7 +181,7 @@
                             value = resultat.mail;
                             break;
                         case 2:
-                            value = '********'; // Vous pouvez masquer le mot de passe si vous le souhaitez
+                            value = '*****'; // Vous pouvez masquer le mot de passe si vous le souhaitez
                             break;
                         case 3:
                             value = resultat.score;
@@ -158,7 +201,7 @@
                         var button = document.createElement('input');
                         button.type = 'button';
                         button.value = 'Modifier';
-                        button.setAttribute('onclick', 'modify(' + i + ')');
+                        button.setAttribute('onclick', 'modify(' + i + ', ' + JSON.stringify(resultat) + ')');
                         button.classList.add('inputChange');
                         divInfo.appendChild(divLabel);
                         divInfo.appendChild(document.createElement('div').appendChild(button));
@@ -461,41 +504,6 @@
             document.body.classList.add('bgcolor' + i);
         }  
     </script>
-
-    <?php 
-      function updateUserInDatabase($field, $newValue) {
-        global $connexion, $idUser;
-        // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
-    
-        // Supposons que vous avez une variable "userId" qui représente l'identifiant de l'utilisateur
-        // et une connexion à votre base de données "connexion"
-    
-        // Construire la requête SQL pour mettre à jour le champ spécifié
-        $command = "";
-    
-        switch ($field) {
-        case "nom d'utilisateur":
-            $command = "UPDATE user SET username = '$newValue' WHERE identifiant = $idUser";
-            break;
-        case "adresse e-mail":
-            $command = "UPDATE user SET mail = '$newValue' WHERE identifiant = $idUser";
-            break;
-        case "mot de passe":
-            $command = "UPDATE user SET password = '$newValue' WHERE identifiant = $idUser";
-            break;
-        }
-    
-        // Exécuter la requête SQL
-        $resultat = mysqli_query($connexion, $command);
-    
-        // Vérifier si la mise à jour s'est effectuée avec succès
-        if ($resultat) {
-            echo "Le champ '$field' a été mis à jour avec succès !";
-        } else {
-            echo "Erreur lors de la mise à jour du champ '$field'.";
-        }
-    }
-    ?>
 </head>
 <body class="bgcolorWhite">
     <?php
