@@ -31,19 +31,15 @@
                     $idRecette = $_GET['id'];
 
                     // Requête SQL pour récupérer tous les attributs de la recette
-                    $requeteRecette = "SELECT name, description, image, time, fornumber, difficulty, price FROM recipe WHERE id = $idRecette";
+                    $requeteRecette = "SELECT name, description, image, score, time, fornumber, difficulty, price FROM recipe WHERE id = $idRecette";
                     $resultatRecette = mysqli_query($connexion, $requeteRecette);
-                    // Requête SQL pour calculer la moyenne des scores
-                    $requeteMoyenneScore = "SELECT AVG(score) AS moyenne_score FROM evaluation WHERE idRecipe = $idRecette";
-                    $resultatMoyenneScore = mysqli_query($connexion, $requeteMoyenneScore);
-                    $rowMoyenneScore = mysqli_fetch_assoc($resultatMoyenneScore);
-                    $moyenneScore = number_format($rowMoyenneScore['moyenne_score']);
 
                     if (mysqli_num_rows($resultatRecette) > 0) {
                         $rowRecette = mysqli_fetch_assoc($resultatRecette);
                         $titre = $rowRecette['name'];
                         $description = $rowRecette['description'];
                         $image = $rowRecette['image'];
+                        $moyenneScore = $rowRecette['score'];
                         $time = $rowRecette['time'];
                         $fornumber = $rowRecette['fornumber'];
                         $difficulty = $rowRecette['difficulty'];
