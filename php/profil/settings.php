@@ -57,17 +57,17 @@
 
         function deleteUser() {
             global $idUser, $connexion;
-            $command1 = "DELETE FROM recipe WHERE username = '$idUser' ";
+            $command1 = "DELETE FROM recipe WHERE idUser = '$idUser' ";
 
             // Exécuter la requête SQL
             $resultat1 = mysqli_query($connexion, $command1);
 
-            $command2 = "DELETE FROM evaluation WHERE username = '$idUser' ";
+            $command2 = "DELETE FROM evaluation WHERE idUser = '$idUser' ";
 
             // Exécuter la requête SQL
             $resultat2 = mysqli_query($connexion, $command2);
 
-            $command3 = "DELETE FROM recipe WHERE username = '$idUser' ";
+            $command3 = "DELETE FROM recipeinprocess WHERE idUser = '$idUser' ";
 
             // Exécuter la requête SQL
             $resultat3 = mysqli_query($connexion, $command3);
