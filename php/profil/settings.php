@@ -26,7 +26,22 @@
         deleteComment($i);
         header("Location: settings.php");
         exit;
-    }
+    } else if (isset($_GET['image']) && $_GET['image'] == 1) {
+        echo '<form action="settings.php" method="POST" enctype="multipart/form-data">';
+        echo '    <input type="file" name="image">';
+        echo '    <input type="submit" value="Upload">';
+        echo '</form>';
+    } else if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $image = $_FILES['image']['tmp_name'];
+
+            // Copier l'image dans un répertoire de destination
+            $destination = "../../image/" . $_FILES['image']['name'];
+            move_uploaded_file($image, $destination);
+
+            updateUserInDatabase("photo de profil", $image);
+            /*header("Location: settings.php");
+            exit;*/
+        } 
     function updateUserInDatabase($field, $newValue)
     {
         global $idUser, $connexion;
@@ -50,7 +65,6 @@
                 $command = "UPDATE user SET password = '$newValue' WHERE username = '$idUser'";
                 break;
             case "photo de profil":
-                echo 1;
                 $command = "UPDATE user SET profilePicture = '$newValue' WHERE username = '$idUser'";
                 break;
         }
@@ -218,6 +232,10 @@
                 img.appendChild(image);
                 img.id = 'imageId';
                 newDiv.appendChild(img);
+
+                image.addEventListener('click', function () {
+                    window.location.href = 'settings.php?image=1';
+                });
 
                 var divProfil = document.createElement('div');
 
