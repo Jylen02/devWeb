@@ -6,7 +6,7 @@ Mon profil :
 - Forget Password : Terminé - Jérémy
 - Bouton pour supprimer son compte (de la BDD) : Terminé
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
-/ Supprimer ses commentaires (de la BDD) : A Faire
+- Supprimer ses commentaires (de la BDD) : Terminé
 
 Menu :
     Barre de recherche :
@@ -31,10 +31,10 @@ Recette :
 / Supprimer une recette (de la BDD)
 / Modifier une recette (alter BDD)
 
-Produits (ingrédients):
-+ Ajout ingrédient : En cours : Jeremy
-+ Supprimer un ingrédient : En cours : Jeremy
-+ Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale) : En cours : Jeremy
+Produits (ingrédients): Terminé
+- Ajout ingrédient 
+- Supprimer un ingrédient
+- Modifier un ingrédient (met souvent à jour leurs prix dans un contexte d’inflation mondiale)
 
 Menu :
 / Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté
