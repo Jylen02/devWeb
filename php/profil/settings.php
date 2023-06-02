@@ -103,11 +103,7 @@
         if ($resultId && $resultId->num_rows>0){
             while ($row = $resultId->fetch_assoc()){
                 $idRecipe = $row['id'];
-                $command3 = "UPDATE recipe SET score = (SELECT AVG(score) FROM evaluation WHERE idRecipe = '$idRecipe') WHERE id = '$idRecipe'";
-                $resultat3 = mysqli_query($connexion, $command3);
-                if (!$resultat3){
-                    echo "<script>alert('Erreur lors de l\'actualisation du score de la recette');</script>";
-                }
+                updateScore($idRecipe);
             }
         }
         // Vérifier si la mise à jour s'est effectuée avec succès
@@ -136,7 +132,7 @@
     }
 
     function updateScore($idRecipe){
-        global $idUser, $connexion;
+        global $connexion;
         $updateRecipe = "UPDATE recipe SET score = 
                         (SELECT AVG(score) FROM evaluation WHERE idRecipe = '$idRecipe') 
                         WHERE id = '$idRecipe'";
