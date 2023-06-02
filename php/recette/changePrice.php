@@ -13,7 +13,7 @@ if (!empty($newPrice)) {
     $stmt->bind_param("ss", $newPrice, $name);
     $stmt->execute();
     $resultPrice = $stmt;
-    if ($resultPrice){
+    if ($resultPrice->affected_rows > 0) {
         echo "Le prix a été modifié avec succès !";
     } else {
         http_response_code(500); // Code d'erreur interne du serveur
