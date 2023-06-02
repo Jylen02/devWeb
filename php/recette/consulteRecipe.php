@@ -9,51 +9,123 @@
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/home.css">
     <link rel="stylesheet" type="text/css" href="../../css/consulteRecipe.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultation des recettes à traiter</title>
+
 </head>
 
 <body>
-    <?php
-    // Récupération des recettes depuis la table "recipeinprocess"
-    $sql = "SELECT id, idUser, name FROM recipeinprocess";
-    $result = $connexion->query($sql);
+    <div>
+        <h1>Détails de la recette</h1>
+    </div>
+    <nav>
+        <div class="center">
+            <?php
+            // Vérification si l'ID de la recette a été fourni dans l'URL
+            if (isset($_GET['id'])) {
+                // Récupération de l'ID de la recette
+                $idRecette = $_GET['id'];
 
-    // Vérification si des recettes ont été trouvées
-    if ($result && $result->num_rows > 0) {
-        $recettes = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-        $recettes = array();
-    }
-    ?>
+                // Récupération des détails de la recette depuis la table recipeinprocess
+                $queryRecipeProcess = "SELECT idUser, id, name, description, image, fornumber, time, difficulty FROM recipeinprocess WHERE id = ?";
+                $stmt = $connexion->prepare($queryRecipeProcess);
+                $stmt->bind_param("s", $idRecette);
+                $stmt->execute();
+                $resultRecipeProcess = $stmt->get_result();
 
-    <h1 class="center">Liste des recettes</h1>
+                // Vérification si la recette existe
+                if ($resultRecipeProcess && $resultRecipeProcess->num_rows > 0) {
+                    echo "<table cellspacing=10 cellpadding=10>";
+                    $recipeProcess = $resultRecipeProcess->fetch_assoc();
+                    foreach ($recipeProcess as $key => $value) {
+                        if ($key === 'idUser') {
+                            // Nom d'utilisateur non modifiable
+                            echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
+                        } else if ($key === 'id') {
+                            echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImageAd.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
+                        } else if ($key === 'image') {
+                            echo "";
+                        } else {
+                            echo "<tr><td><strong>$key:</strong></td><td><span>$value</span></td><td><button onclick=\"modifyRecipe('$idRecette','$key','$value')\">Modifier</button></td></tr>";
+                        }
+                    }
+                    echo "</table>";
+                } else {
+                    echo "<script>alert('La recette demandée n\'existe pas.')</script>";
+                }
+            } else {
+                echo "<script>alert('Erreur : Aucun ID de recette spécifié.')</script>";
+            }
+            ?>
+        </div>
+    </nav>
+    <footer>
+        <div class="center">
+            <button onclick="confirmRecipe()">Confirmer l'upload</button>
+            <button onclick="deleteRecipe()">Supprimer cette recette</button>
+        </div>
+    </footer>
+    <script>
+        function modifyRecipe(idRecipe, key, value) {
+            const newValue = prompt("Entrez la nouvelle valeur :", value);
+            if (newValue !== null) {
+                var xhr = new XMLHttpRequest();
+                var url = "updateRecipe.php";
+                var params = "idRecipe=" + encodeURIComponent(idRecipe) + "&key=" + encodeURIComponent(key) + "&newValue=" + encodeURIComponent(newValue);
 
-    <table cellspacing=10 cellpadding=10>
-        <tr>
-            <th>Nom de l'utilisateur</th>
-            <th>Nom de la recette</th>
-        </tr>
-        <?php foreach ($recettes as $recette) : ?>
-            <tr>
-                <td><?php echo $recette['idUser']; ?></td>
-                <td><a href="consulteAllRecipe.php?id=<?php echo $recette['id']; ?>"><?php echo $recette['name']; ?></a></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert(xhr.responseText); // Succès
+                            window.location.href = 'consulteRecipe.php?id=' + encodeURIComponent(<?php echo $idRecette; ?>);
+                        } else {
+                            alert("Une erreur s'est produite lors de la modification."); // Erreur
+                        }
+                    }
+                };
+
+                xhr.send(params);
+            }
+        }
+
+        function confirmRecipe() {
+            var xhr = new XMLHttpRequest();
+            var url = "confirmRecipe.php";
+            var params = "idRecipe=" + encodeURIComponent(<?php echo $idRecette; ?>);
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert(xhr.responseText); // Succès
+                        window.location.href = 'consulteAllRecipe.php';
+                    } else {
+                        alert("Une erreur s'est produite lors de la confirmation."); // Erreur
+                    }
+                }
+            };
+
+            xhr.send(params);
+        }
+
+
+
+    </script>
     <footer>
         <div class="center">
             <?php
             if (isset($_SESSION['idUser'])) {
-                echo '<a href="../accueil/home.php?success=1">← Retour</a>';
+                echo '<a href="../recette/consulteAllRecipe.php">← Retour</a>';
             } else {
                 echo '<a href="../accueil/home.php?success=0">Connexion</a>';
             }
             ?>
         </div>
     </footer>
+
 </body>
 
 </html>

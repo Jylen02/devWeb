@@ -32,13 +32,13 @@
     <?php
     // Récupérer les données de la table productList
     $queryProduct = "SELECT name, price FROM productList";
-    $result = $connexion->query($queryProduct);
+    $resultProduct = $connexion->query($queryProduct);
 
-    if ($result->num_rows > 0) {
+    if ($resultProduct->num_rows > 0) {
         // Afficher le tableau si des données sont disponibles
         echo "<table><tbody>";
         echo "<tr><th>Ingrédient</th><th>Prix</th></tr>";
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $resultProduct->fetch_assoc()) {
             echo "<tr><td>" . $row["name"] . "</td><td>" . $row["price"] . "</td><td><button onclick='modifierPrix(" . $row["price"] . ", \"" . $row["name"] . "\")'>Modifier prix</button></td><td><button onclick='supprimerIngredient(\"" . $row["name"] . "\")'>Supprimer</button></td></tr>";
         }
         echo "</tbody></table>";

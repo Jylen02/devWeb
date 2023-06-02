@@ -45,7 +45,7 @@ function load(bool, username) {
         userButton.classList.add("Connexion");
         userButton.setAttribute("justify-content", "right");
 
-        publishButton.href = "../recette/consulteRecipe.php";
+        publishButton.href = "../recette/consulteAllRecipe.php";
         publishButton.innerHTML = "Recette";
 
         productButton.href = "../recette/produit.php";
