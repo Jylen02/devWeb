@@ -351,6 +351,9 @@
         }
 
         function commentaires(resultatCommentaires) {
+
+            var resultatCommentairesOriginal = resultatCommentaires.slice();
+
             if (!document.getElementsByTagName("input")[2].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -401,7 +404,6 @@
                 var label = document.createElement('label');
                 label.innerHTML = 'Trier par recette';
 
-                var resultatCommentairesOriginal = resultatCommentaires.slice();
 
                 function updateCommentDiv(resultatCommentaires) {
                     // Supprimer les commentaires existants
@@ -412,11 +414,15 @@
 
                     // Ajouter les commentaires à la div
                     for (let i = 0; i < resultatCommentaires.length; i++) {
+                        let titre = resultatCommentaires[i].name;
                         let commentaire = resultatCommentaires[i].comment;
                         let score = resultatCommentaires[i].score;
 
                         let commentDiv = document.createElement('div');
                         commentDiv.classList.add('comment');
+
+                        let titleText = document.createElement('p');
+                        titleText.innerHTML = titre;
 
                         let commentText = document.createElement('p');
                         commentText.innerHTML = commentaire;
@@ -432,6 +438,13 @@
                             window.location.href = 'settings.php?deleteComment=' + resultatCommentaires[i].id;
                         });
 
+                        var hr = document.createElement('hr');
+                        hr.style.border = 'none';
+                        hr.style.height = '1px';
+                        hr.style.background = '#000';
+
+                        commentDiv.appendChild(hr);
+                        commentDiv.appendChild(titleText);
                         commentDiv.appendChild(commentText);
                         commentDiv.appendChild(scoreText);
                         commentDiv.appendChild(deleteButton);
@@ -497,36 +510,11 @@
                         existingComments[0].parentNode.removeChild(existingComments[0]);
                     }
 
-                    resultatCommentairesOriginal = resultatCommentaires.slice();
-                    
-                    // Ajouter les commentaires à la div
-                    for (let i = 0; i < filteredComments.length; i++) {
-                        let commentaire = filteredComments[i].comment;
-                        let score = filteredComments[i].score;
-
-                        let commentDiv = document.createElement('div');
-                        commentDiv.classList.add('comment');
-
-                        let commentText = document.createElement('p');
-                        commentText.innerHTML = commentaire;
-
-                        let scoreText = document.createElement('p');
-                        scoreText.innerHTML = "Score: " + score;
-
-                        var deleteButton = document.createElement('input');
-                        deleteButton.type = 'button';
-                        deleteButton.value = 'Supprimer le commentiare';
-                        deleteButton.classList.add('deleteButton');
-                        deleteButton.addEventListener('click', function () {
-                            window.location.href = 'settings.php?deleteComment=' + filteredComments[i].id;
-                        });
-
-                        commentDiv.appendChild(commentText);
-                        commentDiv.appendChild(scoreText);
-                        commentDiv.appendChild(deleteButton);
-
-                        newDiv.appendChild(commentDiv);
-                    }
+                    // Réinitialiser l'ordre des commentaires à leur ordre d'origine
+                    resultatCommentairesOriginal = filteredComments.slice();
+                    // Réinitialiser le tri par ID de recette
+                    checkbox.checked = false;
+                    updateCommentDiv(resultatCommentairesOriginal);
                 });
 
                 // Ajouter un écouteur d'événement sur le checkbox
@@ -538,23 +526,14 @@
                             var idB = b.idRecipe;
 
                             // Comparaison des ID de recette
-                            if (idA < idB) {
-                                return -1;
-                            } else if (idA > idB) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
+                            return idA - idB;
                         });
-
-                        // Mettre à jour l'affichage avec les commentaires triés
-                        updateCommentDiv(filteredComments);
                     } else {
                         // Réinitialiser l'ordre des commentaires à leur ordre d'origine
                         filteredComments = resultatCommentairesOriginal.slice();
-                        // Mettre à jour l'affichage avec les commentaires non triés
-                        updateCommentDiv(filteredComments);
                     }
+                    // Mettre à jour l'affichage avec les commentaires
+                    updateCommentDiv(filteredComments);
                 });
                 updateCommentDiv(resultatCommentaires);
                 var child = document.getElementsByTagName("div")[0].children[1];
@@ -644,7 +623,8 @@
     $resUser = $resultat->fetch_assoc();
 
     // Requête SQL pour commentaires
-    $requeteCommentaires = "SELECT * FROM evaluation WHERE idUser = ?";
+    $requeteCommentaires = "SELECT recipe.name, evaluation.comment, evaluation.score, evaluation.date, evaluation.idRecipe FROM evaluation 
+    JOIN recipe ON recipe.id = evaluation.idRecipe WHERE evaluation.idUser = ?";
     $stmtCommentaires = $connexion->prepare($requeteCommentaires);
     $stmtCommentaires->bind_param("s", $idUser);
     $stmtCommentaires->execute();
@@ -657,6 +637,13 @@
             $commentaires[] = $rowCommentaire;
         }
     }
+
+    /*foreach ($commentaires as $row) {
+        echo "Name: " . $row['name'] . "<br>";
+        echo "comment: " . $row['comment'] . "<br>";
+        echo "Score: " . $row['score'] . "<br>";
+        echo "<br>";
+    }*/
 
     // Requête SQL pour notification
     $requeteNotif = "SELECT DISTINCT name, id, description, image, score FROM recipe 
@@ -675,15 +662,15 @@
         while ($rowNotif = $resultatNotif->fetch_assoc()) {
             $notif[] = $rowNotif;
         }
-    } 
+    }
 
-    foreach ($notif as $row) {
+    /*foreach ($notif as $row) {
         echo "Name: " . $row['name'] . "<br>";
         echo "Description: " . $row['description'] . "<br>";
         echo "ID: " . $row['id'] . "<br>";
         echo "Score: " . $row['score'] . "<br>";
         echo "<br>";
-    }
+    }*/
 
     // Fermeture de la requête et de la connexion
     $stmt->close();
@@ -711,12 +698,12 @@
                     onclick="bgcolor()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
             </div>
             <div>
-                <script> console.log(2);  var resComment = <?php echo json_encode($commentaires); ?>; </script>
+                <script> console.log(2); var resComment = <?php echo json_encode($commentaires); ?>; </script>
                 <input tabindex="-1" type="button" name="button_settings" value="commentaires" class="input"
                     onclick="commentaires(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
             </div>
             <div>
-                <script> console.log(3);  var resNotif = <?php echo json_encode($notif); ?>; </script>
+                <script> console.log(3); var resNotif = <?php echo json_encode($notif); ?>; </script>
                 <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input"
                     onclick="notification(resNotif)" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
             </div>
