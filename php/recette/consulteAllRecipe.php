@@ -13,8 +13,8 @@
 
 <body>
     <?php
-    // Récupération des recettes depuis la table "recipeinprocess"
-    $sql = "SELECT id, idUser, name FROM recipeinprocess";
+    // Récupération des recettes depuis la table "recipe"
+    $sql = "SELECT id, idUser, name FROM recipe WHERE valid = 0";
     $result = $connexion->query($sql);
 
     // Vérification si des recettes ont été trouvées

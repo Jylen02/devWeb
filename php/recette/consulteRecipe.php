@@ -24,18 +24,18 @@
                 // Récupération de l'ID de la recette
                 $idRecette = $_GET['id'];
 
-                // Récupération des détails de la recette depuis la table recipeinprocess
-                $queryRecipeProcess = "SELECT idUser, id, name, description, image, fornumber, time, difficulty FROM recipeinprocess WHERE id = ?";
-                $stmt = $connexion->prepare($queryRecipeProcess);
+                // Récupération des détails de la recette depuis la table recipe
+                $queryRecipe = "SELECT idUser, id, name, description, image, fornumber, time, difficulty FROM recipe WHERE id = ?";
+                $stmt = $connexion->prepare($queryRecipe);
                 $stmt->bind_param("s", $idRecette);
                 $stmt->execute();
-                $resultRecipeProcess = $stmt->get_result();
+                $resultRecipe = $stmt->get_result();
 
                 // Vérification si la recette existe
-                if ($resultRecipeProcess && $resultRecipeProcess->num_rows > 0) {
+                if ($resultRecipe && $resultRecipe->num_rows > 0) {
                     echo "<table cellspacing=10 cellpadding=10>";
-                    $recipeProcess = $resultRecipeProcess->fetch_assoc();
-                    foreach ($recipeProcess as $key => $value) {
+                    $recipe = $resultRecipe->fetch_assoc();
+                    foreach ($recipe as $key => $value) {
                         if ($key === 'idUser') {
                             // Nom d'utilisateur non modifiable
                             echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
@@ -111,6 +111,27 @@
             xhr.send(params);
         }
 
+        function deleteRecipe() {
+            var xhr = new XMLHttpRequest();
+            var url = "deleteRecipe.php";
+            var params = "idRecipe=" + encodeURIComponent(<?php echo $idRecette; ?>);
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert(xhr.responseText); // Succès
+                        window.location.href = 'consulteAllRecipe.php';
+                    } else {
+                        alert("Une erreur s'est produite lors de la confirmation."); // Erreur
+                    }
+                }
+            };
+
+            xhr.send(params);
+        }
 
 
     </script>

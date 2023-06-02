@@ -9,7 +9,7 @@ $newValue = $_POST['newValue'];
 
 if (!empty($newValue)) {
     // Construction de la requête SQL dynamiquement
-    $updateValue = "UPDATE recipeinprocess SET $key = ? WHERE id = ?";
+    $updateValue = "UPDATE recipe SET $key = ? WHERE id = ?";
     $stmt = $connexion->prepare($updateValue);
     $stmt->bind_param("ss", $newValue, $idRecipe);
     $stmt->execute();
