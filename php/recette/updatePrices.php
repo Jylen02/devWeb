@@ -27,9 +27,7 @@ if (!empty($name)) {
             $stmtPriceRecipe = $connexion->prepare($updatePriceRecipe);
             $stmtPriceRecipe->bind_param("ss", $idRecipe, $idRecipe);
             $stmtPriceRecipe->execute();
-            if ($stmtPriceRecipe->affected_rows > 0) {
-                echo "Le prix a été modifié avec succès pour la recette d'ID $idRecipe !";
-            } else {
+            if (!($stmtPriceRecipe->affected_rows > 0)) {
                 http_response_code(500); // Code d'erreur interne du serveur
                 echo "Une erreur s'est produite lors de la modification du prix pour la recette d'ID $idRecipe.";
             }
