@@ -37,7 +37,7 @@
                 $recetteFavori = "SELECT recipe.name, recipe.id, recipe.description, recipe.image, recipe.score FROM recipe 
                         JOIN evaluation ON evaluation.idRecipe = recipe.id
                         JOIN user ON user.username = evaluation.idUser
-                        WHERE evaluation.score > 3 AND user.username = ?";
+                        WHERE evaluation.score >= 3 AND user.username = ?";
                 //$queryRecipe = "SELECT name, id, description, image, score FROM recipe WHERE idUser = ?";
                 $stmt = $connexion->prepare($recetteFavori);
                 $stmt->bind_param("s", $idUser);

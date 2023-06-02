@@ -40,7 +40,7 @@
                             // Nom d'utilisateur non modifiable
                             echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
                         } else if ($key === 'id') {
-                            echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImageAd.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
+                            echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImage.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
                         } else if ($key === 'image') {
                             echo "";
                         } else {
