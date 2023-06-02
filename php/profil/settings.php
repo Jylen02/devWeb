@@ -112,8 +112,7 @@
         }
     }
 
-    function deleteComment($i)
-    {
+    function deleteComment($i) {
         global $idUser, $connexion;
         $command = "DELETE FROM evaluation WHERE idUser = '$idUser' AND id = '$i'";
 
@@ -420,6 +419,7 @@
                         let averageScore = Math.round(resultatCommentaires[i].recipeScore);
                         let stars = "*".repeat(averageScore);
                         let id = resultatCommentaires[i].id;
+                        let idEval =resultatCommentaires[i].idEval;
 
                         let commentDiv = document.createElement('div');
                         commentDiv.classList.add('comment');
@@ -475,7 +475,7 @@
                         deleteButton.value = 'Supprimer le commentiare';
                         deleteButton.classList.add('deleteButton');
                         deleteButton.addEventListener('click', function () {
-                            window.location.href = 'settings.php?deleteComment=' + resultatCommentaires[i].id;
+                            window.location.href = 'settings.php?deleteComment=' + idEval;
                         });
 
                         var hr = document.createElement('hr');
@@ -689,7 +689,7 @@
     $resUser = $resultat->fetch_assoc();
 
     // Requête SQL pour commentaires
-    $requeteCommentaires = "SELECT recipe.name, recipe.score AS recipeScore, recipe.id, evaluation.comment, evaluation.score, evaluation.date, evaluation.idRecipe FROM evaluation 
+    $requeteCommentaires = "SELECT recipe.name, recipe.score AS recipeScore, recipe.id, evaluation.id AS idEval, evaluation.comment, evaluation.score, evaluation.date, evaluation.idRecipe FROM evaluation 
     JOIN recipe ON recipe.id = evaluation.idRecipe WHERE evaluation.idUser = ?";
     $stmtCommentaires = $connexion->prepare($requeteCommentaires);
     $stmtCommentaires->bind_param("s", $idUser);
