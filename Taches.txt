@@ -7,7 +7,7 @@ Mon profil :
 - Bouton pour supprimer son compte (de la BDD) : Terminé
 - Voir ses commentaires (connecter la BDD dessus) + filtre date/recette etc... : Terminé - Christophe
 - Supprimer ses commentaires (de la BDD) : Terminé
-+ Recevoir des notification de recette intéressante (note >= 3.5 ?) : En cours : Christophe
+- Recevoir des notification de recette intéressante (note >= 3.5 & date < 6jours) : Terminé : Christophe
 
 Menu :
     Barre de recherche :

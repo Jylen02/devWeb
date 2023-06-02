@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <?php 
+    <?php
     session_start();
     include_once("../Head.php");
     include_once("../database.php"); ?>
@@ -21,12 +21,12 @@
             // Vérification si l'ID de la recette est passé en paramètre dans l'URL
             if (isset($_GET['id'])) {
                 $idRecette = $_GET['id'];
-                if (isset($_GET['enableComment'])){
-                    $enableComment = $_GET['enableComment'];
-                    $updateRecette = "UPDATE recipe SET enableComment = '$enableComment' WHERE id = '$idRecette'";
+                if (isset($_GET['recipeEnableComment'])) {
+                    $recipeEnableComment = $_GET['recipeEnableComment'];
+                    $updateRecette = "UPDATE recipe SET enableComment = '$recipeEnableComment' WHERE id = '$idRecette'";
                     $resultatUpdate = mysqli_query($connexion, $updateRecette);
                     if ($resultatUpdate) {
-                        if ($enableComment==1){
+                        if ($recipeEnableComment == 1) {
                             echo "<script>alert('Les commentaires sont désormais activé !');</script>";
                         } else {
                             echo "<script>alert('Les commentaires sont désormais désactivés !');</script>";
@@ -35,7 +35,6 @@
                         echo "<script>alert('Erreur lors de la modification d'autorisation des commentaires.');</script>";
                     }
                 }
-
                 // Requête SQL pour récupérer tous les attributs de la recette
                 $requeteRecette = "SELECT name, description, image, score, time, enableComment, fornumber, difficulty, price FROM recipe WHERE id = $idRecette";
                 $resultatRecette = mysqli_query($connexion, $requeteRecette);
@@ -47,11 +46,11 @@
                     $image = $rowRecette['image'];
                     $moyenneScore = $rowRecette['score'];
                     $time = $rowRecette['time'];
-                    $enableComment = $rowRecette['enableComment'];
+                    $recipeEnableComment = $rowRecette['enableComment'];
                     $fornumber = $rowRecette['fornumber'];
                     $difficulty = $rowRecette['difficulty'];
                     $price = $rowRecette['price'];
-                    $_SESSION['enableComment'] = $enableComment;
+                    $_SESSION['recipeEnableComment'] = $recipeEnableComment;
                 } else {
                     echo "Aucune recette trouvée.";
                 }
@@ -114,17 +113,39 @@
     <footer>
         <div>
             <?php
-            $enableComment = $_SESSION['enableComment'];
+            $recipeEnableComment = $_SESSION['recipeEnableComment'];
             echo "<h3 style='color: red;'>Note : $moyenneScore/5 ";
 
-            if ($enableComment == 1) {
-                echo "(<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> /
-          <a href='evaluation.php?id=$idRecette' class='evaluer-button'>évaluer</a> la recette - $titre -)";
+            if ($recipeEnableComment == 1) {
+                if (isset($_SESSION['idUser'])) {
+                    $idUser = $_SESSION['idUser'];
+                    //Requête SQL pour voir si l'utilisateur peut commenter
+                    $queryComment = "SELECT enableComment FROM user WHERE username = ?";
+                    $stmtComment = $connexion->prepare($queryComment);
+                    $stmtComment->bind_param("s", $idUser);
+                    $stmtComment->execute();
+                    $resultComment = $stmtComment->get_result();
+                    if ($resultComment) {
+                        $row = mysqli_fetch_assoc($resultComment);
+                        $enableComment = $row['enableComment'];
+                    } else {
+                        $enableComment = 0;
+                    }
+
+                    if ($enableComment == 1) {
+                        echo "(<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> /
+                        <a href='evaluation.php?id=$idRecette' class='evaluer-button'>évaluer</a> la recette - $titre -)";
+                    } else {
+                        echo "(<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> - $titre -)";
+                    }
+                } else {
+                    echo "(<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> - $titre -)";
+                }
             } else {
                 echo "(<a href='scoreRecette.php?id=$idRecette'> voir les commentaires</a> - $titre -)";
             }
             echo "</h3><br>";
-            
+
             // Fermeture de la connexion à la base de données
             mysqli_close($connexion);
             ?>
@@ -133,18 +154,21 @@
         <div>
             <?php
             if (isset($_SESSION['idUser'])) {
+                if (isset($_GET['userEnableComment'])) {
+                    $userEnableComment = $_GET['userEnableComment'];
+                }
                 echo ' <a href="../accueil/home.php?success=1">← Retour</a><br>';
                 if ($_SESSION['idUser'] == "admin") {
                     $id = $_GET['id'];
-                    $enableComment = $_SESSION['enableComment'];
-                    if ($enableComment == 1) {
-                        echo '<a href="detailsRecette.php?id=' . $id . '&enableComment=0">Desactiver commentaire</a><br>';
+                    $recipeEnableComment = $_SESSION['recipeEnableComment'];
+                    if ($recipeEnableComment == 1) {
+                        echo '<a href="detailsRecette.php?id=' . $id . '&recipeEnableComment=0">Desactiver commentaire</a><br>';
                     } else {
-                        echo '<a href="detailsRecette.php?id=' . $id . '&enableComment=1">Activer commentaire</a><br>';
+                        echo '<a href="detailsRecette.php?id=' . $id . '&recipeEnableComment=1">Activer commentaire</a><br>';
                     }
                 }
             } else {
-                echo '<a href="../accueil/home.php?success=0">Connexion</a><br>';
+                echo '<a href="../profil/login.php">Connexion</a><br>';
             }
             ?>
 

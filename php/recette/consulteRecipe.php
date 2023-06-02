@@ -14,7 +14,7 @@
 
 <body>
     <div>
-        <h1>Détails de la recette</h1>
+        <h1 class="center">Détails de la recette</h1>
     </div>
     <nav>
         <div class="center">

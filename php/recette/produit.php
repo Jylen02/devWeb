@@ -8,6 +8,7 @@
     session_start();
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../../css/produit.css">
     <script> var username = "<?php echo isset($_SESSION['idUser']) ? $_SESSION['idUser'] : ''; ?>"; </script>
     <style>
         table {
@@ -27,7 +28,7 @@
 </head>
 
 <body>
-    <h1>Liste des produits</h1>
+    <h1 class="center">Liste des produits</h1>
 
     <?php
     // Récupérer les données de la table productList
@@ -42,8 +43,9 @@
             echo "<tr><td>" . $row["name"] . "</td><td>" . $row["price"] . "</td><td><button onclick='modifierPrix(" . $row["price"] . ", \"" . $row["name"] . "\")'>Modifier prix</button></td><td><button onclick='supprimerIngredient(\"" . $row["name"] . "\")'>Supprimer</button></td></tr>";
         }
         echo "</tbody></table>";
-        echo "<button onclick='ajouterIngredient()'>Ajouter ingrédient</button>";
-
+        echo "<div class='center'>";
+        echo "<button  onclick='ajouterIngredient()' >Ajouter ingrédient</button>";
+        echo "</div>";
     } else {
         echo "Aucun produit trouvé dans la base de données.";
     }
@@ -134,7 +136,7 @@
         }
 
     </script>
-    <div>
+    <div class="center">
         <a href="../accueil/home.php" id="retourAccueil">
             ← Accueil
         </a>

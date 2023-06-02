@@ -95,6 +95,29 @@ body {
     background-color: #000; /* Couleur de la barre verticale */
     left: 70%; /* Position de la barre verticale (70% de la largeur totale) */
 }
+
+#bestUser img {
+    margin-left: 20%;
+    mix-blend-mode: color-burn;
+}
+
+.info{
+    display: flex;
+    padding-bottom: 5px;
+}
+
+.image{
+    width:100px;
+    float: left;
+}
+
+.recette{
+    display: flex;
+    text-align: left;
+    padding-left : 10px;
+    align-items: center;
+}
+
 .score-red {
     color: red;
 }

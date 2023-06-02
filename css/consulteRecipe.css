@@ -29,3 +29,14 @@ table {
 td {
   color: rgb(0, 0, 4);
 }
+button {
+  background-color: blanchedalmond;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: #000;
+  color: #fff;
+}
