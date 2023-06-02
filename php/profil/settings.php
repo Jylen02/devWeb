@@ -488,7 +488,7 @@
 
                         var deleteButton = document.createElement('input');
                         deleteButton.type = 'button';
-                        deleteButton.value = 'Supprimer le commentiare';
+                        deleteButton.value = 'Supprimer le commentaire';
                         deleteButton.classList.add('deleteButton');
                         deleteButton.addEventListener('click', function () {
                             window.location.href = 'settings.php?deleteComment=' + idEval +'&updateRecipe=' + id;
