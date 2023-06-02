@@ -6,12 +6,7 @@ if (!isset($_SESSION['idUser'])) {
     header("Location: ../profil/login.php");
     exit();
 }
-// Vérification si l'utilisateur est l'administrateur
-if ($_SESSION['idUser'] === 'admin') {
-    // Rediriger l'administrateur vers la page de consultation des recettes
-    header("Location: consulteRecipe.php");
-    exit();
-}
+
 // Vérifier si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données du formulaire
