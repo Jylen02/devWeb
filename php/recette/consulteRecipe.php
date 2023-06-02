@@ -23,14 +23,23 @@
             $idRecette = $_GET['id'];
 
             // Récupération des détails de la recette depuis la table recipe
-            $queryRecipe = "SELECT idUser, id, name, description, image, fornumber, time, difficulty FROM recipe WHERE id = ?";
-            $stmt = $connexion->prepare($queryRecipe);
-            $stmt->bind_param("s", $idRecette);
-            $stmt->execute();
-            $resultRecipe = $stmt->get_result();
+            $queryRecipe = "SELECT idUser, id, recipe.name, description, image, fornumber, time, difficulty 
+                            FROM recipe
+                            WHERE id = ?";
+            $stmtRecipe = $connexion->prepare($queryRecipe);
+            $stmtRecipe->bind_param("s", $idRecette);
+            $stmtRecipe->execute();
+            $resultRecipe = $stmtRecipe->get_result();
 
             // Vérification si la recette existe
             if ($resultRecipe && $resultRecipe->num_rows > 0) {
+                $queryProduct = "SELECT name, amount 
+                            FROM product
+                            WHERE idRecipe = ?";
+                $stmtProduct = $connexion->prepare($queryProduct);
+                $stmtProduct->bind_param("s", $idRecette);
+                $stmtProduct->execute();
+                $resultProduct = $stmtProduct->get_result();
                 echo "<table cellspacing=10 cellpadding=10>";
                 $recipe = $resultRecipe->fetch_assoc();
                 foreach ($recipe as $key => $value) {
@@ -43,6 +52,17 @@
                         echo "";
                     } else {
                         echo "<tr><td><strong>$key:</strong></td><td><span>$value</span></td><td><button onclick=\"modifyRecipe('$idRecette','$key','$value')\">Modifier</button></td></tr>";
+                    }
+                }
+                if ($resultProduct->num_rows > 0){
+                    while($row=$resultProduct->fetch_assoc()){
+                        $name = $row['name'];
+                        $amount=$row['amount'];
+                        echo "<tr>";
+                        echo "<td><strong>$name:</strong></td>";
+                        echo "<td>$amount</td>";
+                        echo "<td><button onclick=\"modifyProduct('$idRecette','$name','$amount')\">Modifier</button></td>";
+                        echo "</tr>";
                     }
                 }
                 echo "</table>";
@@ -100,6 +120,31 @@
             }
         }
 
+        function modifyProduct(idRecipe, name, amount) {
+            const newAmount = prompt("Entrez la nouvelle valeur :", amount);
+            if (newAmount !== null) {
+                var xhr = new XMLHttpRequest();
+                var url = "updateProduct.php";
+                var params = "idRecipe=" + encodeURIComponent(idRecipe) + "&name=" + encodeURIComponent(name) + "&newAmount=" + encodeURIComponent(newAmount);
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert(xhr.responseText); // Succès
+                            window.location.href = 'consulteRecipe.php?id=' + encodeURIComponent(<?php echo $idRecette; ?>);
+                        } else {
+                            alert("Une erreur s'est produite lors de la modification."); // Erreur
+                        }
+                    }
+                };
+
+                xhr.send(params);
+            }
+        }
+        
         function confirmRecipe() {
             var xhr = new XMLHttpRequest();
             var url = "confirmRecipe.php";
