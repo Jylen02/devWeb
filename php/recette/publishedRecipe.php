@@ -12,6 +12,11 @@
     <link rel="stylesheet" type="text/css" href="../../css/publishedRecipe.css">
     <script src="../../js/home.js" type="text/javascript"></script>
     <title>Publier une recette</title>
+    <style>
+        .center{
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -91,7 +96,7 @@
 
     </div>
     <footer>
-        <div>
+        <div class="center">
             <?php
 
             if (isset($_SESSION['idUser'])) {
