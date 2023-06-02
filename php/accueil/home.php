@@ -115,7 +115,7 @@
             ?>
         </div>
         <div id="bestUser">
-            Utilisateur le mieux noté de la semaine :
+            Utilisateur le mieux noté :
             <?php
             $command = "SELECT username FROM user WHERE score >= 3 ORDER BY score DESC LIMIT 1";
 
