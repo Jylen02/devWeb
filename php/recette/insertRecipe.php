@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image = $_FILES['image']['tmp_name'];
 
         // Copier l'image dans un répertoire de destination
-        $destination = "../../image" . $_FILES['image']['name'];
+        $destination = "../../image/" . $_FILES['image']['name'];
         move_uploaded_file($image, $destination);
     } else {
         $image = null;
