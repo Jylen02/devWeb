@@ -13,7 +13,7 @@
         $resultUpdate = $connexion->query($updateComment);
 
         if ($resultUpdate) {
-            if ($enableComment == 1){
+            if ($enableComment == 1) {
                 echo "<script>alert('$username peut désormais évaluer des recettes.');</script>";
             } else {
                 echo "<script>alert('$username ne peut plus évaluer de recettes.');</script>";
@@ -25,46 +25,58 @@
     ?>
     <link rel="stylesheet" type="text/css" href="../../css/home.css">
     <script> var username = "<?php echo isset($_SESSION['idUser']) ? $_SESSION['idUser'] : ''; ?>"; </script>
+    <style>
+        table {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        .center {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Liste des utilisateurs</h1>
+    <div class="center">
+        <h1>Liste des utilisateurs</h1>
 
-    <?php
-    // Récupérer les données de la table productList
-    $requeteUser = "SELECT username, enableComment FROM user";
-    $result = $connexion->query($requeteUser);
+        <?php
+        // Récupérer les données de la table productList
+        $requeteUser = "SELECT username, enableComment FROM user";
+        $result = $connexion->query($requeteUser);
 
-    if ($result->num_rows > 0) {
-        // Afficher le tableau si des données sont disponibles
-        echo "<table>
+        if ($result->num_rows > 0) {
+            // Afficher le tableau si des données sont disponibles
+            echo "<table>
          <tr>
              <th>Utilisateur</th>
              <th>Activer/Desactiver Commentaire</th>
          </tr>";
 
-        while ($row = $result->fetch_assoc()) {
-            $username = $row['username'];
-            $enableComment = $row['enableComment'];
+            while ($row = $result->fetch_assoc()) {
+                $username = $row['username'];
+                $enableComment = $row['enableComment'];
 
-            echo "<tr>
+                echo "<tr>
              <td>$username</td>
              <td>
                  <a href=\"userList.php?username=$username&enableComment=" . ($enableComment == 1 ? 0 : 1) . "\">" . ($enableComment == 1 ? "Desactiver" : "Activer") . "</a>
              </td>
          </tr>";
-        }
+            }
 
-        echo "</table>";
-    } else {
-        echo "Aucun utilisateur trouvé.";
-    }
-    ?>
-    <div>
-        <a href="../accueil/home.php" id="retourAccueil">
-            ← Accueil
-        </a>
+            echo "</table>";
+        } else {
+            echo "Aucun utilisateur trouvé.";
+        }
+        ?>
+        <div>
+            <a href="../accueil/home.php" id="retourAccueil">
+                ← Accueil
+            </a>
+        </div>
     </div>
 </body>
 
