@@ -47,6 +47,19 @@
                 } else {
                     echo "<script>alert('La recette demandée n\'existe pas.')</script>";
                 }
+                
+                // recuperation des ingrédients liée à cette recette
+                $sqlb= "SELECT name, amount FROM product WHERE idRecipe='$idRecette'";
+                $resultb = $connexion->query($sql);
+                if ($resultb && $result->num_rows > 0) {
+                    echo "<table cellspacing=10 cellpadding=10>";
+                    echo "<tr><td><strong>Ingredient</strong></td><td>Quantité</td><td></td></tr>";
+                    echo "</table>";
+                    
+                }
+                else {
+                    echo "<script>alert('La recette demandée n\'existe pas.')</script>";
+                }
             } else {
                 echo "<script>alert('Erreur : Aucun ID de recette spécifié.')</script>";
             }
