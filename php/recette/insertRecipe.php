@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ) 
             WHERE id = ?;";
         $stmtPriceRecipe = $connexion->prepare($updatePriceRecipe);
-        $stmtPriceRecipe->bind_param("ss", $recipeId, $recipeId);
+        $stmtPriceRecipe->bind_param("ss", $idRecipe, $idRecipe);
         $stmtPriceRecipe->execute();
         header("Location: ../accueil/home.php?success=1");
     } else {
