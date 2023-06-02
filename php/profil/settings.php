@@ -644,7 +644,7 @@
 
     // Requête SQL pour notification
     $requeteNotif = "SELECT DISTINCT recipe.name, recipe.id, recipe.description, recipe.score FROM recipe 
-                        WHERE recipe.score >= 3.5 AND recipe.publisheDate > DATE_SUB(NOW(), INTERVAL 6 DAY) AND id NOT IN (SELECT recipe.id FROM recipe 
+                        WHERE recipe.score >= 3.5 AND recipe.publishedDate > DATE_SUB(NOW(), INTERVAL 6 DAY) AND id NOT IN (SELECT recipe.id FROM recipe 
                         JOIN evaluation ON evaluation.idRecipe = recipe.id
                         JOIN user ON user.username = evaluation.idUser
                         WHERE evaluation.score > 3 AND user.username = ?)";
