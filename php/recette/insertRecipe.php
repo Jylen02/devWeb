@@ -26,27 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier si un fichier a été téléchargé
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $image = $_FILES['image']['tmp_name'];
-        
-        // Chemin de destination pour stocker l'image
+
+        // Copier l'image dans un répertoire de destination
         $destination = "../../image/" . $_FILES['image']['name'];
-        
-        // Déplacer l'image vers le répertoire de destination
         move_uploaded_file($image, $destination);
-        
-        // Stocker le chemin de l'image dans la variable $image
-        $image = $destination;
     } else {
         $image = null;
     }
 
     // Connexion à la base de données et insertion des données dans la table "recipe"
 
+
     // Insérer les données de la recette dans la table "recipe"
     $insertRecipe = "INSERT INTO recipe (name, description, image, publishedDate, idUser, fornumber, time, difficulty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmtRecipe = $connexion->prepare($insertRecipe);
-    $stmtRecipe->bind_param("ssssssss", $name, $description, $image, $date, $idUser, $fornumber, $time, $difficulty);
+    $stmtRecipe->bind_param("ssbsssss", $name, $description, $image, $date, $idUser, $fornumber, $time, $difficulty);
     $stmtRecipe->execute();
-
 
     if ($stmtRecipe->affected_rows > 0) {
         // Une nouvelle ligne a été insérée avec succès
