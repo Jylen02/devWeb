@@ -30,6 +30,9 @@
             text-align: center;
             margin-left: auto;
             margin-right: auto;
+            border: 30px;
+            border: solid;
+            border-collapse: collapse;
         }
 
         .center {
