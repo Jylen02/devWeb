@@ -5,8 +5,9 @@ Mon profil :
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
 - Forget Password : Terminé - Jérémy
 - Bouton pour supprimer son compte (de la BDD) : Terminé
-+ Voir ses commentaires (connecter la BDD dessus) + filtre date/recette etc... : Terminé sauf tri recette - Christophe
+- Voir ses commentaires (connecter la BDD dessus) + filtre date/recette etc... : Terminé - Christophe
 - Supprimer ses commentaires (de la BDD) : Terminé
++ Recevoir des notification de recette intéressante (note >= 3.5 ?) : En cours : Christophe
 
 Menu :
     Barre de recherche :
@@ -21,7 +22,6 @@ Recette :
 + Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : Terminé sauf l'image
 - Voir le coût d'une recette : Terminé : Abd-Ennour
 - Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note >= 3) : Terminé : Christophe
-+ Recevoir des notification de recette intéressante (note >= 3.5 ?) : En cours : Christophe
 
 --------------------------------------------------------------------------------------------
 Administrateur :
