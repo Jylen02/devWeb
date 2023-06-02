@@ -18,3 +18,14 @@
 
 
 
+/* Centrer le tableau */
+table {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #098e95;
+}
+
+/* Changer la couleur des éléments */
+td {
+  color: rgb(0, 0, 4);
+}
