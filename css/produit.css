@@ -1,0 +1,25 @@
+table {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #098e95;
+  }
+  
+  /* Changer la couleur des éléments */
+td {
+    color: rgb(0, 0, 4);
+  }
+.center{
+    text-align: center;
+}  
+button {
+    background-color: blanchedalmond;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  
