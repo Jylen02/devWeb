@@ -38,7 +38,7 @@
                         // Nom d'utilisateur non modifiable
                         echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
                     } else if ($key === 'id') {
-                        echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImageAd.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
+                        echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImage.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
                     } else if ($key === 'image') {
                         echo "";
                     } else {
@@ -61,11 +61,11 @@
         $stmt->execute();
         $resultValid = $stmt->get_result();
         $row = $resultValid->fetch_assoc();
-        if ($row['valid']=='1') {
+        if ($row['valid'] == '1') {
             echo "<div class=\"center\">";
             echo "<button onclick=\"deleteRecipe()\">Supprimer cette recette</button>";
             echo "</div>";
-        }else{
+        } else {
             echo "<div class=\"center\">";
             echo "<button onclick=\"confirmRecipe()\">Confirmer l'upload</button>";
             echo "<button onclick=\"deleteRecipe()\">Supprimer cette recette</button>";

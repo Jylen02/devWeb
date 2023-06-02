@@ -417,18 +417,58 @@
                         let titre = resultatCommentaires[i].name;
                         let commentaire = resultatCommentaires[i].comment;
                         let score = resultatCommentaires[i].score;
+                        let averageScore = Math.round(resultatCommentaires[i].recipeScore);
+                        let stars = "*".repeat(averageScore);
+                        let id = resultatCommentaires[i].id;
 
                         let commentDiv = document.createElement('div');
                         commentDiv.classList.add('comment');
 
+                        let titleLink = document.createElement('a');
+                        titleLink.href = "../recette/detailsRecette.php?id=" + id;
+                        titleLink.textContent = titre;
+
+                        let starsLink = document.createElement('a');
+                        starsLink.href = "../recette/scoreRecette.php?id=" + id;
+                        starsLink.textContent = stars;
+                        starsLink.style.color = 'red';
+
+                        var image = document.createElement('img');
+                        image.src = '../recette/affichageImage.php?id=' + id;
+                        image.width = '50';
+                        image.classList.add('image');
+
                         let titleText = document.createElement('p');
-                        titleText.innerHTML = titre;
+                        titleText.appendChild(image);
+                        titleText.appendChild(titleLink);
+                        let vide = document.createElement('a');
+                        vide.textContent = " ";
+                        titleText.appendChild(vide);
+                        titleText.appendChild(starsLink);
+                        titleText.style.fontWeight = 'bold';
+
+                        let comment1 = document.createElement('a');
+                        comment1.textContent = "Commentaire : ";
+                        comment1.style.fontWeight = 'bold';
+
+                        let comment2 = document.createElement('a');
+                        comment2.textContent = commentaire;
 
                         let commentText = document.createElement('p');
-                        commentText.innerHTML = commentaire;
+                        commentText.appendChild(comment1);
+                        commentText.appendChild(comment2);
+
+                        let score1 = document.createElement('a');
+                        score1.textContent = "Score : ";
+
+                        let score2 = document.createElement('a');
+                        score2.textContent = score;
+                        score2.style.color = 'red';
 
                         let scoreText = document.createElement('p');
-                        scoreText.innerHTML = "Score: " + score;
+                        scoreText.appendChild(score1);
+                        scoreText.appendChild(score2);
+                        scoreText.style.fontWeight = 'bold';
 
                         var deleteButton = document.createElement('input');
                         deleteButton.type = 'button';
@@ -480,16 +520,16 @@
 
                         filteredComments = resultatCommentaires.filter(function (comment) {
                             var commentDate = new Date(comment.date);
-                            return commentDate >= startOfWeek && commentDate <= endOfWeek;
+                            return commentDate.getTime() >= startOfWeek.getTime() && commentDate.getTime() <= endOfWeek.getTime();
                         });
                     } else if (selectedOption === "Ce mois") {
                         var currentDate = new Date();
-                        var startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
-                        var endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay() + 30);
+                        var startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                        var endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
                         filteredComments = resultatCommentaires.filter(function (comment) {
                             var commentDate = new Date(comment.date);
-                            return commentDate >= startOfMonth && commentDate <= endOfMonth;
+                            return commentDate.getTime() >= startOfMonth.getTime() && commentDate.getTime() <= endOfMonth.getTime();
                         });
                     } else if (selectedOption === "Cette année") {
                         var currentYear = new Date().getFullYear();
@@ -498,12 +538,13 @@
 
                         filteredComments = resultatCommentaires.filter(function (comment) {
                             var commentDate = new Date(comment.date);
-                            return commentDate >= startOfYear && commentDate <= endOfYear;
+                            return commentDate.getTime() >= startOfYear.getTime() && commentDate.getTime() <= endOfYear.getTime();
                         });
                     } else {
                         // Pas de filtrage par date, afficher tous les commentaires
                         filteredComments = resultatCommentaires;
                     }
+
                     // Supprimer les commentaires existants
                     var existingComments = document.getElementsByClassName('comment');
                     while (existingComments.length > 0) {
@@ -543,7 +584,6 @@
         }
 
         function notification(resNotif) {
-            console.log(resNotif);
             if (!document.getElementsByTagName("input")[3].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -568,16 +608,39 @@
                     let recetteDiv = document.createElement('div');
                     recetteDiv.classList.add('recette');
 
-                    let titleText = document.createElement('p');
-                    titleText.innerHTML = title + stars;
+                    let titleLink = document.createElement('a');
+                    titleLink.href = "../recette/detailsRecette.php?id=" + id;
+                    titleLink.textContent = title;
 
-                    let descriptionText = document.createElement('p');
-                    descriptionText.innerHTML = "Description : " + description;
+                    let starsLink = document.createElement('a');
+                    starsLink.href = "../recette/scoreRecette.php?id=" + id;
+                    starsLink.textContent = stars;
+                    starsLink.style.color = 'red';
 
                     var image = document.createElement('img');
                     image.src = '../recette/affichageImage.php?id=' + id;
                     image.width = '50';
+                    image.classList.add('image');
 
+                    let titleText = document.createElement('p');
+                    titleText.appendChild(image);
+                    titleText.appendChild(titleLink);
+                    let vide = document.createElement('a');
+                    vide.textContent = " ";
+                    titleText.appendChild(vide);
+                    titleText.appendChild(starsLink);
+                    titleText.style.fontWeight = 'bold';
+
+                    let description1 = document.createElement('a');
+                    description1.textContent = "Description : ";
+                    description1.style.fontWeight = 'bold';
+
+                    let description2 = document.createElement('a');
+                    description2.textContent = description;
+
+                    let descriptionText = document.createElement('p');
+                    descriptionText.appendChild(description1);
+                    descriptionText.appendChild(description2);
                     // Ajouter la recette à la div container dans votre page HTML
 
                     var hr = document.createElement('hr');
@@ -586,7 +649,6 @@
                     hr.style.background = '#000';
 
                     recetteDiv.appendChild(hr);
-                    recetteDiv.appendChild(image);
                     recetteDiv.appendChild(titleText);
                     recetteDiv.appendChild(descriptionText);
 
@@ -627,7 +689,7 @@
     $resUser = $resultat->fetch_assoc();
 
     // Requête SQL pour commentaires
-    $requeteCommentaires = "SELECT recipe.name, evaluation.comment, evaluation.score, evaluation.date, evaluation.idRecipe FROM evaluation 
+    $requeteCommentaires = "SELECT recipe.name, recipe.score AS recipeScore, recipe.id, evaluation.comment, evaluation.score, evaluation.date, evaluation.idRecipe FROM evaluation 
     JOIN recipe ON recipe.id = evaluation.idRecipe WHERE evaluation.idUser = ?";
     $stmtCommentaires = $connexion->prepare($requeteCommentaires);
     $stmtCommentaires->bind_param("s", $idUser);
@@ -687,12 +749,12 @@
                     onclick="bgcolor()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
             </div>
             <div>
-                <script> console.log(2); var resComment = <?php echo json_encode($commentaires); ?>; </script>
+                <script>var resComment = <?php echo json_encode($commentaires); ?>; </script>
                 <input tabindex="-1" type="button" name="button_settings" value="commentaires" class="input"
                     onclick="commentaires(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
             </div>
             <div>
-                <script> console.log(3); var resNotif = <?php echo json_encode($notif); ?>;</script>
+                <script>var resNotif = <?php echo json_encode($notif); ?>;</script>
                 <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input"
                     onclick="notification(resNotif)" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
             </div>

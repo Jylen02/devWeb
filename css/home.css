@@ -89,7 +89,7 @@ body {
 #container::after {
     content: "";
     position: absolute;
-    top: 115px;
+    top: 116px;
     bottom: 0;
     width: 3px;
     background-color: #000; /* Couleur de la barre verticale */

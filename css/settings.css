@@ -153,3 +153,9 @@ body {
     font-size : 15px;
     padding-right: 50px;
 }
+
+.image {
+    display: inline;
+    vertical-align: middle;
+    margin-right: 10px; /* Ajoutez une marge à droite pour l'espacement */
+  }
