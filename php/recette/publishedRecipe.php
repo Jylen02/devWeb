@@ -13,59 +13,53 @@
     <title>Publier une recette</title>
 </head>
 <body>
-<?php
-session_start();
+    <?php
+    include_once("../database.php");
+    session_start();
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['idUser'])) {
-    header("Location: ../profil/login.php");
-    exit;
-}
-// Vérification si l'utilisateur est l'administrateur
-if ($_SESSION['idUser'] === 'admin') {
-    // Rediriger l'administrateur vers la page de consultation des recettes
-    header("Location: consulteRecipe.php");
-    exit();
-}
-// Vérifier si le formulaire a été soumis
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérer les données du formulaire
-    $idUser = $_SESSION['idUser'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $fornumber = $_POST['fornumber'];
-    $time = $_POST['time'];
-    $difficulty = $_POST['difficulty'];
-
-    // Vérifier si un fichier a été téléchargé
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image = $_FILES['image']['tmp_name'];
-
-        // Copier l'image dans un répertoire de destination
-        $destination = "../../image" . $_FILES['image']['name'];
-        move_uploaded_file($image, $destination);
-    } else {
-        $image = null;
+    // Vérification si l'utilisateur est connecté
+    if (!isset($_SESSION['idUser'])) {
+        // Rediriger l'utilisateur vers la page de connexion
+        header("Location: ../profil/login.php");
+        exit();
     }
 
-    // Connexion à la base de données et insertion des données dans la table "recipeinprocess"
-    $pdo = new PDO("mysql:host=localhost;dbname=website_database", "projetRecdevweb", "projetRecdevweb2023");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->beginTransaction();
+    // Vérification si l'utilisateur est l'administrateur
+    if ($_SESSION['idUser'] === 'admin') {
+        // Rediriger l'administrateur vers la page de consultation des recettes
+        header("Location: consulteRecipe.php");
+        exit();
+    }
 
-    try {
-        // Insérer les données de la recette dans la table "recipeinprocess"
-        $sql = "INSERT INTO recipeinprocess (idUser, name, description, image, fornumber, time, difficulty) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$idUser, $name, $description, $image, $fornumber, $time, $difficulty]);
+    // Traitement du formulaire de création de recette
+    if (isset($_POST['submit'])) {
+        // Récupération des données du formulaire
+        $titre = $_POST['name'];
+        $description = $_POST['description'];
+        //$prix = $_POST['prix'];
+        $personnes = $_POST['personnes'];
+        $temps = $_POST['temps'];
+        $difficulte = $_POST['difficulte'];
 
-        if ($stmt->rowCount() > 0) {
-            // Une nouvelle ligne a été insérée avec succès
-            echo "Nouvelle ligne insérée dans la table recipeinprocess.";
+        // Traitement de l'image
+        $image = $_FILES['image'];
+        $imagePath = uploadImage($image);
+
+        
+        // Requête SQL pour insérer la recette dans la table "recipe"
+        $requeteInsertion = "INSERT INTO recipe (name, description, image, idUser, fornumber, time, difficulty)
+                             VALUES ('$titre', '$description', '$imagePath','".$_SESSION['idUser']."', $personnes, '$temps', '$difficulte')";
+
+        // Exécution de la requête d'insertion
+        if (mysqli_query($connexion, $requeteInsertion)) {
+            // Rediriger l'utilisateur vers la page d'accueil avec un message de succès
+            alert('La recette a été envoyé avec succès');
+            //header("Location: home.php?success=1");
+            //exit();
         } else {
-            // Aucune ligne insérée (erreur ou aucune modification)
-            echo "Aucune ligne insérée dans la table recipeinprocess.";
+            echo "Erreur lors de l'insertion de la recette : " . mysqli_error($connexion);
         }
+
         // Récupérer l'ID de la recette insérée
         $recipeId = $pdo->lastInsertId();
 
@@ -76,75 +70,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         for ($i = 0; $i < count($ingredients); $i++) {
             $ingredient = $ingredients[$i];
             $quantity = $quantities[$i];
-
-            $sql = "INSERT INTO product (recipeId, ingredient, quantity) VALUES (?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$recipeId, $ingredient, $quantity]);
+            $sqluu = "INSERT INTO product (idRecipe, name, amount) VALUES ($recipeId, $ingredient, $quantity)";
+            $resulta_sqluu = mysqli_query($connexion, $sqluu);
         }
 
         // Calculer et mettre à jour le prix dans la table "recipeinprocess"
         $sql = "UPDATE recipeinprocess SET price = (
-            SELECT SUM(p.price * ri.quantity)
+            SELECT SUM(p.price * ri.amount)
             FROM product ri
             JOIN productlist p ON ri.name = p.name
-            WHERE ri.recipeId = ?
-        ) WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$recipeId, $recipeId]);
-
-        // Vider la table "product" pour les calculs futurs
-        $sql = "TRUNCATE TABLE product";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-
-        $pdo->commit();
-
+            WHERE ri.idRecipe = $recipeId
+        ) WHERE id = $recipeId";
+        $resulta_sql = mysqli_query($connexion, $sql);
         // Succès de l'enregistrement
-        echo "<script>alert('La publication s'est faite avec succès!');</script>";
+        echo "<script>alert('L'envoie s'est faite avec succès!');</script>";
         // Redirection vers une page de confirmation ou une autre action souhaitée
         if (isset($_SESSION['idUser'])) {
             echo "<script>window.location.href = '../accueil/home.php?success=1';</script>";
         } else {
             echo "<script>window.location.href = '../accueil/home.php?success=0';</script>";
         }
-    } catch (PDOException $e) {
-        // Erreur lors de l'enregistrement
-        $pdo->rollback();
+
+        // Fermeture de la connexion à la base de données
+        mysqli_close($connexion);
+    }
+    else{
         echo "<script>alert('Une erreur est survenue lors de l'enregistrement de la publication. Veuillez réessayer.');</script>";
+
     }
 
-    exit;
-}
-?>
+    // Fonction pour gérer le téléchargement et l'enregistrement de l'image
+    function uploadImage($image) {
+        // Vérifier si le téléchargement de l'image a réussi
+        if ($image['error'] === 0) {
+            // Chemin de destination de l'image (dossier "uploads" avec un nom de fichier unique)
+            $destination = "../../uploads/" . uniqid() . "_" . $image['name'];
 
-<header>
-    <div id="top">
-        <?php
-        // Vérification si l'utilisateur est connecté
-        if (isset($_SESSION['idUser'])) {
-            // Afficher le bouton "Déconnexion" et le lien vers le profil
-            echo '<a class="Connexion" href="../profil/logout.php">Déconnexion</a>';
-            echo '<a class="Connexion" href="../profil/settings.php">Mon profil</a>';
+            // Déplacer l'image téléchargée vers le dossier de destination
+            move_uploaded_file($image['tmp_name'], $destination);
+
+            // Retourner le chemin de l'image
+            return $destination;
         } else {
-            // Afficher le bouton "Connexion" et le lien vers la création de compte
-            echo '<a class="Connexion" href="../profil/login.php">Connexion</a>';
-            echo '<a class="Connexion" href="../profil/createAccount.php">Créer un compte</a>';
+            echo "Erreur lors du téléchargement de l'image.";
+            return "";
         }
-        ?>
-    </div>
-</header>
+    }
+    ?>
 
-<div class="center">
+    <header>
+        <div id="top">
+            <?php
+            // Vérification si l'utilisateur est connecté
+            if (isset($_SESSION['idUser'])) {
+                // Afficher le bouton "Déconnexion" et le lien vers le profil
+                echo '<a class="Connexion" href="../profil/logout.php">Déconnexion</a>';
+                echo '<a class="Connexion" href="../profil/settings.php">Mon profil</a>';
+            } else {
+                // Afficher le bouton "Connexion" et le lien vers la création de compte
+                echo '<a class="Connexion" href="../profil/login.php">Connexion</a>';
+                echo '<a class="Connexion" href="../profil/createAccount.php">Créer un compte</a>';
+            }
+            ?>
+        </div>
+    </header>
+
+    <div class="center">
     <h1>Publier une recette</h1>
 </div>
 
-<div class="recette-details">
+<div class="recette-details" id="content">
     <form method="POST" enctype="multipart/form-data">
         <label for="name">Nom de la recette :</label>
         <input type="text" name="name" required><br>
 
         <label for="description">Description :</label>
-        <textarea name="description" required></textarea><br>
+        <textarea name="description" required rows="7" cols="70"></textarea><br>
 
         <label for="image">Image :</label>
         <input type="file" name="image"><br>
@@ -153,10 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="number" name="fornumber" required><br>
 
         <label for="time">Temps de préparation :</label>
-        <input type="text" name="time" required><br>
+        <input type="text" name="time" required required placeholder="en heure"><br>
 
         <label for="difficulty">Difficulté :</label>
-        <input type="text" name="difficulty" required><br>
+        <select name="difficulty" required placeholder="difficulty">
+            <option value='facile'> facile</option>
+            <option value='moyen'> moyen</option>
+            <option value='difficile'> difficile</option>
+        </select>
 
         <div id="ingredients-container">
             <div class="ingredient-row">
@@ -188,22 +193,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     
 </div>
+    <footer>
+        <div>
+            <?php
+                
+                if (isset($_SESSION['idUser'])) {
+                    echo ' <a href="../accueil/home.php?success=1">← Retour</a>';
 
-
-<footer>
-    <div class="center">
-    
-        <?php
-        if (isset($_SESSION['idUser'])) {
-            echo '<a href="../accueil/home.php?success=1">← Retour</a>';
-        } else {
-            echo '<a href="../accueil/home.php?success=0">Connexion</a>';
-        }
-        ?>
-    </div>
-</footer>
-
-<script>
+                } else {
+                    echo '<a href="../accueil/home.php?success=0">Connexion</a>';
+                }
+                ?>
+                
+            </div>
+    </footer>
+    <script>
     window.addEventListener('DOMContentLoaded', () => {
         const addIngredientBtn = document.getElementById('add-ingredient');
         const ingredientsContainer = document.getElementById('ingredients-container');
