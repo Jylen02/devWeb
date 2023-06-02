@@ -8,7 +8,7 @@ if (isset($_POST['recherche'])) {
     $recherche = $_POST['recherche'];
 
     // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recipe"
-    $queryRecipe = "SELECT name, id, description, image FROM recipe WHERE name LIKE ?";
+    $queryRecipe = "SELECT name, id, description, image FROM recipe WHERE name LIKE ? AND valid=1";
     $recherche = "%$recherche%";
     $stmt = $connexion->prepare($queryRecipe);
     $stmt->bind_param("s", $recherche);

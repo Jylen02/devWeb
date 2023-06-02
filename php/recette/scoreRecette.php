@@ -13,7 +13,34 @@
 
 <body>
     <header>
-        <h1>Commentaires de la recette</h1>
+            <?php 
+            include_once("../database.php");
+            session_start();
+            if (isset($_GET['id'])) {
+                $idRecette = $_GET['id'];
+                $req = "SELECT name, score FROM recipe WHERE id = $idRecette";
+                $resulte = mysqli_query($connexion, $req);
+                if (mysqli_num_rows($resulte) > 0) {
+                    $rowTT = mysqli_fetch_assoc($resulte);
+                    $score = $rowTT["score"];
+                    $name = $rowTT["name"];
+                    echo "<h1>Commentaires de la recette : $name - score: <span class=\"score-red\">$score</span>/5</h1>";
+                } else {
+                    echo "Aucune recette trouvée.";
+                }
+            }
+        ?>
+        <div class='sorting'>
+        <form method="POST">
+
+            <select name="tri" onchange="this.form.submit()">
+                <option value="">Trier les commentaires</option>
+                <option value="note_croissante">Note croissante</option>
+                <option value="note_decroissante">Note décroissante</option>
+                <option value="date_publication">Date de publication</option>
+            </select>
+        </form>
+    </div>
     </header>
 
     <?php
@@ -100,17 +127,7 @@
     mysqli_close($connexion);
     ?>
 
-    <div class='sorting'>
-        <form method="POST">
-
-            <select name="tri" onchange="this.form.submit()">
-                <option value="">Trier les commentaires</option>
-                <option value="note_croissante">Note croissante</option>
-                <option value="note_decroissante">Note décroissante</option>
-                <option value="date_publication">Date de publication</option>
-            </select>
-        </form>
-    </div>
+    
     <footer>
         <div>
             <a href="../accueil/home.php" id="retourAccueil">
