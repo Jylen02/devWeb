@@ -20,7 +20,8 @@ header {
 }
 
 #top2 a {
-    margin-right: 200px;
+    margin-left: 100px;
+    margin-right: 100px;
     text-align: center;
     justify-content: center;
     width : 10%;

@@ -60,7 +60,7 @@
                         echo "<hr>";
                     }
                 } else {
-                    echo "Aucune recette favories.";
+                    echo "Aucune recette favorie.";
                     echo "<hr>";
                 }
             }
@@ -90,7 +90,7 @@
                     echo "<hr>";
                 }
             } else {
-                echo "Aucune recette recommandées.";
+                echo "Aucune recette recommandée.";
                 echo "<hr>";
             }
             ?>

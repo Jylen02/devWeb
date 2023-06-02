@@ -15,17 +15,14 @@ function load(bool, username) {
     createAccountButton.classList.add("Connexion");
     createAccountButton.setAttribute("text-align", "right");
 
-    var publishButton = document.createElement('a');
-    publishButton.id = "publish";
-    publishButton.classList.add("Connexion");
-    publishButton.setAttribute("justify-content", "right");
-
-    var productButton = document.createElement('a');
-    productButton.id = "product";
-    productButton.classList.add("Connexion");
-    productButton.setAttribute("justify-content", "right");
+  
 
     if (bool) {
+
+      var publishButton = document.createElement('a');
+      publishButton.id = "publish";
+      publishButton.classList.add("Connexion");
+      publishButton.setAttribute("justify-content", "right");
 
       loginButton.href = "../profil/logout.php";
       loginButton.innerHTML = "Déconnexion";
@@ -35,15 +32,31 @@ function load(bool, username) {
       newdiv.appendChild(loginButton);
       divinfo.appendChild(createAccountButton);
   
+      
       if (username == "admin") {
+        
+        var productButton = document.createElement('a');
+        productButton.id = "product";
+        productButton.classList.add("Connexion");
+        productButton.setAttribute("justify-content", "right");
+
+        var userButton = document.createElement('a');
+        userButton.id = "user";
+        userButton.classList.add("Connexion");
+        userButton.setAttribute("justify-content", "right");
+
         publishButton.href = "../recette/consulteRecipe.php";
         publishButton.innerHTML = "Recette";
 
         productButton.href = "../recette/produit.php";
         productButton.innerHTML = "Produits";
 
+        userButton.href = "../profil/userList.php";
+        userButton.innerHTML = "Utilisateurs";
+
         divinfo.appendChild(publishButton);
         divinfo.appendChild(productButton);
+        divinfo.appendChild(userButton);
       }
       else{
         publishButton.href = "../recette/publishedRecipe.php";

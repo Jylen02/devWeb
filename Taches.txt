@@ -1,11 +1,11 @@
 Utilisateur :
 
 Mon profil :
-- Bouton pour modifier ses informations personnelles (alter BDD) : Terminé - Christophe
++ Bouton pour modifier ses informations personnelles (alter BDD) : Terminé sauf l'image - Christophe
  -> mettre toutes les informations du compte en attribut global pour pouvoir les récupérer à chaque page après connexion
 - Forget Password : Terminé - Jérémy
 - Bouton pour supprimer son compte (de la BDD) : Terminé
-- Voir ses commentaires (connecter la BDD dessus) + filtre date/note etc... : Terminé - Christophe
++ Voir ses commentaires (connecter la BDD dessus) + filtre date/recette etc... : Terminé sauf tri recette - Christophe
 - Supprimer ses commentaires (de la BDD) : Terminé
 
 Menu :
@@ -13,15 +13,15 @@ Menu :
 	- Sélectionner recette par mots clés -> ensemble de lien affiché + note : Terminé - Abd-Ennour
 - CSS : Affichage : Terminé
 - Voir la photo de l'utilisateur le mieux noté : Terminé - Christophe
-- Voir ses recettes favorites ou recettes recommandés (même tag que recette favorite ou note > 4) : Terminé : Christophe
+- Voir ses recettes favorites ou recettes recommandés (note >= 3.5) : Terminé : Christophe
 
 Recette :
 - Poster un commentaire + noter la recette : Terminé
 - Consulter les commentaires de la recette + filtre date/note etc... : Terminé
 + Envoyer une recette à l'admin (requête pour poster une recette à valider par un admin) : Terminé sauf l'image
 - Voir le coût d'une recette : Terminé : Abd-Ennour
-- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note > 3) : Terminé : Christophe
-+ Recevoir des notification de recette intéressante (même tag que ses recettes préférées ou note > 4 ?) : En cours : Christophe
+- Lorsqu'un utilisateur note une recette -> elle fait partie de ses recettes préférées (si note >= 3) : Terminé : Christophe
++ Recevoir des notification de recette intéressante (note >= 3.5 ?) : En cours : Christophe
 
 --------------------------------------------------------------------------------------------
 Administrateur :
@@ -39,4 +39,4 @@ Produits (ingrédients): Terminé
 Menu :
 - Publier 1 semaine sur le menu la photo de l'utilisateur le mieux noté : Terminé : Christophe
 - Les notes des recettes permettent un classement des utilisateurs : Terminé : Christophe
-/ Désactiver l'option commentaire pour un utilisateur / une recette (page recette : désactiver bouton commentaire + message)
+- Désactiver l'option commentaire pour un utilisateur / une recette (page recette : désactiver bouton commentaire + message) : Terminé : Christophe
