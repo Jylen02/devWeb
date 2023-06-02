@@ -34,7 +34,11 @@ function load(bool, username) {
   
       
       if (username == "admin") {
-        
+        var listRecipeButton = document.createElement('a');
+        listRecipeButton.id = "listRecipe";
+        listRecipeButton.classList.add("Connexion");
+        listRecipeButton.setAttribute("justify-content", "right");
+
         var productButton = document.createElement('a');
         productButton.id = "product";
         productButton.classList.add("Connexion");
@@ -45,22 +49,26 @@ function load(bool, username) {
         userButton.classList.add("Connexion");
         userButton.setAttribute("justify-content", "right");
 
-        publishButton.href = "../recette/consulteAllRecipe.php";
-        publishButton.innerHTML = "Recette";
+        listRecipeButton.href = "../recette/consulteAllRecipe.php";
+        listRecipeButton.innerHTML = "Liste des recettes";
+
+        publishButton.href = "../recette/publishedRecipe.php";
+        publishButton.innerHTML = "Publier une recette";
 
         productButton.href = "../recette/produit.php";
-        productButton.innerHTML = "Produits";
+        productButton.innerHTML = "Liste des produits";
 
         userButton.href = "../profil/userList.php";
         userButton.innerHTML = "Utilisateurs";
 
+        divinfo.appendChild(listRecipeButton);
         divinfo.appendChild(publishButton);
         divinfo.appendChild(productButton);
         divinfo.appendChild(userButton);
       }
       else{
         publishButton.href = "../recette/publishedRecipe.php";
-        publishButton.innerHTML = "Recette";
+        publishButton.innerHTML = "Publier une recette";
         
         divinfo.appendChild(publishButton);
       }
