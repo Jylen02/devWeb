@@ -21,9 +21,10 @@
         deleteUser();
         header("Location: ../accueil/home.php");
         exit;
-    } else if (isset($_GET['deleteComment'])) {
-        $i = $_GET['deleteComment'];
-        deleteComment($i);
+    } else if (isset($_GET['deleteComment']) && isset($_GET['updateRecipe'])) {
+        $idEval = $_GET['deleteComment'];
+        $idRecipe = $_GET['updateRecipe'];
+        deleteComment($idEval, $idRecipe);
         header("Location: settings.php");
         exit;
     } else if (isset($_GET['image']) && $_GET['image'] == 1) {
@@ -42,8 +43,7 @@
         /*header("Location: settings.php");
         exit;*/
     }
-    function updateUserInDatabase($field, $newValue)
-    {
+    function updateUserInDatabase($field, $newValue) {
         global $idUser, $connexion;
         // Code pour mettre à jour le champ spécifié dans la base de données avec la nouvelle valeur
     
@@ -80,8 +80,7 @@
         }
     }
 
-    function deleteUser()
-    {
+    function deleteUser() {
         global $idUser, $connexion;
         $command1 = "DELETE FROM recipe WHERE idUser = '$idUser' ";
 
@@ -93,16 +92,24 @@
         // Exécuter la requête SQL
         $resultat2 = mysqli_query($connexion, $command2);
 
-        $command3 = "DELETE FROM recipeinprocess WHERE idUser = '$idUser' ";
-
-        // Exécuter la requête SQL
-        $resultat3 = mysqli_query($connexion, $command3);
-
         $command = "DELETE FROM user WHERE username = '$idUser' ";
 
         // Exécuter la requête SQL
         $resultat = mysqli_query($connexion, $command);
 
+        $selectId = "SELECT id FROM recipe";
+        $resultId = mysqli_query($connexion, $selectId);
+        
+        if ($resultId && $resultId->num_rows>0){
+            while ($row = $resultId->fetch_assoc()){
+                $idRecipe = $row['id'];
+                $command3 = "UPDATE recipe SET score = (SELECT AVG(score) FROM evaluation WHERE idRecipe = '$idRecipe') WHERE id = '$idRecipe'";
+                $resultat3 = mysqli_query($connexion, $command3);
+                if (!$resultat3){
+                    echo "<script>alert('Erreur lors de l\'actualisation du score de la recette');</script>";
+                }
+            }
+        }
         // Vérifier si la mise à jour s'est effectuée avec succès
         if ($resultat) {
             echo "<script>alert('Le compte a été supprimé avec succès !');</script>";
@@ -112,18 +119,31 @@
         }
     }
 
-    function deleteComment($i) {
+    function deleteComment($idEval, $idRecipe) {
         global $idUser, $connexion;
-        $command = "DELETE FROM evaluation WHERE idUser = '$idUser' AND id = '$i'";
+        $command = "DELETE FROM evaluation WHERE idUser = '$idUser' AND id = '$idEval'";
 
         // Exécuter la requête SQL
         $resultat = mysqli_query($connexion, $command);
 
         // Vérifier si la mise à jour s'est effectuée avec succès
         if ($resultat) {
+            updateScore($idRecipe);
             echo "<script>alert('Le commentaire a été supprimé avec succès !');</script>";
         } else {
             echo "<script>alert('Erreur lors de la suppression du commentaire.');</script>";
+        }
+    }
+
+    function updateScore($idRecipe){
+        global $idUser, $connexion;
+        $updateRecipe = "UPDATE recipe SET score = 
+                        (SELECT AVG(score) FROM evaluation WHERE idRecipe = '$idRecipe') 
+                        WHERE id = '$idRecipe'";
+                        
+        $resultatUpdate = mysqli_query($connexion, $updateRecipe);
+        if (!$resultatUpdate) {
+            echo "<script>alert('Erreur lors de l\'actualisation du score de la recette');</script>";
         }
     }
     ?>
@@ -475,7 +495,7 @@
                         deleteButton.value = 'Supprimer le commentiare';
                         deleteButton.classList.add('deleteButton');
                         deleteButton.addEventListener('click', function () {
-                            window.location.href = 'settings.php?deleteComment=' + idEval;
+                            window.location.href = 'settings.php?deleteComment=' + idEval +'&updateRecipe=' + id;
                         });
 
                         var hr = document.createElement('hr');
