@@ -125,7 +125,7 @@
             if (mysqli_num_rows($resultat) > 0) {
                 while ($rowCommentaire = mysqli_fetch_assoc($resultat)) {
                     $username = $rowCommentaire['username'];
-                    echo "$username";
+                    echo "$username\n";
                     echo "<img src='../recette/affichageAvatar.php?id=$username' width='200'>";
                 }
             }
