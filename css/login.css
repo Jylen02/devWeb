@@ -48,6 +48,7 @@ button[type="submit"]{
     background-color: rgb(255, 116, 116);
     width: 307px;
     font-size: 25px;
+    border-radius: 10px;
 }
 
 #signUp{

@@ -55,8 +55,17 @@
                         $stars = str_repeat("*", $averageScore);
 
                         // Affichage des résultats avec l'image
-                        echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
-                    <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+                        echo "<br>";
+                        echo "<section class='info'>";
+                            //Affiche l'image de la recette
+                            echo "<section class='image'>";
+                                echo "<img src='../recette/affichageImage.php?id=$id' width='100'>";
+                            echo "</section>";
+                            echo "<section class='recette'>";
+                                echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
+                                        <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+                            echo "</section>";
+                        echo "</section>";
                         echo "<hr>";
                     }
                 } else {
@@ -64,7 +73,7 @@
                     echo "<hr>";
                 }
             }
-            echo "Recettes recommandées :";
+            echo "Recettes recommandées : ";
             $recetteRecommande = "SELECT DISTINCT name, id, description, image, score FROM recipe 
                         WHERE recipe.score >= 3.5 AND id NOT IN (SELECT recipe.id FROM recipe 
                         JOIN evaluation ON evaluation.idRecipe = recipe.id
@@ -85,8 +94,18 @@
                     $stars = str_repeat("*", $averageScore);
 
                     // Affichage des résultats avec l'image
-                    echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
-                            <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+                    // Affichage des résultats avec l'image
+                    echo "<br>";
+                    echo "<section class='info'>";
+                        //Affiche l'image de la recette
+                        echo "<section class='image'>";
+                            echo "<img src='../recette/affichageImage.php?id=$id' width='100'>";
+                        echo "</section>";
+                        echo "<section class='recette'>";
+                            echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
+                                    <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+                        echo "</section>";
+                    echo "</section>";
                     echo "<hr>";
                 }
             } else {
