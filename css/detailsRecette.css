@@ -17,3 +17,32 @@
 .recette-details-item span:first-child {
     margin-right: 10px;
 }
+
+.ingredients{
+    max-width: 400px; /* Ajustez la largeur maximale selon vos préférences */
+     /* Centre la division horizontalement */
+    text-align: center; /* Centre le texte à l'intérieur de la division */
+    background-color: rgb(207, 137, 137);
+}
+.description{
+    max-width: 1000px; /* Ajustez la largeur maximale selon vos préférences */
+     /* Centre la division horizontalement */
+    text-align: center; /* Centre le texte à l'intérieur de la division */
+    background-color: rgb(207, 137, 137);
+}
+.container {
+    display: flex;
+  justify-content: center; /* Centrer horizontalement */
+  gap: 50px; /* Espace entre les éléments */
+  }
+
+  table {
+    border-collapse: collapse;
+    border: 2px solid black; /* Augmenter la taille des bordures */
+    margin: auto; /* Centrer le tableau horizontalement */
+  }
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+}

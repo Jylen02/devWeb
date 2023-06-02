@@ -117,3 +117,7 @@ body {
     padding-left : 10px;
     align-items: center;
 }
+
+.score-red {
+    color: red;
+}

@@ -56,6 +56,8 @@
                 }
                 // Libération des résultats de la requête de la recette
                 mysqli_free_result($resultatRecette);
+
+                
             }
 
             echo "<h1>$titre</h1>
@@ -73,10 +75,40 @@
     </header>
 
     <aside>
+        <div class="container">
+        <div class="ingredients">
+            <?php
+            $sqlp = "SELECT name, amount FROM product WHERE idRecipe=$idRecette";
+            $resultatIngredient = mysqli_query($connexion, $sqlp);
+
+            if (mysqli_num_rows($resultatIngredient) > 0) {
+                echo "<h3>Ingrédients de la recette</h3>";
+                echo "<table>";
+                echo "<tr><th>Ingrédient</th><th>Quantité </br> (par unité, Kg ou Litre)</th></tr>";
+
+                while ($rowIngredient = mysqli_fetch_assoc($resultatIngredient)) {
+                    $name = $rowIngredient['name'];
+                    $amount = $rowIngredient['amount'];
+                    echo "<tr><td>$name</td><td>$amount</td></tr>";
+                }
+
+                echo "</table>";
+            } else {
+                echo "Aucun ingrédient trouvé.";
+            }
+
+            // Libération des résultats de la requête des ingrédients
+            mysqli_free_result($resultatIngredient);
+            ?>
+            </div>
+            <div class="description">
         <?php
-        echo "<aside> Description de la recette :
+        echo "<aside><h3> Description de la recette :</h3>
                 <p>$description</p></aside>";
         ?>
+        </div>
+            </div>
+
     </aside>
     <footer>
         <div>

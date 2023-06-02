@@ -1,32 +1,30 @@
 <?php
-$response = array();
-
-// Récupération des données du formulaire
-$idRecette = $_POST['id'];
-$fieldName = $_POST['field'];
-$newValue = $_POST['value'];
-
 // Connexion à la base de données
 include_once("../database.php");
-    session_start();
 
-// Construction de la requête de mise à jour
-$sql = "UPDATE recipeinprocess SET {$fieldName} = :newValue WHERE id = :idRecette";
-$result = $connexion->query($sql);
-$stmt = $sql->prepare($sql);
-$stmt->bindParam(':newValue', $newValue);
-$stmt->bindParam(':idRecette', $idRecette);
+// Récupération des données du formulaire
+$idRecipe = $_POST['idRecipe'];
+$key = $_POST['key'];
+$newValue = $_POST['newValue'];
 
-// Exécution de la requête de mise à jour
-if ($stmt->execute()) {
-    $response['success'] = true;
-    $response['message'] = 'Le changement a été enregistré avec succès!';
+if (!empty($newValue)) {
+    // Construction de la requête SQL dynamiquement
+    $updateValue = "UPDATE recipe SET $key = ? WHERE id = ?";
+    $stmt = $connexion->prepare($updateValue);
+    $stmt->bind_param("ss", $newValue, $idRecipe);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo "La modification a été effectuée avec succès !";
+    } else {
+        http_response_code(500); // Code d'erreur interne du serveur
+        echo "Une erreur s'est produite lors de la modification.";
+    }
 } else {
-    $response['success'] = false;
-    $response['message'] = 'Le changement n\'a pas pu être effectué';
+    echo "La nouvelle valeur est vide.";
 }
 
-// Envoi de la réponse au format JSON
-header('Content-Type: application/json');
-echo json_encode($response);
+// Fermeture de la connexion à la base de données
+$connexion->close();
 ?>
+
