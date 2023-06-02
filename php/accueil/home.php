@@ -117,7 +117,7 @@
         <div id="bestUser">
             Utilisateur le mieux noté de la semaine :
             <?php
-            $command = "SELECT username FROM user ORDER BY score DESC LIMIT 1";
+            $command = "SELECT username FROM user WHERE score >= 3 ORDER BY score DESC LIMIT 1";
 
             // Exécuter la requête SQL
             $resultat = mysqli_query($connexion, $command);
