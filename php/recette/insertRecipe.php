@@ -1,6 +1,6 @@
 <?php
-session_start();
 include_once("../database.php");
+session_start();
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['idUser'])) {
     header("Location: ../profil/login.php");
