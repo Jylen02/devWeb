@@ -85,7 +85,7 @@
             if (mysqli_num_rows($resultatIngredient) > 0) {
                 echo "<h3>Ingrédients de la recette</h3>";
                 echo "<table>";
-                echo "<tr><th>Ingrédient</th><th>Quantité</th></tr>";
+                echo "<tr><th>Ingrédient</th><th>Quantité </br> (par unité, Kg ou Litre)</th></tr>";
 
                 while ($rowIngredient = mysqli_fetch_assoc($resultatIngredient)) {
                     $name = $rowIngredient['name'];

@@ -95,3 +95,6 @@ body {
     background-color: #000; /* Couleur de la barre verticale */
     left: 70%; /* Position de la barre verticale (70% de la largeur totale) */
 }
+.score-red {
+    color: red;
+}
