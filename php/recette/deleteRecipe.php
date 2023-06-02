@@ -11,7 +11,16 @@ $stmtDeleteRecipe = $connexion->prepare($deleteRecipe);
 $stmtDeleteRecipe->bind_param('s', $idRecipe);
 $stmtDeleteRecipe->execute();
 if ($stmtDeleteRecipe->affected_rows > 0) {
-    echo "La suppression a été effectuée avec succès !";
+    $deleteProduct = "DELETE FROM product WHERE idRecipe = ?";
+    $stmtDeleteProduct = $connexion->prepare($deleteProduct);
+    $stmtDeleteProduct->bind_param('s', $idRecipe);
+    $stmtDeleteProduct->execute();
+    if ($stmtDeleteProduct->affected_rows > 0){
+        echo "La suppression a été effectuée avec succès !";
+    }else{
+        http_response_code(500); // Code d'erreur interne du serveur
+        echo "Une erreur s'est produite lors de la suppression.";
+    }
 } else {
     http_response_code(500); // Code d'erreur interne du serveur
     echo "Une erreur s'est produite lors de la suppression.";
