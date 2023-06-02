@@ -2,7 +2,6 @@
 // Connexion à la base de données
 include_once("../database.php");
 
-
 // Vérification si le formulaire de recherche est soumis
 if (isset($_POST['recherche'])) {
     $recherche = $_POST['recherche'];
@@ -21,6 +20,7 @@ if (isset($_POST['recherche'])) {
             $description = $rowRecette['description'];
             $image = $rowRecette['image'];
             $id = $rowRecette['id'];
+
             // Requête SQL pour calculer la moyenne des scores
             $queryAverageScore = "SELECT AVG(evaluation.score) AS average_score FROM evaluation JOIN recipe ON recipe.id = evaluation.idRecipe WHERE recipe.name LIKE ? AND recipe.id = ?";
             $stmt = $connexion->prepare($queryAverageScore);
@@ -32,14 +32,17 @@ if (isset($_POST['recherche'])) {
             $stars = str_repeat("*", $averageScore);
 
             // Affichage des résultats avec l'image
-            //echo "<h3>$title</h3>";
-            //echo "<img src='$image' alt='$title' width='200'>";
-            //echo "<img src='affichageImage.php?id=$idRecette' alt='image n'a pas chargé !' width='200' > ";
-            //echo "<p>$description</p>";
+            echo "<br>";
+            echo "<section class='info'>";
+            //Affiche l'image de la recette
+            echo "<section class='image'>";
+            echo "<img src='../recette/affichageImage.php?id=$id' width='100'>";
+            echo "</section>";
+            echo "<section class='recette'>";
             echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
-                    <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
-
-            //echo "<a href='scoreRecette.php?id=$id' >$averageScore</a><br>";
+                                <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
+            echo "</section>";
+            echo "</section>";
             echo "<hr>";
             mysqli_free_result($resultAverageScore);
         }

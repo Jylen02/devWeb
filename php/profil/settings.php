@@ -543,7 +543,7 @@
         }
 
         function notification(resNotif) {
-            console.log(1);
+            console.log(resNotif);
             if (!document.getElementsByTagName("input")[3].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -560,8 +560,8 @@
                 // Ajouter les recettes à la div
                 for (let i = 0; i < resNotif.length; i++) {
                     let title = resNotif[i].name;
+                    let id = resNotif[i].id;
                     let description = resNotif[i].description;
-                    let image = resNotif[i].image;
                     let averageScore = Math.round(resNotif[i].score);
                     let stars = "*".repeat(averageScore);
 
@@ -574,15 +574,19 @@
                     let descriptionText = document.createElement('p');
                     descriptionText.innerHTML = "Description : " + description;
 
-                    let imageDiv = document.createElement('div');
-                    let img = document.createElement('img');
-                    img.src = image;
-                    img.alt = title;
-                    img.width = '200';
-                    imageDiv.appendChild(img);
+                    var image = document.createElement('img');
+                    image.src = '../recette/affichageImage.php?id=' + id;
+                    image.width = '50';
 
                     // Ajouter la recette à la div container dans votre page HTML
-                    recetteDiv.appendChild(imageDiv);
+
+                    var hr = document.createElement('hr');
+                    hr.style.border = 'none';
+                    hr.style.height = '1px';
+                    hr.style.background = '#000';
+
+                    recetteDiv.appendChild(hr);
+                    recetteDiv.appendChild(image);
                     recetteDiv.appendChild(titleText);
                     recetteDiv.appendChild(descriptionText);
 
@@ -638,16 +642,9 @@
         }
     }
 
-    /*foreach ($commentaires as $row) {
-        echo "Name: " . $row['name'] . "<br>";
-        echo "comment: " . $row['comment'] . "<br>";
-        echo "Score: " . $row['score'] . "<br>";
-        echo "<br>";
-    }*/
-
     // Requête SQL pour notification
-    $requeteNotif = "SELECT DISTINCT name, id, description, image, score FROM recipe 
-                        WHERE recipe.score >= 3.5 AND id NOT IN (SELECT recipe.id FROM recipe 
+    $requeteNotif = "SELECT DISTINCT recipe.name, recipe.id, recipe.description, recipe.score FROM recipe 
+                        WHERE recipe.score >= 3.5 AND recipe.publisheDate > DATE_SUB(NOW(), INTERVAL 6 DAY) AND id NOT IN (SELECT recipe.id FROM recipe 
                         JOIN evaluation ON evaluation.idRecipe = recipe.id
                         JOIN user ON user.username = evaluation.idUser
                         WHERE evaluation.score > 3 AND user.username = ?)";
@@ -663,14 +660,6 @@
             $notif[] = $rowNotif;
         }
     }
-
-    /*foreach ($notif as $row) {
-        echo "Name: " . $row['name'] . "<br>";
-        echo "Description: " . $row['description'] . "<br>";
-        echo "ID: " . $row['id'] . "<br>";
-        echo "Score: " . $row['score'] . "<br>";
-        echo "<br>";
-    }*/
 
     // Fermeture de la requête et de la connexion
     $stmt->close();
@@ -703,7 +692,7 @@
                     onclick="commentaires(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
             </div>
             <div>
-                <script> console.log(3); var resNotif = <?php echo json_encode($notif); ?>; </script>
+                <script> console.log(3); var resNotif = <?php echo json_encode($notif); ?>;</script>
                 <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input"
                     onclick="notification(resNotif)" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
             </div>
