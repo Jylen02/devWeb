@@ -32,16 +32,16 @@
         echo '    <input type="submit" value="Upload">';
         echo '</form>';
     } else if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $image = $_FILES['image']['tmp_name'];
+        $image = $_FILES['image']['tmp_name'];
 
-            // Copier l'image dans un répertoire de destination
-            $destination = "../../image/" . $_FILES['image']['name'];
-            move_uploaded_file($image, $destination);
+        // Copier l'image dans un répertoire de destination
+        $destination = "../../image/" . $_FILES['image']['name'];
+        move_uploaded_file($image, $destination);
 
-            updateUserInDatabase("photo de profil", $image);
-            /*header("Location: settings.php");
-            exit;*/
-        } 
+        updateUserInDatabase("photo de profil", $image);
+        /*header("Location: settings.php");
+        exit;*/
+    }
     function updateUserInDatabase($field, $newValue)
     {
         global $idUser, $connexion;
@@ -202,7 +202,7 @@
             document.body.appendChild(popupContainer);
         }
 
-        function click1(resultat) {
+        function profil(resultat) {
             if (!document.getElementsByTagName("input")[0].classList.contains('selected')) {
                 document.getElementsByTagName("input")[0].classList.add('selected');
                 for (let i = 1; i < MaxButton; i++) {
@@ -315,7 +315,7 @@
             }
         }
 
-        function click2() {
+        function bgcolor() {
             if (!document.getElementsByTagName("input")[1].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -350,8 +350,7 @@
             }
         }
 
-        function click3(resultatCommentaires) {
-            var resultatCommentairesOriginal = resultatCommentaires.slice();
+        function commentaires(resultatCommentaires) {
             if (!document.getElementsByTagName("input")[2].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -402,6 +401,8 @@
                 var label = document.createElement('label');
                 label.innerHTML = 'Trier par recette';
 
+                var resultatCommentairesOriginal = resultatCommentaires.slice();
+
                 function updateCommentDiv(resultatCommentaires) {
                     // Supprimer les commentaires existants
                     var existingComments = document.getElementsByClassName('comment');
@@ -439,34 +440,6 @@
                     }
                 }
 
-                // Ajouter un écouteur d'événement sur le checkbox
-                checkbox.addEventListener('change', function () {
-                    if (checkbox.checked) {
-                        // Tri des commentaires par ID de recette
-                        resultatCommentaires.sort(function (a, b) {
-                            var idA = a.idRecipe;
-                            var idB = b.idRecipe;
-
-                            // Comparaison des ID de recette
-                            if (idA < idB) {
-                                return -1;
-                            } else if (idA > idB) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        });
-
-                        // Mettre à jour l'affichage avec les commentaires triés
-                        updateCommentDiv(resultatCommentaires);
-                    } else {
-                        // Réinitialiser l'ordre des commentaires à leur ordre d'origine
-                        resultatCommentaires = resultatCommentairesOriginal.slice();
-                        // Mettre à jour l'affichage avec les commentaires non triés
-                        updateCommentDiv(resultatCommentaires);
-                    }
-                });
-
                 divBox.appendChild(checkbox);
                 divBox.appendChild(label);
                 form.appendChild(divBox);
@@ -474,11 +447,13 @@
                 divSort.appendChild(form);
                 newDiv.appendChild(divSort);
 
+                var filteredComments = [];
+                filteredComments = resultatCommentaires;
+
                 select.addEventListener('change', function () {
                     var selectedOption = select.value;
 
                     // Filtrage des commentaires par date
-                    var filteredComments = [];
                     if (selectedOption === "Aujourd'hui") {
                         var today = new Date().toLocaleDateString();
                         filteredComments = resultatCommentaires.filter(function (comment) {
@@ -516,13 +491,14 @@
                         // Pas de filtrage par date, afficher tous les commentaires
                         filteredComments = resultatCommentaires;
                     }
-
                     // Supprimer les commentaires existants
                     var existingComments = document.getElementsByClassName('comment');
                     while (existingComments.length > 0) {
                         existingComments[0].parentNode.removeChild(existingComments[0]);
                     }
 
+                    resultatCommentairesOriginal = resultatCommentaires.slice();
+                    
                     // Ajouter les commentaires à la div
                     for (let i = 0; i < filteredComments.length; i++) {
                         let commentaire = filteredComments[i].comment;
@@ -552,6 +528,34 @@
                         newDiv.appendChild(commentDiv);
                     }
                 });
+
+                // Ajouter un écouteur d'événement sur le checkbox
+                checkbox.addEventListener('change', function () {
+                    if (checkbox.checked) {
+                        // Tri des commentaires par ID de recette
+                        filteredComments.sort(function (a, b) {
+                            var idA = a.idRecipe;
+                            var idB = b.idRecipe;
+
+                            // Comparaison des ID de recette
+                            if (idA < idB) {
+                                return -1;
+                            } else if (idA > idB) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        });
+
+                        // Mettre à jour l'affichage avec les commentaires triés
+                        updateCommentDiv(filteredComments);
+                    } else {
+                        // Réinitialiser l'ordre des commentaires à leur ordre d'origine
+                        filteredComments = resultatCommentairesOriginal.slice();
+                        // Mettre à jour l'affichage avec les commentaires non triés
+                        updateCommentDiv(filteredComments);
+                    }
+                });
                 updateCommentDiv(resultatCommentaires);
                 var child = document.getElementsByTagName("div")[0].children[1];
                 document.getElementsByTagName("div")[0].removeChild(child);
@@ -559,7 +563,8 @@
             }
         }
 
-        function click4() {
+        function notification(resNotif) {
+            console.log(1);
             if (!document.getElementsByTagName("input")[3].classList.contains('selected')) {
                 for (let i = 0; i < MaxButton; i++) {
                     document.getElementsByTagName("input")[i].classList.remove('selected');
@@ -572,6 +577,38 @@
                 var title = document.createElement('h1');
                 title.appendChild(document.createTextNode('Vos notifications :'));
                 newDiv.appendChild(title);
+
+                // Ajouter les recettes à la div
+                for (let i = 0; i < resNotif.length; i++) {
+                    let title = resNotif[i].name;
+                    let description = resNotif[i].description;
+                    let image = resNotif[i].image;
+                    let averageScore = Math.round(resNotif[i].score);
+                    let stars = "*".repeat(averageScore);
+
+                    let recetteDiv = document.createElement('div');
+                    recetteDiv.classList.add('recette');
+
+                    let titleText = document.createElement('p');
+                    titleText.innerHTML = title + stars;
+
+                    let descriptionText = document.createElement('p');
+                    descriptionText.innerHTML = "Description : " + description;
+
+                    let imageDiv = document.createElement('div');
+                    let img = document.createElement('img');
+                    img.src = image;
+                    img.alt = title;
+                    img.width = '200';
+                    imageDiv.appendChild(img);
+
+                    // Ajouter la recette à la div container dans votre page HTML
+                    recetteDiv.appendChild(imageDiv);
+                    recetteDiv.appendChild(titleText);
+                    recetteDiv.appendChild(descriptionText);
+
+                    newDiv.appendChild(recetteDiv);
+                }
 
                 var child = document.getElementsByTagName("div")[0].children[1];
                 document.getElementsByTagName("div")[0].removeChild(child);
@@ -598,42 +635,60 @@
 
 <body class="bgcolorWhite">
     <?php
-    // Préparation de la requête avec un paramètre lié
+    // Requête SQL pour profil
     $requeteUser = "SELECT * FROM user WHERE username = ?";
     $stmt = $connexion->prepare($requeteUser);
-
-    // Liaison du paramètre et exécution de la requête
     $stmt->bind_param("s", $idUser);
     $stmt->execute();
-
-    // Récupération des résultats
     $resultat = $stmt->get_result();
-
-    // Récupération de la première ligne de résultats
     $resUser = $resultat->fetch_assoc();
 
-    // Préparation de la requête pour récupérer les commentaires de l'utilisateur
+    // Requête SQL pour commentaires
     $requeteCommentaires = "SELECT * FROM evaluation WHERE idUser = ?";
     $stmtCommentaires = $connexion->prepare($requeteCommentaires);
-
-    // Liaison du paramètre et exécution de la requête
     $stmtCommentaires->bind_param("s", $idUser);
     $stmtCommentaires->execute();
-
-    // Récupération des résultats des commentaires
     $resCommentaires = $stmtCommentaires->get_result();
 
     // Récupération de tous les commentaires dans un tableau
     $commentaires = array();
-    while ($rowCommentaire = $resCommentaires->fetch_assoc()) {
-        $commentaires[] = $rowCommentaire;
+    if ($resCommentaires && $resCommentaires->num_rows > 0) {
+        while ($rowCommentaire = $resCommentaires->fetch_assoc()) {
+            $commentaires[] = $rowCommentaire;
+        }
     }
 
-    // Fermeture de la requête (le résultat sera utilisé plus tard)
-    $stmtCommentaires->close();
+    // Requête SQL pour notification
+    $requeteNotif = "SELECT DISTINCT name, id, description, image, score FROM recipe 
+                        WHERE recipe.score >= 3.5 AND id NOT IN (SELECT recipe.id FROM recipe 
+                        JOIN evaluation ON evaluation.idRecipe = recipe.id
+                        JOIN user ON user.username = evaluation.idUser
+                        WHERE evaluation.score > 3 AND user.username = ?)";
+    $stmtNotif = $connexion->prepare($requeteNotif);
+    $stmtNotif->bind_param("s", $idUser);
+    $stmtNotif->execute();
+    $resultatNotif = $stmtNotif->get_result();
+
+    // Récupération de toutes les recettes dans un tableau
+    $notif = array();
+    if ($resultatNotif && $resultatNotif->num_rows > 0) {
+        while ($rowNotif = $resultatNotif->fetch_assoc()) {
+            $notif[] = $rowNotif;
+        }
+    } 
+
+    foreach ($notif as $row) {
+        echo "Name: " . $row['name'] . "<br>";
+        echo "Description: " . $row['description'] . "<br>";
+        echo "ID: " . $row['id'] . "<br>";
+        echo "Score: " . $row['score'] . "<br>";
+        echo "<br>";
+    }
 
     // Fermeture de la requête et de la connexion
     $stmt->close();
+    $stmtCommentaires->close();
+    $stmtNotif->close();
     $connexion->close();
 
     ?>
@@ -649,27 +704,28 @@
                 <script>  var resUser = <?php echo json_encode($resUser);
                 $resUser['profilePictures'] = base64_encode($resUser['profilePictures']); ?>; </script>
                 <input tabindex="0" type="button" name="button_settings" value="profil" class="input"
-                    onclick="click1(resUser)" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">
+                    onclick="profil(resUser)" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">
             </div>
             <div>
                 <input tabindex="-1" type="button" name="button_settings" value="accessibilité" class="input"
-                    onclick="click2()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
+                    onclick="bgcolor()" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">
             </div>
             <div>
-                <script> var resComment = <?php echo json_encode($commentaires); ?>; </script>
+                <script> console.log(2);  var resComment = <?php echo json_encode($commentaires); ?>; </script>
                 <input tabindex="-1" type="button" name="button_settings" value="commentaires" class="input"
-                    onclick="click3(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
+                    onclick="commentaires(resComment)" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)">
             </div>
             <div>
+                <script> console.log(3);  var resNotif = <?php echo json_encode($notif); ?>; </script>
                 <input tabindex="-1" type="button" name="button_settings" value="notifications" class="input"
-                    onclick="click4()" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
+                    onclick="notification(resNotif)" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)">
             </div>
         </div>
 
         <script>
             var resUser = <?php echo json_encode($resUser);
             $resUser['profilePictures'] = base64_encode($resUser['profilePictures']); ?>;
-            click1(resUser);
+            profil(resUser);
         </script>
 </body>
 

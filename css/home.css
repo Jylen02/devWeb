@@ -27,7 +27,7 @@ header {
 }
 
 #top a {  
-    margin-left: 400px;
+    margin-left: 20px;
     text-align: right;
     justify-content: right;
 }
@@ -52,13 +52,13 @@ header {
 }
 
 #divlogin{
-    width: 600px;
+    width: 500px;
     text-align: right;
     padding-top: 6px;
     padding-right: 20px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: top;
 }
 
 .Connexion{
@@ -69,13 +69,11 @@ header {
     background-color: rgb(251, 113, 113);
     border-radius: 10px;
     margin: 2px;
-    width: 100%;
 }
 
 .Connexion:hover {
     background-color: #3e8e41;
 }
-
 
 body {
     background-color: rgb(245,245, 220);

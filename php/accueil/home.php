@@ -29,40 +29,40 @@
 
     <div id="container">
         <div id="resultats">
-            Recettes favories :
             <?php
-            $idUser = $_SESSION['idUser'];
-            // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recipe"
-            $recetteFavori = "SELECT recipe.name, recipe.id, recipe.description, recipe.image, recipe.score FROM recipe 
+            if (isset($_SESSION['idUser'])) {
+                echo "Recettes favories : ";
+                $idUser = $_SESSION['idUser'];
+                // Requête SQL pour récupérer le titre, la description et l'image de la recette correspondante dans la table "recipe"
+                $recetteFavori = "SELECT recipe.name, recipe.id, recipe.description, recipe.image, recipe.score FROM recipe 
                         JOIN evaluation ON evaluation.idRecipe = recipe.id
                         JOIN user ON user.username = evaluation.idUser
                         WHERE evaluation.score > 3 AND user.username = ?";
-            //$queryRecipe = "SELECT name, id, description, image, score FROM recipe WHERE idUser = ?";
-            $stmt = $connexion->prepare($recetteFavori);
-            $stmt->bind_param("s", $idUser);
-            $stmt->execute();
-            $resultRecipe = $stmt->get_result();
+                //$queryRecipe = "SELECT name, id, description, image, score FROM recipe WHERE idUser = ?";
+                $stmt = $connexion->prepare($recetteFavori);
+                $stmt->bind_param("s", $idUser);
+                $stmt->execute();
+                $resultRecipe = $stmt->get_result();
 
-            if ($resultRecipe && $resultRecipe->num_rows > 0) {
-                while ($rowRecette = mysqli_fetch_assoc($resultRecipe)) {
-                    // Affichage des résultats de la recette
-                    $title = $rowRecette['name'];
-                    $description = $rowRecette['description'];
-                    $image = $rowRecette['image'];
-                    $id = $rowRecette['id'];
-                    $averageScore = round($rowRecette['score']);
-                    $stars = str_repeat("*", $averageScore);
+                if ($resultRecipe && $resultRecipe->num_rows > 0) {
+                    while ($rowRecette = mysqli_fetch_assoc($resultRecipe)) {
+                        // Affichage des résultats de la recette
+                        $title = $rowRecette['name'];
+                        $description = $rowRecette['description'];
+                        $image = $rowRecette['image'];
+                        $id = $rowRecette['id'];
+                        $averageScore = round($rowRecette['score']);
+                        $stars = str_repeat("*", $averageScore);
 
-                    // Affichage des résultats avec l'image
-                    echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
+                        // Affichage des résultats avec l'image
+                        echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
                     <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
-
+                        echo "<hr>";
+                    }
+                } else {
+                    echo "Aucune recette favories.";
                     echo "<hr>";
-
-
                 }
-            } else {
-                echo "Aucune recette favories.";
             }
             echo "Recettes recommandées :";
             $recetteRecommande = "SELECT DISTINCT name, id, description, image, score FROM recipe 
@@ -87,11 +87,11 @@
                     // Affichage des résultats avec l'image
                     echo "<h2><a href='../recette/detailsRecette.php?id=$id'>$title</a>
                             <a href='../recette/scoreRecette.php?id=$id' style='color: red;'>$stars</a></h2><br> ";
-
                     echo "<hr>";
                 }
             } else {
                 echo "Aucune recette recommandées.";
+                echo "<hr>";
             }
             ?>
         </div>
