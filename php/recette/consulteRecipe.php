@@ -29,21 +29,20 @@
             $stmt->execute();
             $resultRecipe = $stmt->get_result();
 
-                // Vérification si la recette existe
-                if ($resultRecipe && $resultRecipe->num_rows > 0) {
-                    echo "<table cellspacing=10 cellpadding=10>";
-                    $recipe = $resultRecipe->fetch_assoc();
-                    foreach ($recipe as $key => $value) {
-                        if ($key === 'idUser') {
-                            // Nom d'utilisateur non modifiable
-                            echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
-                        } else if ($key === 'id') {
-                            echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImage.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
-                        } else if ($key === 'image') {
-                            echo "";
-                        } else {
-                            echo "<tr><td><strong>$key:</strong></td><td><span>$value</span></td><td><button onclick=\"modifyRecipe('$idRecette','$key','$value')\">Modifier</button></td></tr>";
-                        }
+            // Vérification si la recette existe
+            if ($resultRecipe && $resultRecipe->num_rows > 0) {
+                echo "<table cellspacing=10 cellpadding=10>";
+                $recipe = $resultRecipe->fetch_assoc();
+                foreach ($recipe as $key => $value) {
+                    if ($key === 'idUser') {
+                        // Nom d'utilisateur non modifiable
+                        echo "<tr><td><strong>$key:</strong></td><td>$value</td><td></td></tr>";
+                    } else if ($key === 'id') {
+                        echo "<tr><td><strong>image:</strong></td><td><span><img src='affichageImage.php?id=$value' alt='image' width='150'></span></td><td></td></tr>";
+                    } else if ($key === 'image') {
+                        echo "";
+                    } else {
+                        echo "<tr><td><strong>$key:</strong></td><td><span>$value</span></td><td><button onclick=\"modifyRecipe('$idRecette','$key','$value')\">Modifier</button></td></tr>";
                     }
                 }
                 echo "</table>";
@@ -62,11 +61,11 @@
         $stmt->execute();
         $resultValid = $stmt->get_result();
         $row = $resultValid->fetch_assoc();
-        if ($row['valid']=='1') {
+        if ($row['valid'] == '1') {
             echo "<div class=\"center\">";
             echo "<button onclick=\"deleteRecipe()\">Supprimer cette recette</button>";
             echo "</div>";
-        }else{
+        } else {
             echo "<div class=\"center\">";
             echo "<button onclick=\"confirmRecipe()\">Confirmer l'upload</button>";
             echo "<button onclick=\"deleteRecipe()\">Supprimer cette recette</button>";
